@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator pothos {
+  provider = "prisma-pothos-types"
+  output   = "./generated.d.ts"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+type SessionsFlash {
+  error  String[]
+  notice String[]
+}
+
+type UsersHistory {
+  last_login DateTime @db.Date
+  num_logins Float
+}
+
+model authors {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  avatar     String
+  company    String
+  email      String
+  github     String
+  layout     String
+  linkedin   String
+  name       String
+  occupation String
+  slug       String
+  twitter    String
+  type       String
+}
+
+model bookcode {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  bookname String
+  encode   Float[]
+}
+
+model books {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  bookname    String
+  createAt    DateTime @db.Date
+  extend      String
+  name        String
+  oribookname String
+  serial      Int
+  size        Float
+  status      Int
+}
+
+model captcha {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  captcha_location String
+  captcha_text     String
+  createdAt        DateTime @db.Date
+  requestIp        String
+}
+
+model movies {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createAt DateTime @db.Date
+  name     String
+  serial   Int
+  size     Float
+  status   Int
+  tmp_name String
+}
+
+model sessions {
+  id             String         @id @map("_id")
+  expires        DateTime       @db.Date
+  flash          SessionsFlash?
+  /// Could not determine type: the field only had null or empty values in the sample set.
+  keep_logged_in Json?
+  username       String?
+}
+
+model users {
+  id         String       @id @default(auto()) @map("_id") @db.ObjectId
+  created_at DateTime     @db.Date
+  history    UsersHistory
+  password   String
+  roles      String[]
+  status     Float
+  username   String
+}
