@@ -4,6 +4,7 @@ import Link from '@/app/components/Link'
 import siteMetadata from '@/data/siteMetadata'
 import { useGlobalState } from './context/globalProvider';
 import formatDate from '@/app/utils/formatDate'
+import Image from "next/image";
 
 const MAX_DISPLAY = 5
 
@@ -21,7 +22,7 @@ export default function Home() {
           </p> */}
         </div>
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-          {!books.length && 'No posts found.'}
+          {!books.length && 'No books found.'}
           {books.slice(0, MAX_DISPLAY).map((book: { id: any; slug: any; createAt: any; name: any; summary: any; tags: any; size: any; }) => {  
             const { id, slug, createAt, name, summary, tags, size } = book
             return (
@@ -36,7 +37,7 @@ export default function Home() {
                     </dl>
                     <div className="space-y-5 xl:col-span-3">
                       <div className="space-y-6">
-                        <div>
+                        <div className="flex h-70 space-x-2 ">
                           <h2 className="text-2xl font-bold leading-8 tracking-tight">
                             <Link
                               href={`/blog/${id}`}
@@ -45,20 +46,30 @@ export default function Home() {
                               {name}
                             </Link>
                           </h2>
-                          <div className="flex flex-wrap">
+                        </div>
+                        <div className="prose max-w-none text-gray-500 dark:text-gray-400">
                             {/* {tags.map((tag) => (
                               <Tag key={tag} text={tag} />
                             ))} */}
-                              { Math.round(size) }MB
-                          </div>
+                           中文  小说  历史  创意 |  { Math.round(size) }MB
                         </div>
+           
                         <div className="prose max-w-none text-gray-500 dark:text-gray-400">
                           {summary}
+                        </div>
+                        <div className="prose max-w-none">
+                          <Image  
+                              src= "/static/images/avatar.png"
+                              alt="标记"  
+                              width={150} 
+                              height={180}
+                              objectFit="cover"
+                          />
                         </div>
                       </div>
                       <div className="text-base font-medium leading-6">
                         <Link
-                          href={`/blog/${slug}`}
+                          href={`/blog/${id}`}
                           className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
                           aria-label={`Read more: "${name}"`}
                         >

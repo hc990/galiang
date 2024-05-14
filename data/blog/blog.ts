@@ -51,7 +51,7 @@ builder.queryField('Author', (t) =>
     },
     nullable: true,
     resolve: async (query, _parent, args, _info) =>
-      prisma.authors.findID({
+      prisma.authors.findFirst({
         ...query,  
         where: {  
           id: (String(args.id)),

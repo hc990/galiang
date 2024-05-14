@@ -18,6 +18,7 @@ export const GlobalProvider = ({ children }) => {
   // const [modal, setModal] = useState(false);
   const [collapsed, setCollapsed] = useState(true);
   const [books, setBooks] = useState([]);
+  const [booksNum, setBooksnum] = useState(0);
   const [show, setShow] = useState(true)
   // const [menuShow, setMenuShow] = useState(true)
 
@@ -50,8 +51,9 @@ export const GlobalProvider = ({ children }) => {
       };  
       const res = await axios.get("/api/blog",{ params });
       setBooks(res.data);
+      setBooksnum(res.data.length)
       setIsLoading(false);
-    } catch (error) {
+    } catch (error) {  
       console.log(error);
     }
   };
@@ -93,12 +95,14 @@ export const GlobalProvider = ({ children }) => {
       allBooks();
   }, []);
 
+
   return (
     <GlobalContext.Provider
       value={{
         // theme,
         // tasks,
         books,
+        booksNum,
         // deleteTask,
         isLoading,
         // completedTasks,

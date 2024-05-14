@@ -28,10 +28,11 @@ module.exports = {
         primary: colors.pink,
         gray: colors.gray,
       },
+      // @ts-ignore
       typography: ({ theme }) => ({
         DEFAULT: {
           css: {
-            a: {
+            a: {  
               color: theme('colors.primary.500'),
               '&:hover': {
                 color: `${theme('colors.primary.600')}`,

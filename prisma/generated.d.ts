@@ -1,5 +1,5 @@
 /* eslint-disable */
-import type { Prisma, authors, bookcode, books, captcha, movies, sessions, users } from "/Users/huangchong/Documents/workspace/tailwind-nextjs-starter-blog/node_modules/@prisma/client";
+import type { Prisma, authors, bookcode, books, captcha, movies, sessions, users } from "/Users/huangchong/Documents/workspace/galiang/node_modules/@prisma/client";
 export default interface PrismaTypes {
     authors: {
         Name: "authors";

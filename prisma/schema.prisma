@@ -46,6 +46,7 @@ model bookcode {
 model books {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   bookname    String
+  comment     String   
   createAt    DateTime @db.Date
   extend      String
   name        String
@@ -53,6 +54,7 @@ model books {
   serial      Int
   size        Float
   status      Int
+  tag         String[]   @default([])
 }
 
 model captcha {

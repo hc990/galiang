@@ -13,12 +13,12 @@ import formatDate from '@/app/utils/formatDate'
 interface LayoutProps {
   book: {size: "",name: "",bookname: "",createAt: ""}
   children: ReactNode
-  path: any
-  // next?: { path: string; title: string }
-  // prev?: { path: string; title: string }
+  slug: any
+  next?: { path: string; title: string }
+  prev?: { path: string; title: string }
 }
 
-export default function PostLayout({ book, path, children }: LayoutProps) {
+export default function PostLayout({slug, book, prev, next, children }: LayoutProps) {
   const { size, name, bookname, createAt } = book
 
   return (
@@ -47,11 +47,11 @@ export default function PostLayout({ book, path, children }: LayoutProps) {
             </div>
             {siteMetadata.comments && (
               <div className="pb-6 pt-6 text-center text-gray-700 dark:text-gray-300" id="comment">
-                <Comments  />
+                <Comments slug={ slug } />
               </div>
             )}
             <footer>
-              {/* <div className="flex flex-col text-sm font-medium sm:flex-row sm:justify-between sm:text-base">
+              <div className="flex flex-col text-sm font-medium sm:flex-row sm:justify-between sm:text-base">
                 {prev && prev.path && (
                   <div className="pt-4 xl:pt-8">
                     <Link
@@ -74,7 +74,7 @@ export default function PostLayout({ book, path, children }: LayoutProps) {
                     </Link>
                   </div>
                 )}
-              </div> */}
+              </div>
             </footer>
           </div>
         </div>

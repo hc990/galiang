@@ -99,7 +99,7 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
   try {
     book = await axiosInstant.get("/api/blog",{ params: { id: slug }});
   } catch (error) {
-    return  {error: "Error select book"};
+    return  {error: "Error Select book"};
   }
   // Filter out drafts in production
   // const allBlogs = await prisma.books.findMany()
@@ -108,8 +108,9 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
   // if (postIndex === -1) {
   //   return notFound()
   // }
-  // const prev = sortedCoreContents[postIndex + 1]
-  // const next = sortedCoreContents[postIndex - 1]
+  const prev = {'path':'fdfdsf',"title":"fdsf"}
+  const next = {'path':'34324',"title":"fdfs"}
+
   // const post = allBlogs.find((p) => p.slug === slug) as Blog
   // const authorList = post?.authors || ['default']
   // const authorDetails = authorList.map((author) => {
@@ -129,8 +130,9 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
         type="application/ld+json"
         // dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Layout book={book.data} path="/"  >
-         <div>fdsdfs</div>
+      
+      <Layout book={book.data} path="/" prev={ prev }  next={ next } slug={ slug } >
+         <div> {book.data.bookname} </div>
       </Layout>
     </>
   )

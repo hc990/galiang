@@ -2,10 +2,12 @@ import { slug } from 'github-slugger'
 // import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
 import siteMetadata from '@/data/siteMetadata'
 import ListLayout from '@/layouts/ListLayoutWithTags'
-// import { allBlogs } from 'contentlayer/generated'
 import tagData from 'app/tag-data.json'
 import { genPageMetadata } from 'app/seo'
 import { Metadata } from 'next'
+import { useGlobalState } from '@/app/context/globalProvider'
+
+const { books, allBooks } = useGlobalState();
 
 export async function generateMetadata({ params }: { params: { tag: string } }): Promise<Metadata> {
   const tag = decodeURI(params.tag)
@@ -31,10 +33,8 @@ export const generateStaticParams = async () => {
 }
 
 export default function TagPage({ params }: { params: { tag: string } }) {
-
   const tag = decodeURI(params.tag)
-  // Capitalize first letter and convert space to dash
   const title = tag[0].toUpperCase() + tag.split(' ').join('-').slice(1)
   const filteredPosts: never[] = []  
-  return <ListLayout title={title} books={[]} initialDisplayBooks={[]} />
+  return <ListLayout title={ title } books={ books } initialDisplayBooks={ allBooks} />
 }

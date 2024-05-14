@@ -11,7 +11,9 @@ export async function POST(req: Request) {
         oribookname,
         serial,      
         size,     
-        status  } = await req.json();
+        status,
+        comment
+      } = await req.json();
     if (!bookname || !extend || !serial) {
       return NextResponse.json({
         error: "Missing required fields",
@@ -29,11 +31,12 @@ export async function POST(req: Request) {
         bookname,
         createAt,
         extend,  
-        name,     
+        name,       
         oribookname,
         serial,      
         size,     
-        status 
+        status,
+        comment
       },
     });
     return NextResponse.json(book);
@@ -54,7 +57,7 @@ export async function GET(req: NextRequest) {
       });
       return NextResponse.json(books);
     } else {
-      const books = await prisma.books.findMany({take: 10});
+      const books = await prisma.books.findMany({});
       return NextResponse.json(books);
     }   
   } catch (error) {
@@ -66,13 +69,17 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: Request) {
   try {
-    const { status, id } = await req.json();
+    const { params } = await req.json(); 
+    const id = params.id
+    const status = params.status
+    const comment = params.comment
     const book = await prisma.books.update({
       where: {  
         id,
       },
       data: {
-        status,
+        status,   
+        comment 
       },
     });
     return NextResponse.json(book);

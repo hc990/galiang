@@ -3,11 +3,9 @@
 
 import { usePathname } from 'next/navigation'
 import { slug } from 'github-slugger'
-// import { CoreContent } from 'pliny/utils/contentlayer'
-// import type { Blog } from 'contentlayer/generated'
+
 import Link from '@/app/components/Link'
-import Tag from '@/app/components/Tag'
-import siteMetadata from '@/data/siteMetadata'
+
 import tagData from 'app/tag-data.json'
 import formatDate from '@/app/utils/formatDate'
 
@@ -18,7 +16,6 @@ interface PaginationProps {
 interface ListLayoutProps {
   books: []
   title: string
-  // initialDisplayPosts?: CoreContent<Blog>[]
   initialDisplayBooks: []
   pagination?: PaginationProps
 }
@@ -28,10 +25,10 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
   const basePath = pathname.split('/')[1]
   const prevPage = currentPage - 1 > 0
   const nextPage = currentPage + 1 <= totalPages
-
   return (
     <div className="space-y-2 pb-8 pt-6 md:space-y-5">
       <nav className="flex justify-between">
+        
         {!prevPage && (
           <button className="cursor-auto disabled:opacity-50" disabled={!prevPage}>
             Previous
@@ -72,7 +69,6 @@ export default function ListLayoutWithTags({
   const tagCounts = tagData as Record<string, number>
   const tagKeys = Object.keys(tagCounts)
   const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a])
-
   const displayBooks = initialDisplayBooks;
 
   return (
@@ -121,10 +117,11 @@ export default function ListLayoutWithTags({
           </div>
           <div>
             <ul>
+            
               {displayBooks.map((book) => {
-                const { path, createAt, title, summary, tags } = book
+                const { size, path, createAt, name, id, summary, tags } = book
                 return (
-                  <li key={path} className="py-5">
+                  <li key={id} className="py-5">
                     <article className="flex flex-col space-y-2 xl:space-y-0">
                       <dl>
                         <dt className="sr-only">Published on</dt>
@@ -135,16 +132,17 @@ export default function ListLayoutWithTags({
                       <div className="space-y-3">
                         <div>
                           <h2 className="text-2xl font-bold leading-8 tracking-tight">
-                            <Link href={`/${path}`} className="text-gray-900 dark:text-gray-100">
-                              {title}
+                            <Link href={`/blog/${id}`} className="text-gray-900 dark:text-gray-100">
+                              {name}
                             </Link>
                           </h2>
                           <div className="flex flex-wrap">
                             {/* {tags?.map((tag) => <Tag key={tag} text={tag} />)} */}
+                            {/* { Math.round(size) }MB */}
                           </div>
                         </div>
                         <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                          {summary}
+                        { Math.round(size) }MB
                         </div>
                       </div>
                     </article>

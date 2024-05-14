@@ -13,11 +13,11 @@ interface LayoutProps {
   book: {size:any,name:any,bookname:any,createAt:any}
   children: ReactNode
   path: any
-  // next?: { path: string; title: string }
-  // prev?: { path: string; title: string }
+  next?: { path: string; title: string }
+  prev?: { path: string; title: string }
 }
 
-export default function PostMinimal({ book, path, children }: LayoutProps) {
+export default function PostMinimal({ book, path, prev, next, children }: LayoutProps) {
   const { size, name, bookname, createAt } = book
   // const displayImage =
   //   images && images.length > 0 ? images[0] : 'https://picsum.photos/seed/picsum/800/400'
@@ -47,7 +47,7 @@ export default function PostMinimal({ book, path, children }: LayoutProps) {
             </div>
           )}
           <footer>
-            {/* <div className="flex flex-col text-sm font-medium sm:flex-row sm:justify-between sm:text-base">
+            <div className="flex flex-col text-sm font-medium sm:flex-row sm:justify-between sm:text-base">
               {prev && prev.path && (
                 <div className="pt-4 xl:pt-8">
                   <Link
@@ -70,7 +70,7 @@ export default function PostMinimal({ book, path, children }: LayoutProps) {
                   </Link>
                 </div>
               )}
-            </div> */}
+            </div>
           </footer>
         </div>
       </article>
