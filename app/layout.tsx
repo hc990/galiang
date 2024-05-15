@@ -8,6 +8,7 @@ import { ThemesProvider } from '@/app/providers/ThemesProvider'
 import { Metadata } from 'next'
 import Sidebar from '@/app/components/navigation/Sidebar'
 import ContextProvider from './providers/ContextProvider'
+import { SearchProvider,SearchConfig } from './components/search'
 // const space_grotesk = Space_Grotesk({
 //   subsets: ['latin'],
 //   display: 'swap',  
@@ -75,16 +76,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ContextProvider>
          <ThemesProvider>
           {/* <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} /> */}
-            <SectionContainer>
+            <SectionContainer>  
               <div className="flex h-screen flex-col justify-between font-sans">
-                {/* <SearchProvider searchConfig={siteMetadata.search as SearchConfig}> */}
+                <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
                   <Header />
                     <div className="flex space-x-5 mb-auto">
                       <Sidebar />
                       <main>{children}</main> 
                     </div>
                   <Footer />
-                {/* </SearchProvider> */}
+                </SearchProvider>
               </div>
             </SectionContainer>
           </ThemesProvider>

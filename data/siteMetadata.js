@@ -1,4 +1,4 @@
-/** @type {import("pliny/config").PlinyConfig } */
+
 const siteMetadata = {
   title: '嘎亮锅贴',
   author: 'Everest',

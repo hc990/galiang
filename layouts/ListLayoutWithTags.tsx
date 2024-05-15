@@ -62,7 +62,7 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
 
 export default function ListLayoutWithTags({
   title,
-  initialDisplayBooks = [],
+  initialDisplayBooks,
   pagination,
 }: ListLayoutProps) {
   const pathname = usePathname()

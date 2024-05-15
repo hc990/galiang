@@ -130,8 +130,8 @@ export default function PostLayout({ slug , book, path, next, prev, children }: 
                     </h2>
                     <div className="flex flex-wrap">
                       {/* {tags.map((tag) => ( */}
-                        <Tag key={'fdsdsf'} text={"tag"} />
-                        <Tag key={'dfdsdfs'} text={"432342"} />
+                        <Tag key={1} text={"奇异"} />
+                        <Tag key={2} text={"历史"} />
                       {/* ))} */}
                     </div>
                   </div>
