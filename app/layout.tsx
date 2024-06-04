@@ -1,3 +1,4 @@
+
 import 'css/tailwind.css'
 // import { Space_Grotesk } from 'next/font/google'
 import Header from '@/app/components/Header'
@@ -7,8 +8,10 @@ import siteMetadata from '@/data/siteMetadata'
 import { ThemesProvider } from '@/app/providers/ThemesProvider'
 import { Metadata } from 'next'
 import Sidebar from '@/app/components/navigation/Sidebar'
-import ContextProvider from './providers/ContextProvider'
-import { SearchProvider,SearchConfig } from './components/search'
+import ContextProvider from './providers/ContextProvider'  
+import { SearchProvider,SearchConfig } from './components/search/SearchProvider'
+// import { useGlobalState } from '@/app/context/globalProvider'
+// import { ClerkProvider, auth } from "@clerk/nextjs";
 // const space_grotesk = Space_Grotesk({
 //   subsets: ['latin'],
 //   display: 'swap',  
@@ -56,7 +59,13 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // const { books } = useGlobalState();
+  // const { userId } = auth();
+  // if (!userId) {
+  //   return new Response('Unauthorized', { status: 401 });
+  // }
   return (
+   // <ClerkProvider>
     <html
       lang={siteMetadata.language}
       // className={`${space_grotesk.variable} scroll-smooth`}
@@ -79,9 +88,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <SectionContainer>  
               <div className="flex h-screen flex-col justify-between font-sans">
                 <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
-                  <Header />
+                  <Header />    
                     <div className="flex space-x-5 mb-auto">
                       <Sidebar />
+                      {/* {userId && <Sidebar />} */}
                       <main>{children}</main> 
                     </div>
                   <Footer />
@@ -92,5 +102,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </ContextProvider>
       </body>
     </html>
+     
   )
 }

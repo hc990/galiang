@@ -2,10 +2,11 @@
 import React from 'react'
 import { KBarSearchProvider } from './KBar'  
 import type { KBarConfig } from './KBar'  
+import { useGlobalState } from '@/app/context/globalProvider'
 
 export type SearchConfig = KBarConfig
 export interface SearchConfigProps {  
-  searchConfig: SearchConfig  
+  searchConfig: SearchConfig 
   children: React.ReactNode
 }  
 
@@ -31,23 +32,13 @@ export interface SearchConfigProps {
  * @param {SearchConfig} searchConfig
  * @return {*}
  */
-export const SearchProvider = ({ searchConfig, children }: SearchConfigProps) => {
+export const SearchProvider = ({  searchConfig, children }: SearchConfigProps): any => {
+  // const { books } = useGlobalState();
+
   if (searchConfig && searchConfig.provider) {
-    // switch (searchConfig.provider) {
-    //   case 'algolia':
-        // return (
-        //   <AlgoliaSearchProvider algoliaConfig={searchConfig.algoliaConfig}>
-        //     {children}
-        //   </AlgoliaSearchProvider>
-        // )
-    //   case 'kbar':
         return (
-          <KBarSearchProvider kbarConfig={searchConfig.kbarConfig}>{children}</KBarSearchProvider>
+          <KBarSearchProvider  kbarConfig={searchConfig.kbarConfig}>{children}</KBarSearchProvider>
         )
-    //   default:
-    //     console.log('No suitable provider found. Please choose from algolia or kbar.')
-    //     return <>{children}</>
-    // }
   } else {
     return <>{children}</>
   }

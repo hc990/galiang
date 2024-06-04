@@ -5,7 +5,8 @@ import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
 import Image from "next/image";
-
+import { LuLogIn } from "react-icons/lu";
+// import { UserButton } from '@clerk/nextjs'
 const Header = () => {
   return (
     <header className="flex py-6 space-x-3 items-center">
@@ -30,7 +31,9 @@ const Header = () => {
           </div>                               
         </Link>  
       </div> 
+      
       <div className="flex items-center space-x-4 leading-2 sm:space-x-3 absolute right-0 pr-6">
+        <SearchButton />
         {headerNavLinks
           .filter((link) => link.href !== '/')
           .map((link) => (
@@ -42,9 +45,13 @@ const Header = () => {
               {link.title}
             </Link>
           ))}
-        <SearchButton />
+         
         <ThemeSwitch />
+        <Link href="/signin">
+             < LuLogIn/>           
+          </Link>
         <MobileNav />
+        {/* <UserButton afterSignOutUrl="/" /> */}
       </div>
     </header>
   )

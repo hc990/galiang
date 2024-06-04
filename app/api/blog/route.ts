@@ -57,7 +57,11 @@ export async function GET(req: NextRequest) {
       });
       return NextResponse.json(books);
     } else {
-      const books = await prisma.books.findMany({});
+      const books = (await prisma.books.findMany({
+        orderBy: {  
+          id: 'desc'
+        },
+      }));
       return NextResponse.json(books);
     }   
   } catch (error) {

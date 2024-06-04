@@ -4,12 +4,12 @@ import type { Action } from 'kbar'
 import { KBarProvider } from 'kbar'
 import { useRouter } from 'next/navigation.js'
 import { KBarModal } from './KBarModal'
-
+import axios from "axios";
 import  formatDate from '@/app/utils/formatDate'
-import { useGlobalState } from '@/app/context/globalProvider'
+
 
 export interface KBarSearchProps {
-  searchDocumentsPath: string | false
+  // searchDocumentsPath: string | false
   defaultActions?: Action[]
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSearchDocumentsLoad?: (json: any) => Action[]
@@ -19,6 +19,7 @@ export interface KBarConfig {
   provider: 'kbar'
   kbarConfig: KBarSearchProps
 }
+
 
 /**
  * Command palette like search component with kbar - `ctrl-k` to open the palette.
@@ -41,46 +42,47 @@ export const KBarSearchProvider: FC<{
   children: ReactNode
   kbarConfig: KBarSearchProps
 }> = ({ kbarConfig, children }) => {
+
   const router = useRouter()
-  const { searchDocumentsPath, defaultActions, onSearchDocumentsLoad } = kbarConfig
+  const { defaultActions, onSearchDocumentsLoad } = kbarConfig
   const [searchActions, setSearchActions] = useState<Action[]>([])
   const [dataLoaded, setDataLoaded] = useState(false)
-  const { allBooks, books, booksNum } = useGlobalState();
 
   useEffect(() => {
     const mapBooks = ( books: any ) => {
       const actions: Action[] = []
+      // books.reverse()
       for (const book of books) {
         actions.push({
-          id: book._id,
+          id: book.id,
           name: book.name,
           keywords: book?.name || '',
           section: 'Content',
           subtitle: formatDate(book.createAt),
-          perform: () => router.push('/blog/' + book._id),
+          perform: () => router.push('/blog/' + book.id),
         })
       }
       return actions
     }
     async function fetchData() {
-      if (searchDocumentsPath) {
-        const url =
-          searchDocumentsPath.indexOf('://') > 0 || searchDocumentsPath.indexOf('//') === 0
-            ? searchDocumentsPath
-            : new URL(searchDocumentsPath, window.location.origin)
-        const res = await fetch(url)
-        const json = await res.json()
-        const actions = onSearchDocumentsLoad ? onSearchDocumentsLoad(json) :  mapBooks( json )
+      // if (searchDocumentsPath) {
+      //   const url =
+      //     searchDocumentsPath.indexOf('://') > 0 || searchDocumentsPath.indexOf('//') === 0
+      //       ? searchDocumentsPath
+      //       : new URL(searchDocumentsPath, window.location.origin)
+        const res = await axios.get("/api/search");
+        const json = res.data
+        const actions = onSearchDocumentsLoad ? onSearchDocumentsLoad( json ) :  mapBooks( json )
         setSearchActions(actions)
         setDataLoaded(true)
-      }
+      // }
     }
-    if (!dataLoaded && searchDocumentsPath) {
+    if (!dataLoaded) {
       fetchData()
     } else {
       setDataLoaded(true)
     }
-  }, [defaultActions, dataLoaded, router, searchDocumentsPath, onSearchDocumentsLoad])
+  }, [defaultActions, dataLoaded, router , onSearchDocumentsLoad])
 
   return (  
     <KBarProvider actions={defaultActions}>

@@ -13,7 +13,7 @@ export const GlobalUpdateContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
   // const { user } = useUser();
-  // const [selectedTheme, setSelectedTheme] = useState(0);
+  const [selectedTheme, setSelectedTheme] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   // const [modal, setModal] = useState(false);
   const [collapsed, setCollapsed] = useState(true);
@@ -91,10 +91,13 @@ export const GlobalProvider = ({ children }) => {
   //   if (user) allTasks();
   // }, [user]);
 
-  React.useEffect(() => {
-      allBooks();
-  }, []);
+  // React.useEffect(() => {
+  //   if (user) allBooks();
+  // }, [user]);
 
+  React.useEffect(() => {
+    allBooks();
+  }, []);
 
   return (
     <GlobalContext.Provider

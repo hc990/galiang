@@ -13,8 +13,12 @@ import { LuPanelLeft } from "react-icons/lu"
 // import { useState } from 'react'
 import { IoChevronDownSharp } from "react-icons/io5";
 import { IoChevronForward } from "react-icons/io5";
+// import { UserButton, useClerk, useUser } from "@clerk/nextjs";
 
 function Sidebar() {
+  // const { signOut } = useClerk();
+
+  // const { user } = useUser();
   const { 
     collapsed,
     collapseMenu,
@@ -94,6 +98,10 @@ function Sidebar() {
           <Button
              icon={MdInfo}
              variant='outline'
+            //  onClick={() => {
+            //   signOut(() => router.push("/signin"));
+            // }
+          // }
           >
           </Button>
         </div>
