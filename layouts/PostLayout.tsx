@@ -12,8 +12,8 @@ import Image from '@/app/components/Image'
 import Tag from '@/app/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/app/components/ScrollTopAndComment'
-
 import formatDate from '@/app/utils/formatDate'
+// import Button from '@/app/components/common/Button'
 
 const editUrl = (path: string) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
 const discussUrl = (path: string) =>``
@@ -33,6 +33,8 @@ interface LayoutProps {
   path: any
   children: ReactNode
 }
+
+
 
 export default function PostLayout({ slug , book, path, next, prev, children }: LayoutProps) {
   const { size, name, bookname, createAt,} = book
@@ -103,7 +105,9 @@ export default function PostLayout({ slug , book, path, next, prev, children }: 
                   alt="avatar"    
                 />
               </div>
-              <div className="prose w-full pb-8 pt-10 dark:prose-invert">{ children }</div>
+              <div className="prose w-full pb-8 pt-10 dark:prose-invert">
+                      { children }  
+                </div>
               {/* <div className="pb-6 pt-6 text-sm text-gray-700 dark:text-gray-300">
                 <Link href={discussUrl("")} rel="nofollow">
                   Discuss on Twitter
@@ -111,7 +115,6 @@ export default function PostLayout({ slug , book, path, next, prev, children }: 
                 {` • `}
                 <Link href={editUrl("")}>View on GitHub</Link>
               </div> */}
-            
               {siteMetadata.comments && (
                 <div
                   className=" pb-6 pt-6 text-center text-gray-700 dark:text-gray-300"
@@ -160,7 +163,6 @@ export default function PostLayout({ slug , book, path, next, prev, children }: 
                     )}
                   </div>
                 )}
-           
               </div>
               <div className="pt-4 xl:pt-8">
                 <Link

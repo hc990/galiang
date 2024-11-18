@@ -1,18 +1,14 @@
 'use client'
-
 import { useGlobalState } from '@/app/context/globalProvider'
 import ListLayout from '@/layouts/ListLayoutWithTags'
 // import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
 // import { allBlogs } from 'contentlayer/generated'
-
 const POSTS_PER_PAGE = 5
-
 // export const generateStaticParams = {
 //   const totalPages = Math.ceil(booksNum / POSTS_PER_PAGE)
 //   const paths = Array.from({ length: totalPages }, (_, i) => ({ page: (i + 1).toString() }))
 //   return paths
 // }
-
 export default function Page({ params }: { params: { page: string } }) {
   const { books, booksNum } = useGlobalState();
 

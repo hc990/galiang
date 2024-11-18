@@ -1,7 +1,6 @@
-
 import 'css/prism.css'
 import 'katex/dist/katex.css'
-  
+// import downloadFile from '@/app/api/download/route'
 import PageTitle from '@/app/components/PageTitle'
 // import { components } from '@/components/MDXComponents'
 // import { MDXLayoutRenderer } from 'pliny/mdx-components'
@@ -18,7 +17,30 @@ import siteMetadata from '@/data/siteMetadata'
 // import { useGlobalState } from '@/app/context/globalProvider'
 // import prisma from '@/data/prisma'
 import axios from 'axios'
-   
+import Button from '@/app/components/common/Button'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import DownloadButton from '@/app/components/common/DownloadButton'
+import { notFound } from 'next/navigation'
+
+type BookData = {
+  id: string;
+  bookname: string;
+  comment: string;
+  createAt: string;
+  extend: string;
+  name: string;
+  oribookname: string;
+  serial: string;
+  size: string;
+  status: string;
+  tag: string;
+  structuredData?: Record<string, unknown>;
+};
+
+// type BookResponse = {
+//   data: BookData;
+// };
 const defaultLayout = 'PostLayout'
 const layouts = {  
   PostSimple,
@@ -94,13 +116,14 @@ const axiosInstant = axios.create({
 
 export default async function Page({ params }: { params: { slug: string[] } }) {
   const slug = decodeURI(params.slug.join('/'))
-  let book: any;
   const Layout = layouts["PostLayout"]
-  try {
-    book = await axiosInstant.get("/api/blog",{ params: { id: slug }});
-  } catch (error) {
-    return  {error: "Error Select book"};
+  // const [book, setBook] = useState<BookResponse | null>(null);
+  const response = await axiosInstant.get('/api/blog', { params: { id: slug } });
+  const book  = response.data;
+  if (!book) {
+    return <div>No data available</div>;
   }
+  const { bookname, name, createAt, size, status, comment, tag } = book;
   // Filter out drafts in production
   // const allBlogs = await prisma.books.findMany()
   // const postIndex =  await prisma.books.findFirst({'fdf':slug}) 
@@ -110,7 +133,30 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
   // }
   const prev = {'path':'fdfdsf',"title":"fdsf"}
   const next = {'path':'34324',"title":"fdfs"}
-
+  // const [statusMessage, setStatusMessage] = useState('');
+  // const handleClick = async () => {
+  //   try {
+  //     const response = await fetch(`/api/download?slug=${encodeURIComponent(slug)}`);
+  //     if (!response.ok) {
+  //       const result = await response.json();
+  //       setStatusMessage(result.error);
+  //       return;
+  //     }
+  //     const blob = await response.blob();
+  //     const url = window.URL.createObjectURL(blob);
+  //     const a = document.createElement('a');
+  //     a.style.display = 'none';
+  //     a.href = url;
+  //     a.download = response.headers.get('Content-Disposition')?.split('filename=')[1];
+  //     document.body.appendChild(a);
+  //     a.click();
+  //     window.URL.revokeObjectURL(url);
+  //     setStatusMessage('File has been downloaded successfully');
+  //   } catch (error) {
+  //     setStatusMessage('Error triggering download');
+  //     console.error('Error triggering download:', error);
+  //   }
+  // };
   // const post = allBlogs.find((p) => p.slug === slug) as Blog
   // const authorList = post?.authors || ['default']
   // const authorDetails = authorList.map((author) => {
@@ -129,11 +175,14 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
       <script
         type="application/ld+json"
         // dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      
-      <Layout book={book.data} path="/" prev={ prev }  next={ next } slug={ slug } >
-         <div> {book.data.bookname} </div>
+      />  
+      <Layout book={book} path="/" prev={ prev }  next={ next } slug={ slug } >
+        <DownloadButton slug={slug}>
+          <div className="px-1">Download</div>
+        </DownloadButton>
       </Layout>
     </>
   )
 }
+
+

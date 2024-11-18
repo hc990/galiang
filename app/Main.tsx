@@ -48,12 +48,11 @@ export default function Home() {
                           </h2>
                         </div>
                         <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                            {/* {tags.map((tag) => (
+                            {/* {tags.m=-ap((tag) => (
                               <Tag key={tag} text={tag} />
                             ))} */}
                            中文  小说  历史  创意 |  { Math.round(size) }MB
                         </div>
-           
                         <div className="prose max-w-none text-gray-500 dark:text-gray-400">
                           {summary}
                         </div>

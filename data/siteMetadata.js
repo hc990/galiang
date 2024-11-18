@@ -91,6 +91,13 @@ const siteMetadata = {
     //   indexName: 'docsearch',
     // },
   },
+  nas:{
+    share: process.env.NAS_SHARE,
+    domain: process.env.NAS_DOMAIN,
+    username: process.env.NAS_USERNAME,
+    password: process.env.NAS_PASSWORD
+  }
+
 }
 
 module.exports = siteMetadata

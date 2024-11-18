@@ -17,14 +17,13 @@ import { IoChevronForward } from "react-icons/io5";
 
 function Sidebar() {
   // const { signOut } = useClerk();
-
   // const { user } = useUser();
   const { 
     collapsed,
     collapseMenu,
     show,  
-    changeShow } = useGlobalState();
-
+    changeShow 
+  } = useGlobalState();
   const { firstName, lastName, imageUrl } = {
     firstName: "",
     lastName: "",
@@ -109,5 +108,4 @@ function Sidebar() {
     </nav>
   );
 }
-
 export default Sidebar;

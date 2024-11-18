@@ -13,19 +13,16 @@ const POSTS_PER_PAGE = 5
 
 export default function BookPage() {  
   const { allBooks, books, booksNum } = useGlobalState();
-
   const pageNumber = 1
   const initialDisplayBooks = books.slice(
     POSTS_PER_PAGE * (pageNumber - 1),
     POSTS_PER_PAGE * pageNumber
   )
   // const booksNum =  books.size
-
   const pagination = {
     currentPage: pageNumber,
     totalPages: Math.ceil( booksNum / POSTS_PER_PAGE),
   }
-
   return (
     <ListLayout
       initialDisplayBooks={initialDisplayBooks}
