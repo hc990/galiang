@@ -18,7 +18,7 @@ export function htmlFromMarkdown(markdown: string): string {
   return unified()
     // .use(remarkHtml) 
     .use(remarkParse)
-    .use(remarkHtml) 
+    // .use(remarkHtml) 
     .processSync(markdown)
     .toString()
 }

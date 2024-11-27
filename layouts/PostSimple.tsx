@@ -11,15 +11,15 @@ import ScrollTopAndComment from '@/app/components/ScrollTopAndComment'
 import formatDate from '@/app/utils/formatDate'
 
 interface LayoutProps {
-  book: {size: "",name: "",bookname: "",createAt: ""}
+  book: { size: '';name: '';bookname: '';createAt: '';comment: '' }
   children: ReactNode
-  slug: any
+  slug: string
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
 }
 
-export default function PostLayout({slug, book, prev, next, children }: LayoutProps) {
-  const { size, name, bookname, createAt } = book
+export default function PostLayout({ slug, book, prev, next, children }: LayoutProps) {
+  const { size, name, bookname, createAt, comment } = book
 
   return (
     <SectionContainer>
@@ -47,7 +47,7 @@ export default function PostLayout({slug, book, prev, next, children }: LayoutPr
             </div>
             {siteMetadata.comments && (
               <div className="pb-6 pt-6 text-center text-gray-700 dark:text-gray-300" id="comment">
-                <Comments slug={ slug } />
+                <Comments slug={slug} comment={comment} />
               </div>
             )}
             <footer>

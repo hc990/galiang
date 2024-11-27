@@ -1,5 +1,5 @@
 
-import React from 'react'
+import { ReactNode } from 'react'
 import { KBarSearchProvider } from './KBar'  
 import type { KBarConfig } from './KBar'  
 import { useGlobalState } from '@/app/context/globalProvider'
@@ -32,13 +32,10 @@ export interface SearchConfigProps {
  * @param {SearchConfig} searchConfig
  * @return {*}
  */
-export const SearchProvider = ({  searchConfig, children }: SearchConfigProps): any => {
+export const SearchProvider = ({  searchConfig, children }: SearchConfigProps): ReactNode=> {
   // const { books } = useGlobalState();
-
   if (searchConfig && searchConfig.provider) {
-        return (
-          <KBarSearchProvider  kbarConfig={searchConfig.kbarConfig}>{children}</KBarSearchProvider>
-        )
+        return <KBarSearchProvider  kbarConfig={searchConfig.kbarConfig}>{children}</KBarSearchProvider>
   } else {
     return <>{children}</>
   }

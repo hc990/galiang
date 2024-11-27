@@ -1,6 +1,7 @@
 import prisma from "@/data/prisma";
-import { auth } from "@clerk/nextjs";
+// import { auth } from "@clerk/nextjs";
 import { NextRequest,NextResponse } from "next/server";
+
 
 export async function POST(req: Request) {
   try{
@@ -11,10 +12,10 @@ export async function POST(req: Request) {
         oribookname,
         serial,      
         size,     
-        status,
+        status,  
         comment
       } = await req.json();
-    if (!bookname || !extend || !serial) {
+    if (!bookname || !extend ) {
       return NextResponse.json({
         error: "Missing required fields",
         status: 400,

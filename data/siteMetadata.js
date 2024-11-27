@@ -1,4 +1,3 @@
-
 const siteMetadata = {
   title: '嘎亮锅贴',
   author: 'Everest',
@@ -91,13 +90,12 @@ const siteMetadata = {
     //   indexName: 'docsearch',
     // },
   },
-  nas:{
-    share: process.env.NAS_SHARE,
-    domain: process.env.NAS_DOMAIN,
-    username: process.env.NAS_USERNAME,
-    password: process.env.NAS_PASSWORD
-  }
-
+  nas: {
+    share: '\\\\192.168.2.214\\library',
+    domain: 'books',
+    username: 'huangchong',
+    password: 'Huang3723641_',
+  },
 }
 
 module.exports = siteMetadata

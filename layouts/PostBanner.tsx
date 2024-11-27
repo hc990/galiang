@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import Image from '@/app/components/Image'
+// import Image from '@/app/components/Image'
 // import { CoreContent } from 'pliny/utils/contentlayer'
 // import type { Blog } from 'contentlayer/generated'
 import Comments from '@/app/components/Comments'
@@ -10,9 +10,9 @@ import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/app/components/ScrollTopAndComment'
 
 interface LayoutProps {
-  book: {size:any,name:any,bookname:any,createAt:any}
+  book: { size:number, name:string, bookname:string, createAt:any }
   children: ReactNode
-  path: any
+  path: string
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
 }
@@ -27,22 +27,22 @@ export default function PostMinimal({ book, path, prev, next, children }: Layout
       <ScrollTopAndComment />  
       <article>
         <div>
-          <div className="space-y-1 pb-10 text-center dark:border-gray-700">
-            <div className="w-full">
+          <div className='space-y-1 pb-10 text-center dark:border-gray-700'>
+            <div className='w-full'>
               {/* <Bleed> */}
-                <div className="relative aspect-[2/1] w-full">
+                <div className='relative aspect-[2/1] w-full'>
                   {bookname}
                   {/* <Image src={displayImage} alt={title} fill className="object-cover" /> */}
                 </div>
               {/* </Bleed> */}
             </div>
-            <div className="relative pt-10">
+            <div className='relative pt-10'>
               <PageTitle>{bookname}</PageTitle>
             </div>
           </div>
-          <div className="prose max-w-none py-4 dark:prose-invert">{children}</div>
+          <div className='prose max-w-none py-4 dark:prose-invert'>{children}</div>
           {siteMetadata.comments && (
-            <div className="pb-6 pt-6 text-center text-gray-700 dark:text-gray-300" id="comment">
+            <div className='pb-6 pt-6 text-center text-gray-700 dark:text-gray-300' id='comment'>
               {/* <Comments slug={bookname} /> */}
             </div>
           )}

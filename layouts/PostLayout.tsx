@@ -1,6 +1,3 @@
-
-
-
 import { ReactNode } from 'react'
 // import { CoreContent } from 'pliny/utils/contentlayer'
 // import type { Blog, Authors } from 'contentlayer/generated'
@@ -25,19 +22,17 @@ const postDateTemplate: Intl.DateTimeFormatOptions = {
 }
 
 interface LayoutProps {
-  book: {size: any, name: any, bookname: any, createAt: any},
+  book: { size: number, name: string, bookname: string, createAt: string, comment:any },
   // authorDetails: []
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
-  slug: any
-  path: any
+  slug: string
+  path: string
   children: ReactNode
 }
 
-
-
 export default function PostLayout({ slug , book, path, next, prev, children }: LayoutProps) {
-  const { size, name, bookname, createAt,} = book
+  const { size, name, bookname, createAt, comment } = book
   const basePath = path.split('/')[0]
   return (
     <SectionContainer>
@@ -50,7 +45,7 @@ export default function PostLayout({ slug , book, path, next, prev, children }: 
                 <div>
                   <dt className="sr-only">Published on</dt>
                   <dd className="text-base font-medium leading-4 text-gray-500 dark:text-gray-400">
-                      <time dateTime={createAt}>{formatDate(createAt)}</time>
+                  Published on： <time dateTime={createAt}>{formatDate(createAt)}</time>
                   </dd>
                 </div>
               </dl>
@@ -59,34 +54,34 @@ export default function PostLayout({ slug , book, path, next, prev, children }: 
               </div>
             </div>
           </header>
-          <div className="grid-rows-[auto_1fr] divide-y divide-gray-200  dark:divide-gray-700 xl:grid-2 xl:grid-cols-2 xl:gap-x-4 xl:divide-y-0">
+          <div className="xl:grid-2·grid-rows-[auto_1fr]·divide-y··divide-gray-200·dark:divide-gray-700">
             <dl className="pb-3 pt-3 xl:border-b xl:border-gray-200 xl:pt-6 xl:dark:border-gray-700">
               <dt className="sr-only">Authors</dt>  
               <dd>
                 <ul className="flex flex-wrap justify-center gap-4 sm:space-x-6 xl:block xl:space-x-0 xl:space-y-6">
                   {/* { */}
                       {/* {authorDetails.map((author) => ( */}
-                    <li className="flex items-center space-x-2" key={""}>
+                    <li className="flex items-center space-x-2" key={''}>
                       {/* {author.avatar && ( */}
                         <Image
-                          src={"/static/images/google.png"}
+                          src={'/static/images/google.png'}
                           width={38}
                           height={38}
-                          alt="avatar"
-                          className="h-10 w-10 rounded-full"
+                          alt='avatar'
+                          className='h-10 w-10 rounded-full'
                         />
                       {/* )} */}
-                      <dl className="whitespace-nowrap text-sm font-medium leading-5">
-                        <dt className="sr-only">Name</dt>
-                        <dd className="text-gray-900 dark:text-gray-100">{"Everest"}</dd>
-                        <dt className="sr-only">Twitter</dt>
+                      <dl className='whitespace-nowrap text-sm font-medium leading-5'>
+                        <dt className='sr-only'>Name</dt>
+                        <dd className='text-gray-900 dark:text-gray-100'>{'Everest'}</dd>
+                        <dt className='sr-only'></dt>
                         <dd>
                           {/* {author.twitter && ( */}
                             <Link
-                              href={""}
-                              className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                              href={''}
+                              className='text-primary-500 hover:text-primary-600 dark:hover:text-primary-400'
                             >
-                              {""}
+                              {''}
                             </Link>
                           {/* )} */}
                         </dd>
@@ -96,48 +91,44 @@ export default function PostLayout({ slug , book, path, next, prev, children }: 
                 </ul>
               </dd>
             </dl>
-            <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
-              <div className="space-y-5 pt-2 pb-2">
+            <div className='divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0'>
+              <div className='space-y-5 pt-2 pb-2'>
                 <Image
-                  src={"/static/images/avatar.png"}
+                  src={'/static/images/avatar.png'}
                   width={160}
                   height={160}
-                  alt="avatar"    
+                  alt='avatar'    
                 />
               </div>
-              <div className="prose w-full pb-8 pt-10 dark:prose-invert">
+              <div className='prose max-w-none text-gray-500 dark:text-gray-400'>
+                 { Math.round(size) }MB
+              </div>
+              <div className='prose w-full pb-8 pt-10 dark:prose-invert'>
                       { children }  
-                </div>
-              {/* <div className="pb-6 pt-6 text-sm text-gray-700 dark:text-gray-300">
-                <Link href={discussUrl("")} rel="nofollow">
-                  Discuss on Twitter
-                </Link>
-                {` • `}
-                <Link href={editUrl("")}>View on GitHub</Link>
-              </div> */}
+              </div>
               {siteMetadata.comments && (
                 <div
-                  className=" pb-6 pt-6 text-center text-gray-700 dark:text-gray-300"
-                  id="comment"
-                >
-                  <Comments slug={ slug }/>
+                  className='pb-6 pt-6 text-center text-gray-700 dark:text-gray-300'
+                  id='comment'
+                > 
+                  <Comments slug={slug } comment={comment}/>
                 </div>
               )}
             </div>
             <footer>
-              <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">
+                <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">
                 {/* {tags && ( */}
-                  <div className="py-1 xl:py-3">
-                    <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                  <div className='py-1 xl:py-3'>
+                  <h2 className='text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400'>
                       Tags
-                    </h2>
-                    <div className="flex flex-wrap">
+                  </h2>
+                  <div className="flex flex-wrap">
                       {/* {tags.map((tag) => ( */}
-                        <Tag key={1} text={"奇异"} />
-                        <Tag key={2} text={"历史"} />
-                      {/* ))} */}
-                    </div>
+                      <Tag key={1} text={'奇异'} />
+                      <Tag key={2} text={'历史'} />
+                    {/* ))} */}
                   </div>
+                </div>
                 {/* )} */}
                 {(next || prev) && (
                   <div className="flex justify-between py-4 xl:block xl:space-y-8 xl:py-8">

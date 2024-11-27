@@ -13,6 +13,15 @@ const axiosInstant = axios.create({
   timeout: 3000
 });
 
+function getSmb2Client(){
+  return new SMB2({
+    share: siteMetadata.nas.share,
+    domain: siteMetadata.nas.domain,
+    username: siteMetadata.nas.username,
+    password: siteMetadata.nas.password,
+  });
+}
+
 async function withRetries(operation: () => any, maxRetries: number, delay: number | undefined) {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
@@ -22,22 +31,17 @@ async function withRetries(operation: () => any, maxRetries: number, delay: numb
       console.warn(`Attempt ${attempt} failed. Retrying in ${delay}ms...`);
       await new Promise(resolve => setTimeout(resolve, delay));
     }
-  }
+  }  
 }
 
-export async function GET(req:Request) {
+export async function GET(req:Request): Promise<Response> {
   const { searchParams } = new URL(req.url);
   const slug = searchParams.get('slug');
   const book = await axiosInstant.get("/api/blog",{ params: { id: slug }});
-  const smb2Client = new SMB2({
-    share: siteMetadata.nas.share??'',
-    domain: siteMetadata.nas.domain??'',
-    username: siteMetadata.nas.username??'',
-    password: siteMetadata.nas.password??'',
-  });
+  const smb2Client = await getSmb2Client();   
   return new Promise((resolve) => {
     const buffers: any[] | Uint8Array[] = [];
-    const naspath = path.join('books', book.data.bookname);
+    const naspath = path.join('books', book.data.oribookname);
     console.info(naspath)
     withRetries(() => smb2Client.createReadStream(naspath, (err, readStream) => {
       if (err) {
@@ -56,7 +60,7 @@ export async function GET(req:Request) {
         const response = new NextResponse(fileBuffer);
         response.headers.set('Content-Disposition', `attachment; filename="${encodeURIComponent(book.data.bookname)}"`);
         response.headers.set('Content-Type', 'application/octet-stream');
-        resolve(response);
+        return resolve(response);
       });
 
       readStream?.on('error', (err) => {
@@ -91,6 +95,8 @@ export async function GET(req:Request) {
     //     resolve(NextResponse.json({ error: 'Read stream error' }, { status: 500 }));
     //   });
     // });
+   
     smb2Client.disconnect();
+    return resolve(NextResponse.json({ error: 'stream wrong'}, { status: 500 }));
   });
 }

@@ -1,46 +1,39 @@
-
 import { createYoga } from 'graphql-yoga'
-import SchemaBuilder from "@pothos/core";
-import PrismaPlugin from "@pothos/plugin-prisma";
+import SchemaBuilder from '@pothos/core'
+import PrismaPlugin from '@pothos/plugin-prisma'
 // import { DateTimeResolver } from 'graphql-scalars';
-
 import { createServer } from 'http'
-
-import type { NextApiRequest, NextApiResponse } from 'next';  
-import type PrismaTypes from '../../prisma/generated';
+import type { NextApiRequest, NextApiResponse } from 'next'
+import type PrismaTypes from '../../prisma/generated'
 import prisma from '../prisma'
 
-
 const builder = new SchemaBuilder<{
-  PrismaTypes: PrismaTypes;
+  PrismaTypes: PrismaTypes
 }>({
   plugins: [PrismaPlugin],
-  prisma: {  
+  prisma: {
     client: prisma,
-  }
+  },
 })
-
-builder.queryType({})
-
-builder.mutationType({})
-
-builder.prismaObject("authors", {
-  fields: (t) => ({
-    id: t.exposeID('id'),
-    email: t.exposeString('email', { nullable: true }),
-    name: t.exposeString('name', { nullable: true }),
+builder.queryType({}),
+  builder.mutationType({}),
+  builder.prismaObject('authors', {
+    fields: (t) => ({
+      id: t.exposeID('id'),
+      email: t.exposeString('email', { nullable: true }),
+      name: t.exposeString('name', { nullable: true }),
+    }),
   })
-})
 
-builder.prismaObject("movies", {
+builder.prismaObject('movies', {
   fields: (t) => ({
     id: t.exposeID('id'),
     title: t.exposeString('name'),
     content: t.exposeString('tmp_name', { nullable: true }),
     serial: t.exposeInt('serial'),
     size: t.exposeFloat('size'),
-    status: t.exposeInt('status')
-  })
+    status: t.exposeInt('status'),
+  }),
 })
 
 builder.queryField('Author', (t) =>
@@ -52,11 +45,11 @@ builder.queryField('Author', (t) =>
     nullable: true,
     resolve: async (query, _parent, args, _info) =>
       prisma.authors.findFirst({
-        ...query,  
-        where: {  
-          id: (String(args.id)),
-        }
-      })
+        ...query,
+        where: {
+          id: String(args.id),
+        },
+      }),
   })
 )
 
@@ -66,8 +59,8 @@ builder.queryField('Movie', (t) =>
     resolve: async (query, _parent, _args, _info) =>
       prisma.movies.findMany({
         ...query,
-        where: { status: 0 }
-      })
+        where: { status: 0 },
+      }),
   })
 )
 
@@ -92,9 +85,9 @@ builder.mutationField('signupUser', (t) =>
           occupation: args.name,
           slug: args.email,
           twitter: args.email,
-          type: args.email
-        }
-      })
+          type: args.email,
+        },
+      }),
   })
 )
 
@@ -105,13 +98,13 @@ export default createYoga<{
   res: NextApiResponse
 }>({
   schema,
-  graphqlEndpoint: '/api/graphql'
+  graphqlEndpoint: '/api/graphql',
 })
 
 export const config = {
   api: {
-    bodyParser: false
-  }
+    bodyParser: false,
+  },
 }
 
 const context = {
@@ -121,7 +114,7 @@ const context = {
 const yoga = createYoga({
   graphqlEndpoint: '/',
   schema: schema,
-  context
+  context,
 })
 
 const server = createServer(yoga)
@@ -131,5 +124,3 @@ server.listen(4000, () => {
   🚀 Server ready at: http://localhost:4000
   ⭐️ See sample queries: http://pris.ly/e/js/graphql-sdl-first#using-the-graphql-api`)
 })
-
-
