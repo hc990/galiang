@@ -1,23 +1,19 @@
+
 import 'css/prism.css'
-import 'katex/dist/katex.css'
-// import downloadFile from '@/app/api/download/route'
-import PageTitle from '@/app/components/PageTitle'
-// import { components } from '@/components/MDXComponents'
-// import { MDXLayoutRenderer } from 'pliny/mdx-components'
-// import { sortPosts, coreContent, allCoreContent } from 'pliny/utils/contentlayer'
-// import { allBlogs, allAuthors } from 'contentlayer/generated'
-// import { allBlogs } from 'contentlayer/generated'
-// import type { Authors, Blog } from 'contentlayer/generated'
+// import 'katex/dist/katex.css'  
+
+import PageTitle from '@/app/components/ui/PageTitle'
+
 import PostSimple from '@/layouts/PostSimple'
 import PostLayout from '@/layouts/PostLayout'
 import PostBanner from '@/layouts/PostBanner'
-// import { Metadata } from 'next'
+import { Metadata } from 'next'
 import siteMetadata from '@/data/siteMetadata'  
 // import { notFound } from 'next/navigation'
 // import { useGlobalState } from '@/app/context/globalProvider'
 // import prisma from '@/data/prisma'
 import axios from 'axios'
-import Button from '@/app/components/common/Button'
+import Button from '@/app/components/ui/Button'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import DownloadButton from '@/app/components/common/DownloadButton'
@@ -112,14 +108,20 @@ const axiosInstant = axios.create({
 // export const generateStaticParams = async () => {
 //   const paths = allBlogs.map((p) => ({ slug: p.slug.split('/')}))
 //   return paths
-// }
+// } 
 
-export default async function Page({ params }: { params: { slug: string[] } }) {
-  const slug = decodeURI(params.slug.join('/'))
-  const Layout = layouts["PostLayout"]
+  //   params,
+  // }: {
+  //   params: { slug: string[] }
+  // }): Promise<Metadata | undefined> {
+
+export default  async function Page({params }: {params: { slug: string[] }}) {
+  const id = (await params).slug
+  const slug = decodeURI(id.join('/'))
+  const Layout = layouts["PostLayout"]   
   // const [book, setBook] = useState<BookResponse | null>(null);
-  const response = await axiosInstant.get('/api/blog', { params: { id: slug } });
-  const book  = response.data;
+  const response =  axiosInstant.get('/api/blog', { params: { id: slug } });
+  const book  = (await response).data;
   if (!book) {
     return <div>No data available</div>;
   }

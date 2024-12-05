@@ -1,4 +1,4 @@
-import Link from './Link'
+import Link from './ui/Link'
 import siteMetadata from '@/data/siteMetadata'
 import SocialIcon from '@/app/components/social-icons'
 

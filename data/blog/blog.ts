@@ -6,7 +6,7 @@ import { createServer } from 'http'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type PrismaTypes from '../../prisma/generated'
 import prisma from '../prisma'
-
+    
 const builder = new SchemaBuilder<{
   PrismaTypes: PrismaTypes
 }>({

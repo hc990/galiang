@@ -1,12 +1,12 @@
 import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
-import Link from './Link'
-import MobileNav from './MobileNav'
-import ThemeSwitch from './ThemeSwitch'
-import SearchButton from './SearchButton'
+import Link from './ui/Link'
+import MobileNav from './ui/MobileNav'
+import ThemeSwitch from './ui/ThemeSwitch'
+import SearchButton from './ui/SearchButton'
 import Image from "next/image";
 import { LuLogIn } from "react-icons/lu";
-// import { UserButton } from '@clerk/nextjs'
+import { UserButton } from '@clerk/nextjs'
 const Header = () => {
   return (
     <header className="flex py-6 space-x-3 items-center">

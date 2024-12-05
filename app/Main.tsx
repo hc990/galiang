@@ -1,13 +1,10 @@
-"use client";
-
-import Link from '@/app/components/Link'
+'use client'; 
+import Link from '@/app/components/ui/Link'
 import siteMetadata from '@/data/siteMetadata'
-import { useGlobalState } from './context/globalProvider';
+import { useGlobalState } from './context/globalProvider'
 import formatDate from '@/app/utils/formatDate'
 import Image from "next/image";
-
 const MAX_DISPLAY = 5
-
 export default function Home() {
   const { books } = useGlobalState();
   return (

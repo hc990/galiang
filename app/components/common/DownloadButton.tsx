@@ -2,7 +2,7 @@
 
 import { LuDownload } from "react-icons/lu";
 import React, { useState } from 'react';
-import Button from "./Button";
+import Button from '@/app/components/ui/Button'
 type ButtonProps = {
     slug?: any,
     children: any

@@ -1,6 +1,6 @@
 import rehypeParse from 'rehype-parse'
 import rehypeRemark from 'rehype-remark'
-import remarkHtml from 'remark-html'
+import remarkHtml from 'remark-html'  
 import remarkParse from 'remark-parse'
 import remarkStringify from 'remark-stringify'
 import { unified } from 'unified'
@@ -16,7 +16,7 @@ export function markdownFromHTML(html: string): string {
 
 export function htmlFromMarkdown(markdown: string): string {
   return unified()
-    // .use(remarkHtml) 
+    .use(remarkHtml) 
     .use(remarkParse)
     // .use(remarkHtml) 
     .processSync(markdown)

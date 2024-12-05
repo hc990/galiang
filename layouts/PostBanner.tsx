@@ -3,11 +3,11 @@ import { ReactNode } from 'react'
 // import { CoreContent } from 'pliny/utils/contentlayer'
 // import type { Blog } from 'contentlayer/generated'
 import Comments from '@/app/components/Comments'
-import Link from '@/app/components/Link'
-import PageTitle from '@/app/components/PageTitle'
-import SectionContainer from '@/app/components/SectionContainer'
+import Link from '@/app/components/ui/Link'
+import PageTitle from '@/app/components/ui/PageTitle'
+import SectionContainer from '@/app/components/ui/SectionContainer'
 import siteMetadata from '@/data/siteMetadata'
-import ScrollTopAndComment from '@/app/components/ScrollTopAndComment'
+import ScrollTopAndComment from '@/app/components/ui/ScrollTopAndComment'
 
 interface LayoutProps {
   book: { size:number, name:string, bookname:string, createAt:any }

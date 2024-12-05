@@ -1,22 +1,18 @@
 'use client';
 import React from 'react';
-import { GlobalContext, useGlobalState } from '@/app/context/globalProvider';  
-import { useRouter,usePathname } from 'next/navigation';
+import { GlobalContext, useGlobalState } from '@/app/context/globalProvider'
+import { useRouter,usePathname } from 'next/navigation'
 // import Image from "next/image";  
-import menu from '@/app/utils/menu';
-import Link from 'next/link';
-import Button from '@/app/components/common/Button';
-import {MdInfo} from 'react-icons/md'
+import menu from '@/app/utils/menu'
+import Link from 'next/link'
+import Button from '@/app/components/ui/Button'
 // import { HiPlus } from "react-icons/hi"
-import { LuPanelLeft } from 'react-icons/lu'
-// import { useState } from 'react'
-import { IoChevronDownSharp ,IoChevronForward} from 'react-icons/io5'
-// import { IoChevronForward } from "react-icons/io5"
-// import { UserButton, useClerk, useUser } from "@clerk/nextjs";
+import { LuLogOut, LuChevronsDown, LuPanelLeftClose, LuPanelLeftOpen, LuChevronsRight} from 'react-icons/lu'
+import { UserButton, useClerk, useUser } from "@clerk/nextjs";
 
 function Sidebar() {
-  // const { signOut } = useClerk();
-  // const { user } = useUser();
+  const { signOut } = useClerk();
+  const { user } = useUser();
   const { 
     collapsed,
     collapseMenu,
@@ -50,7 +46,7 @@ function Sidebar() {
         </div>  
         <div className='flex space-x-2'>
           <Button
-            icon={IoChevronDownSharp}
+            icon={LuChevronsDown}
             variant='text'
             className={`${
               show ? '' : 'hidden'
@@ -61,10 +57,10 @@ function Sidebar() {
              }
             }
           >
-          {collapsed ? '隐藏目录' : '显示目录'}
+          {show ? '隐藏目录' : '显示目录'}
           </Button>
           <Button 
-            icon={LuPanelLeft}
+            icon={show? LuPanelLeftClose:LuPanelLeftOpen}
             variant='outline'
             onClick={() => {
               changeShow()
@@ -83,7 +79,7 @@ function Sidebar() {
               }`}
               onClick={() => handleClick(item.link)}
             >
-              <IoChevronForward></IoChevronForward>
+              <LuChevronsRight></LuChevronsRight>
               <Link className="font-medium flex-1 whitespace-nowrap overflow-hidde" href={item.link}>
               {item.title}
               </Link>
@@ -91,17 +87,17 @@ function Sidebar() {
           ))}
         </ul>
       </div>
-      <div className="px-4 pb-4">
+      <div className="absolute py-80 px-4 pb-4">
         <div className="mt-8">
           <Button
-             icon={MdInfo}
+             icon={LuLogOut}
              variant='outline'
-            //  onClick={() => {
-            //   signOut(() => router.push("/signin"));
-            // }
-          // }
+             onClick={() => {
+              signOut(() => router.push("/signin"));
+            }
+          }
           >
-          </Button>
+          </Button> 
         </div>
       </div>
     </nav>

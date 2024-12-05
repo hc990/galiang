@@ -1,5 +1,5 @@
-import Link from 'app/components/Link'
-import Tag from 'app/components/Tag'
+import Link from '@/app/components/ui/Link'
+import Tag from '@/app/components/ui/Tag'
 import { slug } from 'github-slugger'
 import tagData from 'app/tag-data.json'
 import { genPageMetadata } from 'app/seo'

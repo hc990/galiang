@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 // import type { Authors } from 'contentlayer/generated'
 import SocialIcon from '@/app/components/social-icons'
-import Image from '@/app/components/Image'
+import Image from '@/app/components/ui/Image'
 
 interface Props {
   children: ReactNode

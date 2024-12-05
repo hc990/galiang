@@ -1,19 +1,17 @@
 import SMB2 from '@tryjsky/v9u-smb2';
 import path from 'path';
-import { execSync } from 'child_process';
 import { NextResponse } from 'next/server';
 import axios from 'axios';
 import siteMetadata from '@/data/siteMetadata';
-execSync('node --max-old-space-size=4096');
 
 const MAX_RETRIES = 3;
-const RETRY_DELAY = 30000; // 2 seconds
+const RETRY_DELAY = 3000; // 3 seconds
 const axiosInstant = axios.create({
-  baseURL: siteMetadata.siteUrl ,
-  timeout: 3000
+  baseURL: siteMetadata.siteUrl,
+  timeout: 3000,
 });
 
-function getSmb2Client(){
+function getSmb2Client() {
   return new SMB2({
     share: siteMetadata.nas.share,
     domain: siteMetadata.nas.domain,
@@ -22,81 +20,87 @@ function getSmb2Client(){
   });
 }
 
-async function withRetries(operation: () => any, maxRetries: number, delay: number | undefined) {
+async function withRetries<T>(operation: () => Promise<T>, maxRetries: number, delay: number): Promise<T> {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       return await operation();
     } catch (err) {
       if (attempt === maxRetries) throw err;
       console.warn(`Attempt ${attempt} failed. Retrying in ${delay}ms...`);
-      await new Promise(resolve => setTimeout(resolve, delay));
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
-  }  
+  }
+  throw new Error('Operation failed after all retries');
 }
 
-export async function GET(req:Request): Promise<Response> {
+export async function GET(req: Request): Promise<Response> {
   const { searchParams } = new URL(req.url);
   const slug = searchParams.get('slug');
-  const book = await axiosInstant.get("/api/blog",{ params: { id: slug }});
-  const smb2Client = await getSmb2Client();   
-  return new Promise((resolve) => {
-    const buffers: any[] | Uint8Array[] = [];
-    const naspath = path.join('books', book.data.oribookname);
-    console.info(naspath)
-    withRetries(() => smb2Client.createReadStream(naspath, (err, readStream) => {
-      if (err) {
-        console.error('Error creating read stream:', err);
-        smb2Client.disconnect();
-        return resolve(NextResponse.json({ error: 'Failed to create read stream' }, { status: 500 }));
-      }
+  const smb2Client = getSmb2Client();
 
-      readStream?.on('data', (chunk) => {
-        buffers.push(chunk);
-      });
+  try {
+    const book = await axiosInstant.get('/api/blog', { params: { id: slug } });
+    const nasPath = path.join('books', path.basename(book.data.oribookname));
 
-      readStream?.on('end', () => {
-        const fileBuffer = Buffer.concat(buffers);
-        smb2Client.disconnect();
-        const response = new NextResponse(fileBuffer);
-        response.headers.set('Content-Disposition', `attachment; filename="${encodeURIComponent(book.data.bookname)}"`);
-        response.headers.set('Content-Type', 'application/octet-stream');
-        return resolve(response);
-      });
+    console.info('Reading from NAS:', nasPath);
 
-      readStream?.on('error', (err) => {
-        console.error('Read stream error:', err);
-        smb2Client.disconnect();
-        resolve(NextResponse.json({ error: 'Read stream error' }, { status: 500 }));
-      });
-    }), MAX_RETRIES, RETRY_DELAY);  
-    // smb2Client.createReadStream(naspath, (err, readStream) => {
-    //   if (err) {
-    //     console.error('Error creating read stream:', err);
-    //     smb2Client.disconnect();
-    //     return resolve(NextResponse.json({ error: 'Failed to create read stream' }, { status: 500 }));
-    //   }
+ 
+    // 获取文件大小
+    const fileStats = await withRetries(
+      () =>
+        new Promise((resolve, reject) => {
+          smb2Client.stat(nasPath, (err, stats) => {
+            if (err) return reject(err);
+            resolve(stats);
+          });
+        }),
+      MAX_RETRIES,
+      RETRY_DELAY
+    );
 
-    //   readStream?.on('data', (chunk) => {
-    //     buffers.push(chunk);
-    //   });
+    let fileSize = 0;
+    if (fileStats && typeof fileStats === 'object' && 'size' in fileStats) {
+      fileSize = (fileStats as { size: number }).size;
+    }
 
-    //   readStream?.on('end', () => {
-    //     const fileBuffer = Buffer.concat(buffers);
-    //     smb2Client.disconnect();
-    //     const response = new NextResponse(fileBuffer);
-    //     response.headers.set('Content-Disposition', `attachment; filename="${encodeURIComponent(book.data.bookname)}"`);
-    //     response.headers.set('Content-Type', 'application/octet-stream');
-    //     resolve(response);
-    //   });
+    const stream = new ReadableStream({ // 返回流响应
+      async start(controller) {
+        await withRetries(
+          () =>
+            new Promise((resolve, reject) => {
+              smb2Client.createReadStream(nasPath, (err, readStream) => {
+                if (err) return reject(err);
 
-    //   readStream?.on('error', (err) => {
-    //     console.error('Read stream error:', err);
-    //     smb2Client.disconnect();
-    //     resolve(NextResponse.json({ error: 'Read stream error' }, { status: 500 }));
-    //   });
-    // });
-   
+                readStream?.on('data', (chunk) => controller.enqueue(chunk));
+                readStream?.on('end', () => {
+                  controller.close();
+                  resolve(null);
+                });
+                readStream?.on('error', (err) => {
+                  controller.error(err);
+                  reject(err);
+                });
+              });
+            }),
+          MAX_RETRIES,
+          RETRY_DELAY
+        );
+      },
+    });
+
+    // 创建响应并设置头部
+    const response = new NextResponse(stream);
+    response.headers.set('Content-Disposition', `attachment; filename="${encodeURIComponent(book.data.bookname)}"`);
+    response.headers.set('Content-Type', 'application/octet-stream');
+    if (fileSize && fileSize > 0) {
+      response.headers.set('Content-Length', fileSize.toString());
+    }
+
+    return response;
+  } catch (error) {
+    console.error('Error during file download:', error);
+    return NextResponse.json({ error: 'Failed to download file' }, { status: 500 });
+  } finally {
     smb2Client.disconnect();
-    return resolve(NextResponse.json({ error: 'stream wrong'}, { status: 500 }));
-  });
+  }
 }

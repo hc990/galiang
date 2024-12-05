@@ -1,6 +1,4 @@
-
-
-import Button from "@/app/components/common/Button"
+import Button from '@/app/components/ui/Button'
 import { HiPlus } from "react-icons/hi"
 import { LuPanelLeft } from "react-icons/lu"
 

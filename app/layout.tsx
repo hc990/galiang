@@ -2,7 +2,7 @@
 import 'css/tailwind.css'
 // import { Space_Grotesk } from 'next/font/google'
 import Header from '@/app/components/Header'
-import SectionContainer from '@/app/components/SectionContainer'
+import SectionContainer from '@/app/components/ui/SectionContainer'
 import Footer from '@/app/components/Footer'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemesProvider } from '@/app/providers/ThemesProvider'
@@ -11,13 +11,16 @@ import Sidebar from '@/app/components/navigation/Sidebar'
 import ContextProvider from './providers/ContextProvider'  
 import { SearchProvider,SearchConfig } from './components/search/SearchProvider'
 // import { useGlobalState } from '@/app/context/globalProvider'
-// import { ClerkProvider, auth } from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 // const space_grotesk = Space_Grotesk({
 //   subsets: ['latin'],
 //   display: 'swap',  
 //   variable: '--font-space-grotesk',
 // })
-
+import { NextResponse } from "next/server";
+import { redirect } from 'next/navigation'
+import SignIn from './signin/page'
 export const metadata: Metadata = {
   metadataBase: new URL(siteMetadata.siteUrl),
   title: {
@@ -58,14 +61,13 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   // const { books } = useGlobalState();
   // const { userId } = auth();
-  // if (!userId) {
-  //   return new Response('Unauthorized', { status: 401 });
-  // }
+  const { userId, redirectToSignIn } = await auth()
+  const isAuthenticated = Boolean(userId);
   return (
-   // <ClerkProvider>
+   <ClerkProvider> 
     <html
       lang={siteMetadata.language}
       // className={`${space_grotesk.variable} scroll-smooth`}
@@ -90,9 +92,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
                   <Header />    
                     <div className="flex space-x-5 mb-auto">
-                      <Sidebar />
-                      {/* {userId && <Sidebar />} */}
-                      <main>{children}</main> 
+                    <Sidebar />
+                      {isAuthenticated ? <main>{children}</main> : <SignIn />}
                     </div>
                   <Footer />
                 </SearchProvider>
@@ -102,6 +103,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </ContextProvider>
       </body>
     </html>
-     
+   </ClerkProvider>
   )
 }

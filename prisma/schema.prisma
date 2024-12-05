@@ -17,11 +17,6 @@ type SessionsFlash {
   notice String[]
 }
 
-type UsersHistory {
-  last_login DateTime @db.Date
-  num_logins Float
-}
-
 model authors {
   id         String @id @default(auto()) @map("_id") @db.ObjectId
   avatar     String
@@ -84,12 +79,31 @@ model sessions {
   username       String?
 }
 
-model users {
+model User {
   id         String       @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
   created_at DateTime     @db.Date
   history    UsersHistory
   password   String
   roles      String[]
+  isSubscribed      Boolean   @default(false)
+  subscriptionEnds  DateTime?
   status     Float
   username   String
+  todos     Todo[]
+}
+
+type UsersHistory {
+  last_login DateTime @db.Date
+  num_logins Float
+}
+
+model Todo {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  completed Boolean  @default(false)
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

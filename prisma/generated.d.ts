@@ -1,5 +1,5 @@
 /* eslint-disable */
-import type { Prisma, authors, bookcode, books, captcha, movies, sessions, users } from "/Users/huangchong/Documents/workspace/galiang/node_modules/@prisma/client";
+import type { Prisma, authors, bookcode, books, captcha, movies, sessions, User, Todo } from "/Users/huangchong/Documents/workspace/galiang/node_modules/@prisma/client";
 export default interface PrismaTypes {
     authors: {
         Name: "authors";
@@ -85,18 +85,44 @@ export default interface PrismaTypes {
         ListRelations: never;
         Relations: {};
     };
-    users: {
-        Name: "users";
-        Shape: users;
-        Include: never;
-        Select: Prisma.usersSelect;
-        OrderBy: Prisma.usersOrderByWithRelationInput;
-        WhereUnique: Prisma.usersWhereUniqueInput;
-        Where: Prisma.usersWhereInput;
+    User: {
+        Name: "User";
+        Shape: User;
+        Include: Prisma.UserInclude;
+        Select: Prisma.UserSelect;
+        OrderBy: Prisma.UserOrderByWithRelationInput;
+        WhereUnique: Prisma.UserWhereUniqueInput;
+        Where: Prisma.UserWhereInput;
         Create: {};
         Update: {};
-        RelationName: never;
+        RelationName: "todos";
+        ListRelations: "todos";
+        Relations: {
+            todos: {
+                Shape: Todo[];
+                Name: "Todo";
+                Nullable: false;
+            };
+        };
+    };
+    Todo: {
+        Name: "Todo";
+        Shape: Todo;
+        Include: Prisma.TodoInclude;
+        Select: Prisma.TodoSelect;
+        OrderBy: Prisma.TodoOrderByWithRelationInput;
+        WhereUnique: Prisma.TodoWhereUniqueInput;
+        Where: Prisma.TodoWhereInput;
+        Create: {};
+        Update: {};
+        RelationName: "user";
         ListRelations: never;
-        Relations: {};
+        Relations: {
+            user: {
+                Shape: User;
+                Name: "User";
+                Nullable: false;
+            };
+        };
     };
 }

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import { MdOutlineWbSunny } from "react-icons/md"
 import { IoMdMoon } from "react-icons/io";
-import Button from "@/app/components/common/Button";
+import Button from '@/app/components/ui/Button'
 const ThemeSwitch = () => {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme, resolvedTheme } = useTheme()
