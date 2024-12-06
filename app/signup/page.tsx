@@ -1,21 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
+'use client'
 
 import { useState } from "react"
 import { useSignUp } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { Input } from "../../components/ui/Input"
-import Button from "../../components/ui/Button"
+import { Input } from "../components/ui/Input"
+import Button from "../components/ui/Button"
 import {
   Card,
   CardHeader,
   CardTitle,
   CardContent,
   CardFooter,
-} from "../../components/ui/Card"
-import { Label } from "../../components/ui/Label"
-import { Alert, AlertDescription } from "../../components/ui/Alert"
+} from "../components/ui/Card"
+import { Label } from "../components/ui/Label"
+import { Alert, AlertDescription } from "../components/ui/Alert"
 import { LuEye, LuEyeOff } from "react-icons/lu"
 export default function SignUp() {
   const { isLoaded, signUp, setActive } = useSignUp()
@@ -74,16 +74,16 @@ export default function SignUp() {
       setError(err.errors[0].message);
     }
   }
-
+  
   return (
-    <div className="flex items-center justify-center min-h-screen bg-background">
+    <div className="flex items-start justify-center min-h-screen bg-background">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center">
             Sign Up for Galiang
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent>  
           {!pendingVerification ? (
             <form onSubmit={submit} className="space-y-4">
               <div className="space-y-2">

@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import { useState, useEffect, FC, ReactNode } from 'react'
 import type { Action } from 'kbar'
 import { KBarProvider } from 'kbar'
@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation.js'
 import { KBarModal } from './KBarModal'
 import axios from "axios";
 import  formatDate from '@/app/utils/formatDate'
-
+import { auth } from "@clerk/nextjs/server"
 
 export interface KBarSearchProps {
   // searchDocumentsPath: string | false

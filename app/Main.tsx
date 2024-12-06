@@ -5,8 +5,14 @@ import { useGlobalState } from './context/globalProvider'
 import formatDate from '@/app/utils/formatDate'
 import Image from "next/image";
 const MAX_DISPLAY = 5
+
+
+
 export default function Home() {
   const { books } = useGlobalState();
+  if(!books || books.length === 0) {
+    return <div>No books found.</div>;
+  }
   return (
     <>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -19,8 +25,7 @@ export default function Home() {
           </p> */}
         </div>
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-          {!books.length && 'No books found.'}
-          {books.slice(0, MAX_DISPLAY).map((book: { id: any; slug: any; createAt: any; name: any; summary: any; tags: any; size: any; }) => {  
+        {books && books.length > 0 && books?.slice(0, MAX_DISPLAY).map((book: { id: any; slug: any; createAt: any; name: any; summary: any; tags: any; size: any; }) => {  
             const { id, slug, createAt, name, summary, tags, size } = book
             return (
               <li key={id} className="py-12">

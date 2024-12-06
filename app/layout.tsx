@@ -11,16 +11,20 @@ import Sidebar from '@/app/components/navigation/Sidebar'
 import ContextProvider from './providers/ContextProvider'  
 import { SearchProvider,SearchConfig } from './components/search/SearchProvider'
 // import { useGlobalState } from '@/app/context/globalProvider'
+// import { useRouter } from 'next/navigation';
 import { ClerkProvider } from "@clerk/nextjs";
-import { auth } from "@clerk/nextjs/server";
+
 // const space_grotesk = Space_Grotesk({
 //   subsets: ['latin'],
 //   display: 'swap',  
 //   variable: '--font-space-grotesk',
 // })
-import { NextResponse } from "next/server";
-import { redirect } from 'next/navigation'
+// import { NextResponse } from "next/server";
+// import { redirect } from 'next/navigation'
 import SignIn from './signin/page'
+import SignUp from './signup/page'
+
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteMetadata.siteUrl),
   title: {
@@ -64,8 +68,10 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   // const { books } = useGlobalState();
   // const { userId } = auth();
-  const { userId, redirectToSignIn } = await auth()
-  const isAuthenticated = Boolean(userId);
+  // const url = 
+  // const { userId, redirectToSignIn } = await auth()
+  // const router = useRouter();
+  // const isAuthenticated = Boolean(userId);
   return (
    <ClerkProvider> 
     <html
@@ -73,7 +79,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       // className={`${space_grotesk.variable} scroll-smooth`}
       className={`scroll-smooth`}
       suppressHydrationWarning
-    >
+    >   
       <link rel="apple-touch-icon" sizes="76x76" href="/static/favicons/apple-touch-icon.png" />
       <link rel="icon" type="image/png" sizes="32x32" href="/static/favicons/favicon-32x32.png" />
       <link rel="icon" type="image/png" sizes="16x16" href="/static/favicons/favicon-16x16.png" />
@@ -92,8 +98,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
                   <Header />    
                     <div className="flex space-x-5 mb-auto">
-                    <Sidebar />
-                      {isAuthenticated ? <main>{children}</main> : <SignIn />}
+                      <Sidebar />
+                      <main>{children}</main>
                     </div>
                   <Footer />
                 </SearchProvider>
