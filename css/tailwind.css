@@ -6,7 +6,7 @@
   @apply hidden;
 }
 
-.task-list-item {
+.task-list-item {  
   @apply list-none;
 }
 
