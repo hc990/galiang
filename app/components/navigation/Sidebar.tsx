@@ -11,8 +11,8 @@ import { LuLogOut, LuChevronsDown, LuPanelLeftClose, LuPanelLeftOpen, LuChevrons
 import { UserButton, useClerk, useUser } from "@clerk/nextjs";
 
 function Sidebar() {
-  const { signOut } = useClerk();
-  const { user } = useUser();
+  // const { signOut } = useClerk();
+  // const { user } = useUser();
   const { 
     collapsed,
     collapseMenu,
@@ -89,15 +89,7 @@ function Sidebar() {
       </div>
       <div className="absolute py-80 px-4 pb-4">
         <div className="mt-8">
-          <Button
-             icon={LuLogOut}
-             variant='outline'
-             onClick={() => {
-              signOut(() => router.push("/signin"));
-            }
-          }
-          >
-          </Button> 
+       
         </div>
       </div>
     </nav>

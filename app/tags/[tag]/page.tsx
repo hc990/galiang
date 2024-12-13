@@ -34,13 +34,14 @@ import { useGlobalState } from '@/app/context/globalProvider'
 //   return paths
 // }
 
-export default function TagPage({ params }: { params: { tag: string } }) {
+export default async function TagPage( props : { params: Promise<{ tag: string }> }) {
+  const slug = await props.params;
   const { books } = useGlobalState();
-  const tag = decodeURI(params.tag)
+  const tag = decodeURI(slug.tag)
   const title = tag[0].toUpperCase() + tag.split(' ').join('-').slice(1)
   const filteredPosts: never[] = []  
   
-  //u need search books with tags
+  // u need search books with tags
 
   return <ListLayout title={ title } books={ books } initialDisplayBooks={ books }  />
 }

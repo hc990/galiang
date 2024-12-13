@@ -1,4 +1,3 @@
-
 import 'css/tailwind.css'
 // import { Space_Grotesk } from 'next/font/google'
 import Header from '@/app/components/Header'
@@ -10,20 +9,7 @@ import { Metadata } from 'next'
 import Sidebar from '@/app/components/navigation/Sidebar'
 import ContextProvider from './providers/ContextProvider'  
 import { SearchProvider,SearchConfig } from './components/search/SearchProvider'
-// import { useGlobalState } from '@/app/context/globalProvider'
-// import { useRouter } from 'next/navigation';
 import { ClerkProvider } from "@clerk/nextjs";
-
-// const space_grotesk = Space_Grotesk({
-//   subsets: ['latin'],
-//   display: 'swap',  
-//   variable: '--font-space-grotesk',
-// })
-// import { NextResponse } from "next/server";
-// import { redirect } from 'next/navigation'
-import SignIn from './signin/page'
-import SignUp from './signup/page'
-
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteMetadata.siteUrl),
@@ -64,16 +50,10 @@ export const metadata: Metadata = {
     images: [siteMetadata.socialBanner],
   },
 }
-
+// const { userId } = await auth()
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  // const { books } = useGlobalState();
-  // const { userId } = auth();
-  // const url = 
-  // const { userId, redirectToSignIn } = await auth()
-  // const router = useRouter();
-  // const isAuthenticated = Boolean(userId);
   return (
-   <ClerkProvider> 
+   <ClerkProvider >
     <html
       lang={siteMetadata.language}
       // className={`${space_grotesk.variable} scroll-smooth`}
@@ -93,10 +73,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <ContextProvider>
          <ThemesProvider>
           {/* <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} /> */}
-            <SectionContainer>  
+            <SectionContainer>
               <div className="flex h-screen flex-col justify-between font-sans">
                 <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
-                  <Header />    
+                    <div className="flex items-center space-x-5 flex-nowrap mb-auto">
+                         <Header />   
+                    </div>
                     <div className="flex space-x-5 mb-auto">
                       <Sidebar />
                       <main>{children}</main>

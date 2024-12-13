@@ -12,8 +12,8 @@ import ScrollTopAndComment from '@/app/components/ui/ScrollTopAndComment'
 import formatDate from '@/app/utils/formatDate'
 // import Button from '@/app/components/common/Button'
 
-const editUrl = (path: string) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
-const discussUrl = (path: string) =>``
+// const editUrl = (path: string) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
+// const discussUrl = (path: string) =>``
 const postDateTemplate: Intl.DateTimeFormatOptions = {
   weekday: 'long',
   year: 'numeric',

@@ -9,13 +9,14 @@ const POSTS_PER_PAGE = 5
 //   const paths = Array.from({ length: totalPages }, (_, i) => ({ page: (i + 1).toString() }))
 //   return paths
 // }
-export default function Page({ params }: { params: { page: string } }) {
+export default async function Page( props : { params: Promise<{ page: string }> }) {
+  const slug = await props.params;
   const { books, booksNum } = useGlobalState();
 
   const totalPages = Math.ceil(booksNum / POSTS_PER_PAGE)
   const paths = Array.from({ length: totalPages }, (_, i) => ({ page: (i + 1).toString() }))
   // const posts = allBooks
-  const pageNumber = parseInt(params.page as string)
+  const pageNumber = parseInt(slug.page as string)
   const initialDisplayBooks = books.slice(
     POSTS_PER_PAGE * (pageNumber - 1),
     POSTS_PER_PAGE * pageNumber

@@ -1,14 +1,15 @@
-'use client'; 
+'use client'
 import Link from '@/app/components/ui/Link'
 import siteMetadata from '@/data/siteMetadata'
 import { useGlobalState } from './context/globalProvider'
 import formatDate from '@/app/utils/formatDate'
-import Image from "next/image";
-const MAX_DISPLAY = 5
-
+import Image from "@/app/components/ui/Image";
+import { useUser } from '@clerk/nextjs'
 
 
 export default function Home() {
+  const MAX_DISPLAY = 5
+  const { user } = useUser();
   const { books } = useGlobalState();
   if(!books || books.length === 0) {
     return <div>No books found.</div>;
@@ -16,13 +17,15 @@ export default function Home() {
   return (
     <>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-0.25 pb-6 pt-4 md:space-y-1">
+        <div className="flex space-x-12 md:space-x-16 lg:space-x-18 items-end space-y-0.25 pb-6 pt-4 md:space-y-1"> 
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14">
-             金鼎店
+             金鼎店   
           </h1>
-          {/* <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            {siteMetadata.description}
-          </p> */}
+          
+          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
+          Welcome, {user?.firstName}!
+            {/* {siteMetadata.description} */}
+          </p>
         </div>
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
         {books && books.length > 0 && books?.slice(0, MAX_DISPLAY).map((book: { id: any; slug: any; createAt: any; name: any; summary: any; tags: any; size: any; }) => {  
@@ -62,9 +65,9 @@ export default function Home() {
                           <Image  
                               src= "/static/images/avatar.png"
                               alt="标记"  
-                              width={150} 
-                              height={180}
-                              objectFit="cover"
+                              width= {180}
+                              height=  {180}
+                              // objectFit="cover"
                           />
                         </div>
                       </div>
