@@ -22,7 +22,7 @@ const postDateTemplate: Intl.DateTimeFormatOptions = {
 }
 
 interface LayoutProps {
-  book: { size: number, name: string, bookname: string, createAt: string, comment:any },
+  book: { id: any, size: number, name: string, bookname: string, createAt: string, comment:any },
   // authorDetails: []
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
@@ -32,7 +32,7 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ slug , book, path, next, prev, children }: LayoutProps) {
-  const { size, name, bookname, createAt, comment } = book
+  const { id, size, name, bookname, createAt, comment } = book
   const basePath = path.split('/')[0]
   return (
     <SectionContainer>
@@ -94,7 +94,7 @@ export default function PostLayout({ slug , book, path, next, prev, children }: 
             <div className='divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0'>
               <div className='space-y-5 pt-2 pb-2'>
                 <Image
-                  src={'/static/images/avatar.png'}
+                  src={'/thumbnail/'+ id +'.png'}  
                   width={160}
                   height={160}
                   alt='avatar'    

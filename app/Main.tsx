@@ -21,7 +21,6 @@ export default function Home() {
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14">
              金鼎店   
           </h1>
-          
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
           Welcome, {user?.firstName}!
             {/* {siteMetadata.description} */}
@@ -55,7 +54,7 @@ export default function Home() {
                         <div className="prose max-w-none text-gray-500 dark:text-gray-400">
                             {/* {tags.m=-ap((tag) => (
                               <Tag key={tag} text={tag} />
-                            ))} */}
+                            ))} */} 
                            中文  小说  历史  创意 |  { Math.round(size) }MB
                         </div>
                         <div className="prose max-w-none text-gray-500 dark:text-gray-400">
@@ -63,7 +62,7 @@ export default function Home() {
                         </div>
                         <div className="prose max-w-none">
                           <Image  
-                              src= "/static/images/avatar.png"
+                              src= {'/thumbnail/'+ id +'.png'}  
                               alt="标记"  
                               width= {180}
                               height=  {180}

@@ -4,7 +4,7 @@ COPY package*.json ./
 COPY .env .env
 RUN npm cache verify
 RUN npm install --only=production
-RUN npx prisma generate
 COPY . .
+RUN npx prisma generate
 EXPOSE 3000
 CMD ["npm", "start"]

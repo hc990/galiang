@@ -15,10 +15,10 @@ const axiosInstant = axios.create({
 
 async function getSmb2Client() {
   const smb2Client = new SMB2({
-    share: siteMetadata.nas.share,
-    domain: siteMetadata.nas.domain,
-    username: siteMetadata.nas.username,
-    password: siteMetadata.nas.password,
+    share: '',
+    domain: '',
+    username: '',
+    password: '',
   });
   return smb2Client;
 }

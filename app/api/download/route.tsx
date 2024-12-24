@@ -1,8 +1,9 @@
-import SMB2 from '@tryjsky/v9u-smb2';
+// import SMB2 from '@tryjsky/v9u-smb2';
 import path from 'path';
 import { NextResponse } from 'next/server';
 import axios from 'axios';
 import siteMetadata from '@/data/siteMetadata';
+import fs from 'fs';
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 3000; // 3 seconds
@@ -10,15 +11,6 @@ const axiosInstant = axios.create({
   baseURL: siteMetadata.siteUrl,
   timeout: 3000,
 });
-
-function getSmb2Client() {
-  return new SMB2({
-    share: siteMetadata.nas.share,
-    domain: siteMetadata.nas.domain,
-    username: siteMetadata.nas.username,
-    password: siteMetadata.nas.password,
-  });
-}
 
 async function withRetries<T>(operation: () => Promise<T>, maxRetries: number, delay: number): Promise<T> {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
@@ -36,71 +28,61 @@ async function withRetries<T>(operation: () => Promise<T>, maxRetries: number, d
 export async function GET(req: Request): Promise<Response> {
   const { searchParams } = new URL(req.url);
   const slug = searchParams.get('slug');
-  const smb2Client = getSmb2Client();
-
   try {
     const book = await axiosInstant.get('/api/blog', { params: { id: slug } });
-    const nasPath = path.join('books', path.basename(book.data.oribookname));
-
-    console.info('Reading from NAS:', nasPath);
-
- 
+    // const nasPath = path.join(siteMetadata.nas.share, path.basename(book.data.oribookname));
+    const nasPath = path.join(siteMetadata.nas.share, path.basename(book.data.oribookname));
     // 获取文件大小
     const fileStats = await withRetries(
       () =>
         new Promise((resolve, reject) => {
-          smb2Client.stat(nasPath, (err, stats) => {
-            if (err) return reject(err);
-            resolve(stats);
-          });
+            fs.stat(nasPath, (err, stats) => {
+                console.log(stats);
+                resolve(stats);
+            });
         }),
       MAX_RETRIES,
       RETRY_DELAY
     );
-
     let fileSize = 0;
     if (fileStats && typeof fileStats === 'object' && 'size' in fileStats) {
       fileSize = (fileStats as { size: number }).size;
     }
-
-    const stream = new ReadableStream({ // 返回流响应
+    const stream = new ReadableStream({  
       async start(controller) {
         await withRetries(
           () =>
             new Promise((resolve, reject) => {
-              smb2Client.createReadStream(nasPath, (err, readStream) => {
-                if (err) return reject(err);
-
-                readStream?.on('data', (chunk) => controller.enqueue(chunk));
+                const readStream =  fs.createReadStream(nasPath);
+                readStream?.on('data', (chunk) => {
+                    controller.enqueue(chunk) ;  
+                    console.log('Chunk received:', chunk.length);
+                });
                 readStream?.on('end', () => {
-                  controller.close();
-                  resolve(null);
+                    controller.close();
+                    resolve(null);
                 });
                 readStream?.on('error', (err) => {
-                  controller.error(err);
-                  reject(err);
+                    controller.error(err);
+                    reject(err);
                 });
-              });
             }),
           MAX_RETRIES,
           RETRY_DELAY
         );
       },
     });
-
-    // 创建响应并设置头部
-    const response = new NextResponse(stream);
+    const response = new NextResponse(stream, { status: 200 });
     response.headers.set('Content-Disposition', `attachment; filename="${encodeURIComponent(book.data.bookname)}"`);
     response.headers.set('Content-Type', 'application/octet-stream');
     if (fileSize && fileSize > 0) {
-      response.headers.set('Content-Length', fileSize.toString());
+        response.headers.set('Content-Length', fileSize.toString());
     }
-
-    return response;
+    return response
   } catch (error) {
     console.error('Error during file download:', error);
     return NextResponse.json({ error: 'Failed to download file' }, { status: 500 });
   } finally {
-    smb2Client.disconnect();
+    
   }
 }

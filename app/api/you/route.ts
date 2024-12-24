@@ -1,47 +1,42 @@
 import prisma from "@/data/prisma";
-import { currentUser, auth } from '@clerk/nextjs/server'
 import { NextRequest,NextResponse } from "next/server";
 
 
 export async function POST(req: Request) {
   try{
-    const { 
-        bookname,
+    const {  
         createAt,
-        extend,  
-        name,     
-        oribookname,
-        serial,      
-        size,     
-        status,  
-        comment
+        name,  
+        comment,
+        serial,
+        tmp_name,
+        status,
+        size
       } = await req.json();
-    if (!bookname || !extend ) {
+    if (!name) {
       return NextResponse.json({
         error: "Missing required fields",
         status: 400,
       });
     }
-    if (bookname.length < 3) {
+    if (name.length < 3) {
       return NextResponse.json({
         error: "Title must be at least 3 characters long",
         status: 400,
       });
     }
-    const book = await prisma.books.create({
+    const movie = await prisma.movies.create({
       data: {
-        bookname,
         createAt,
-        extend,  
         name,       
-        oribookname,
-        serial,      
-        size,     
+        comment,
+        serial,
+        tmp_name,
         status,
-        comment
+        size,
       },
     });
-    return NextResponse.json(book);
+    return NextResponse.json(movie);
   } catch (error) {
     console.log("ERROR CREATING BOOK: ", error);
     return NextResponse.json({ error: "Error creating book", status: 500 });
@@ -52,19 +47,19 @@ export async function GET(req: NextRequest) {
   try {
     const id = req.nextUrl.searchParams.get("id")
     if (id != null) {
-      const books = await prisma.books.findUnique({
+      const movies = await prisma.movies.findUnique({
         where: {
           id: id  
         },
-      });
-      return NextResponse.json(books);
+      }); 
+      return NextResponse.json(movies);
     } else {
-      const books = (await prisma.books.findMany({
+      const movies = (await prisma.movies.findMany({
         orderBy: {  
-          id: 'desc'
+          id: 'desc'  
         },
       }));
-      return NextResponse.json(books);
+      return NextResponse.json(movies);
     }   
   } catch (error) {
     console.log("ERROR GETTING BOOKS: ", error);
@@ -79,16 +74,16 @@ export async function PUT(req: Request) {
     const id = params.id
     const status = params.status
     const comment = params.comment
-    const book = await prisma.books.update({
+    const movie = await prisma.movies.update({
       where: {  
         id,
       },
       data: {
         status,   
-        comment 
+        comment
       },
     });
-    return NextResponse.json(book);
+    return NextResponse.json(movie);
   } catch (error) {
     console.log("ERROR UPDATING TASK: ", error);
     return NextResponse.json({ error: "Error updating task", status: 500 });

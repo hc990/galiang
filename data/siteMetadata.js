@@ -91,10 +91,7 @@ const siteMetadata = {
     // },
   },
   nas: {
-    share: '\\\\192.168.2.214\\library',
-    domain: 'books',
-    username: 'huangchong',
-    password: 'Huang3723641_',
+    share: '/Users/huangchong/SynologyDrive/books/',
   },
 }
 

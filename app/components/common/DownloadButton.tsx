@@ -21,9 +21,8 @@ const DownloadButton = ({slug,children}: ButtonProps) => {
         setStatusMessage(result.error);
         return;
       }
-
       const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
+      const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.style.display = 'none';
       a.href = url;
@@ -32,7 +31,7 @@ const DownloadButton = ({slug,children}: ButtonProps) => {
       a.download = decodeURIComponent(filename || 'downloaded-file');
       document.body.appendChild(a);
       a.click();
-      window.URL.revokeObjectURL(url);
+      URL.revokeObjectURL(url);
       setStatusMessage('File has been downloaded successfully');
     } catch (error) {
       setStatusMessage('Error triggering download');

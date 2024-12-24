@@ -10,14 +10,14 @@ import axios from 'axios';
 export const GlobalContext = createContext();
 export const GlobalUpdateContext = createContext();
 
-function getSmb2Client(){
-  return new SMB2({
-    share: siteMetadata.nas.share,
-    domain: siteMetadata.nas.domain,
-    username: siteMetadata.nas.username,
-    password: siteMetadata.nas.password,
-  });
-}
+// function getSmb2Client(){
+//   return new SMB2({
+//     share: siteMetadata.nas.share,
+//     domain: siteMetadata.nas.domain,
+//     username: siteMetadata.nas.username,
+//     password: siteMetadata.nas.password,
+//   });
+// }
 
 export const GlobalProvider = ({ children }) => {
   // const { user } = useUser();
