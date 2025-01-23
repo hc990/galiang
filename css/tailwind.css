@@ -45,7 +45,20 @@ input:-webkit-autofill:focus {
   opacity: 1;
 }
 
-.linkicon {
+.linkicon {  
   display: inline-block;
   vertical-align: middle;
+}
+
+.accordion {
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.accordion-title {
+  cursor: pointer;
+}
+
+.accordion-content {
+  transition: all 0.3s ease-in-out;
 }

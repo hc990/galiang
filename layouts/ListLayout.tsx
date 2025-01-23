@@ -6,8 +6,8 @@ import formatDate from '@/app/utils/formatDate'
 // import { CoreContent } from 'pliny/utils/contentlayer'
 // import type { Blog } from 'contentlayer/generated'
 import Link from '@/app/components/ui/Link'
-import Tag from '@/app/components/ui/Tag'
-import siteMetadata from '@/data/siteMetadata'
+// import Tag from '@/app/components/ui/Tag'
+// import siteMetadata from '@/data/siteMetadata'
 
 interface PaginationProps {
   totalPages: number

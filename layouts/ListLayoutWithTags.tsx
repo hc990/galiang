@@ -3,9 +3,7 @@
 
 import { usePathname } from 'next/navigation'
 import { slug } from 'github-slugger'
-
 import Link from '@/app/components/ui/Link'
-
 import tagData from 'app/tag-data.json'
 import formatDate from '@/app/utils/formatDate'
 

@@ -5,17 +5,23 @@ import { useGlobalState } from './context/globalProvider'
 import formatDate from '@/app/utils/formatDate'
 import Image from "@/app/components/ui/Image";
 import { useUser } from '@clerk/nextjs'
+import Carousel from './components/ui/Carousel'
+// import { randomInt } from 'node:crypto'
+
 
 
 export default function Home() {
   const MAX_DISPLAY = 5
   const { user } = useUser();
   const { books } = useGlobalState();
+
   if(!books || books.length === 0) {
     return <div>No books found.</div>;
   }
+  const randomNumber = Math.random() * (books.length - 18)
+  const images = books.slice(randomNumber,randomNumber+18)
   return (
-    <>
+    <>  
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="flex space-x-12 md:space-x-16 lg:space-x-18 items-end space-y-0.25 pb-6 pt-4 md:space-y-1"> 
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14">
@@ -26,6 +32,7 @@ export default function Home() {
             {/* {siteMetadata.description} */}
           </p>
         </div>
+        <Carousel images={images.map((book:{id:any}) =>{return book.id})} autoplay autoplayDelay={5000} />
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
         {books && books.length > 0 && books?.slice(0, MAX_DISPLAY).map((book: { id: any; slug: any; createAt: any; name: any; summary: any; tags: any; size: any; }) => {  
             const { id, slug, createAt, name, summary, tags, size } = book
@@ -61,11 +68,11 @@ export default function Home() {
                           {summary}
                         </div>
                         <div className="prose max-w-none">
-                          <Image  
+                          <Image
                               src= {'/thumbnail/'+ id +'.png'}  
                               alt="标记"  
                               width= {180}
-                              height=  {180}
+                              height=  {180}  
                               // objectFit="cover"
                           />
                         </div>

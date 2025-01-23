@@ -9,7 +9,8 @@ import { Metadata } from 'next'
 import Sidebar from '@/app/components/navigation/Sidebar'
 import ContextProvider from './providers/ContextProvider'  
 import { SearchProvider,SearchConfig } from './components/search/SearchProvider'
-import { ClerkProvider } from "@clerk/nextjs";   
+import { ClerkProvider } from "@clerk/nextjs";    
+
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteMetadata.siteUrl),
