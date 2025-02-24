@@ -6,17 +6,20 @@ import formatDate from '@/app/utils/formatDate'
 import Image from "@/app/components/ui/Image";
 import { useUser } from '@clerk/nextjs'
 import Carousel from './components/ui/Carousel'
-// import { randomInt } from 'node:crypto'
+import Spinner from './components/ui/Spinner'
 
+// import { shuffleArray } from "@/app/utils/utils";
 
 
 export default function Home() {
   const MAX_DISPLAY = 5
   const { user } = useUser();
   const { books } = useGlobalState();
-
-  if(!books || books.length === 0) {
-    return <div>No books found.</div>;
+  // let length = Math.floor(Math.random() * (books.length-5)) 
+  if(!books || books.length === 0) { 
+    return  <div className='flex flex-col h-[400px] w-[900px] items-center justify-center'><div className="flex flex-col items-center"><Spinner size={60} color="pink" speed={1.5} className="bg-pink-900 p-8 rounded" /><p className="mt-4 text-pink-800 text-lg animate-pulse">
+    Loading...
+  </p></div></div>  
   }
   const randomNumber = Math.random() * (books.length - 18)
   const images = books.slice(randomNumber,randomNumber+18)

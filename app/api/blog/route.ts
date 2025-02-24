@@ -90,7 +90,7 @@ export async function PUT(req: Request) {
     });
     return NextResponse.json(book);
   } catch (error) {
-    console.log("ERROR UPDATING TASK: ", error);
-    return NextResponse.json({ error: "Error updating task", status: 500 });
+    console.log("ERROR UPDATING BOOK: ", error);
+    return NextResponse.json({ error: "Error updating book", status: 500 });
   }
 }

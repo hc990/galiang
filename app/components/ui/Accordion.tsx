@@ -41,11 +41,11 @@ const Accordion: React.FC<AccordionProps> = ({
       {items.map((item) => {
         const isOpen = openPanels.includes(item.id);
         return (
-          <div key={item.id} className="w-100 accordion-item  border-b border-pink-300">
+          <div key={item.id} className="w-100 accordion-item border-b border-pink-300">
             {/* 标题 */}
             <button     
               onClick={() => togglePanel(item.id)}
-              className="accordion-title flex justify-between items-center   py-3 px-4 text-left font-bold bg-pink-100 hover:bg-pink-200 w-[500px]"
+              className="accordion-title flex justify-between items-center border-b py-3 px-4 text-left font-bold bg-pink-300 hover:bg-pink-700 w-[800px]"
             >   
               <span className="flex-grow" >{item.title}</span>
               {/* 动态图标 */}

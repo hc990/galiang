@@ -1,34 +1,6 @@
 /* eslint-disable */
-import type { Prisma, Todo, User, authors, bookcode, books, books_demo, captcha, movies, sessions, users } from "/Users/huangchong/Documents/workspace/galiang/node_modules/@prisma/client";
+import type { Prisma, authors, bookcode, books, captcha, movies, sessions, User, Todo } from "/Users/huangchong/Documents/workspaces/galiang/node_modules/@prisma/client";
 export default interface PrismaTypes {
-    Todo: {
-        Name: "Todo";
-        Shape: Todo;
-        Include: never;
-        Select: Prisma.TodoSelect;
-        OrderBy: Prisma.TodoOrderByWithRelationInput;
-        WhereUnique: Prisma.TodoWhereUniqueInput;
-        Where: Prisma.TodoWhereInput;
-        Create: {};
-        Update: {};
-        RelationName: never;
-        ListRelations: never;
-        Relations: {};
-    };
-    User: {
-        Name: "User";
-        Shape: User;
-        Include: never;
-        Select: Prisma.UserSelect;
-        OrderBy: Prisma.UserOrderByWithRelationInput;
-        WhereUnique: Prisma.UserWhereUniqueInput;
-        Where: Prisma.UserWhereInput;
-        Create: {};
-        Update: {};
-        RelationName: never;
-        ListRelations: never;
-        Relations: {};
-    };
     authors: {
         Name: "authors";
         Shape: authors;
@@ -65,20 +37,6 @@ export default interface PrismaTypes {
         OrderBy: Prisma.booksOrderByWithRelationInput;
         WhereUnique: Prisma.booksWhereUniqueInput;
         Where: Prisma.booksWhereInput;
-        Create: {};
-        Update: {};
-        RelationName: never;
-        ListRelations: never;
-        Relations: {};
-    };
-    books_demo: {
-        Name: "books_demo";
-        Shape: books_demo;
-        Include: never;
-        Select: Prisma.books_demoSelect;
-        OrderBy: Prisma.books_demoOrderByWithRelationInput;
-        WhereUnique: Prisma.books_demoWhereUniqueInput;
-        Where: Prisma.books_demoWhereInput;
         Create: {};
         Update: {};
         RelationName: never;
@@ -127,18 +85,44 @@ export default interface PrismaTypes {
         ListRelations: never;
         Relations: {};
     };
-    users: {
-        Name: "users";
-        Shape: users;
-        Include: never;
-        Select: Prisma.usersSelect;
-        OrderBy: Prisma.usersOrderByWithRelationInput;
-        WhereUnique: Prisma.usersWhereUniqueInput;
-        Where: Prisma.usersWhereInput;
+    User: {
+        Name: "User";
+        Shape: User;
+        Include: Prisma.UserInclude;
+        Select: Prisma.UserSelect;
+        OrderBy: Prisma.UserOrderByWithRelationInput;
+        WhereUnique: Prisma.UserWhereUniqueInput;
+        Where: Prisma.UserWhereInput;
         Create: {};
         Update: {};
-        RelationName: never;
+        RelationName: "todos";
+        ListRelations: "todos";
+        Relations: {
+            todos: {
+                Shape: Todo[];
+                Name: "Todo";
+                Nullable: false;
+            };
+        };
+    };
+    Todo: {
+        Name: "Todo";
+        Shape: Todo;
+        Include: Prisma.TodoInclude;
+        Select: Prisma.TodoSelect;
+        OrderBy: Prisma.TodoOrderByWithRelationInput;
+        WhereUnique: Prisma.TodoWhereUniqueInput;
+        Where: Prisma.TodoWhereInput;
+        Create: {};
+        Update: {};
+        RelationName: "user";
         ListRelations: never;
-        Relations: {};
+        Relations: {
+            user: {
+                Shape: User;
+                Name: "User";
+                Nullable: false;
+            };
+        };
     };
 }

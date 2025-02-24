@@ -5,7 +5,7 @@ import { useState } from "react"
 import { useSignIn } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
 import Link from "next/link";
-// import Card from "../components/Card";
+// import Card from "../components/ui/Card";
 import { Input } from "../components/ui/Input"
 import Button from "../components/ui/Button"
 import {
