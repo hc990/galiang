@@ -6,13 +6,13 @@ import MobileNav from './ui/MobileNav'
 import ThemeSwitch from './ui/ThemeSwitch'
 import SearchButton from './ui/SearchButton'
 import Image from "./ui/Image";
-import { auth } from '@clerk/nextjs/server'
+import { auth } from '@clerk/nextjs/server'  
 import { LuLogIn, LuLogOut } from 'react-icons/lu'
-import { SignOutButton, UserButton } from '@clerk/nextjs'
+import { SignOutButton,  UserButton } from '@clerk/nextjs'
 
 const Header = async () => {
   const { userId,sessionId } = await auth()
-   
+  // const { userId, sessionId } = useAuth(); // ✅ 在 Client 组件使用
   return (   
     
     <header className="flex py-6 space-x-3 items-center">

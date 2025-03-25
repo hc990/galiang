@@ -7,7 +7,7 @@ import Breadcrumbs from "../components/ui/Breadcrumbs";
 import ButtonGroup from "../components/ui/ButtonGroup";
 import { useState } from "react";
 import Spinner from "../components/ui/Spinner";  
-import Card from "../components/ui/Card";
+import { Card } from "../components/ui/Card";
 // import DatePickerPopover from "../components/ui/DatePickerPopover";
  
  
@@ -49,9 +49,9 @@ export default function Staff() {
       <Card  
          key={'fdfdsf'}
          title={'fdfds'}
-         description={'fdfd'}
-         imgSrc={'/thumbnail/123.png'}
-         href={''}
+        //  description={'fdfd'}
+        //  imgSrc={'/thumbnail/123.png'}
+        //  href={''}
       ></Card>
       <Accordion
         items={accordionItems} 
@@ -63,7 +63,7 @@ export default function Staff() {
       {/* <Spinner /> */}
 
       {/* 自定义大小、颜色和速度的 Spinner */}
-      <Spinner size={60} color="pink" speed={1.5} className="ml-6  bg-pink-900 p-4 rounded" />
+      {/* <Spinner size={60} color="pink" speed={1.5} className="ml-6  bg-pink-900 p-4 rounded" /> */}
      
       {/* 适配深色模式 */}
       {/* <Spinner size={60} color="white" speed={1.5} className="ml-6 bg-gray-900 p-4 rounded" /> */}

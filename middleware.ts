@@ -1,7 +1,7 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 
-const publicRoutes = ["/","/blog(.*)"]
+const publicRoutes = ["/public","/static","/thumbnail","/","/blog(.*)"]
 const isProtectedRoute = createRouteMatcher(publicRoutes)
 
 export default clerkMiddleware(async (auth, req) => {

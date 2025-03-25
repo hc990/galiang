@@ -26,6 +26,7 @@ export const GlobalProvider = ({ children }) => {
   // const [modal, setModal] = useState(false);
   const [collapsed, setCollapsed] = useState(true);
   const [books, setBooks] = useState([]);
+  const [accounts, setAccounts] = useState([]);
   const [booksNum, setBooksnum] = useState(0);
   const [show, setShow] = useState(true)
   // const [menuShow, setMenuShow] = useState(true)
@@ -66,6 +67,21 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
+  const allAccounts = async () => {
+    setIsLoading(true);
+    try {  
+      const params = {  
+        id: null
+      };  
+      const res = await axios.get("/api/account",{ params });
+      setAccounts(res.data);
+      // setBooksnum(res.data.length)
+      setIsLoading(false);
+    } catch (error) {  
+      console.log(error);
+    }
+  };
+
   // const deleteTask = async (id) => {
   //   try {
   //     const res = await axios.delete(`/api/tasks/${id}`);
@@ -98,8 +114,8 @@ export const GlobalProvider = ({ children }) => {
 
   React.useEffect(() => {
     allBooks();
+    allAccounts();
   }, []);
-
   return (
     <GlobalContext.Provider
       value={{
@@ -107,6 +123,7 @@ export const GlobalProvider = ({ children }) => {
         // tasks,
         books,
         booksNum,
+        accounts,
         // deleteTask,
         isLoading,
         // completedTasks,
@@ -118,6 +135,7 @@ export const GlobalProvider = ({ children }) => {
         // closeModal,
         // allTasks,
         allBooks,
+        allAccounts,
         collapsed,
         collapseMenu,
         show,  
