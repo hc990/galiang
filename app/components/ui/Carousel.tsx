@@ -72,8 +72,8 @@ const Carousel: React.FC<CarouselProps> = ({
                     src={'/thumbnail/'+ img +'.png'} 
                     alt={`slide-${pageIndex * imagesPerPage + index}`}
                     className="w-full h-36 object-cover"
-                    width= {180}
-                    height= {180}
+                    width= {360}
+                    height= {400}
                 /></Link>
               </div>  
             ))}

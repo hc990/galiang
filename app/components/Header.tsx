@@ -14,18 +14,19 @@ const Header = async () => {
   const { userId,sessionId } = await auth()
   // const { userId, sessionId } = useAuth(); // ✅ 在 Client 组件使用
   return (   
-    
-    <header className="flex py-6 space-x-3 items-center">
+    <header className="flex items-center flex-row justify-between">
       <div>
-      <Image className="m-2 px-2 space-x-3"
+        <Image className="m-5 pr-5 space-x-3" 
               src= "/static/images/logo.png"
               alt="嘎亮"  
               priority
               // layout="fill" 
-              width={300} 
+              width={430} 
               height={200}
               // objectFit="cover"
             />
+      </div> 
+      <div className="flex items-center space-x-4 leading-4 pl-2">
         <Link href="/" aria-label={siteMetadata.headerTitle}>
           <div className="items-center">
             {typeof siteMetadata.headerTitle === 'string' ? (
@@ -37,9 +38,6 @@ const Header = async () => {
             )}                                
           </div>                               
         </Link>  
-      </div> 
-     
-      <div className="flex items-center space-x-4 leading-2 sm:space-x-3 absolute right-0 pr-6">
         <SearchButton />
         {headerNavLinks
           .filter((link) => link.href !== '/')
@@ -47,7 +45,7 @@ const Header = async () => {
             <Link
               key={link.title}
               href={link.href}
-              className="hidden space-x-2 font-medium text-gray-900 dark:text-gray-100 sm:block"
+              className="hidden space-x-2 font-medium  flex-col text-gray-900 dark:text-gray-100 sm:block"
             >
               {link.title}
             </Link>

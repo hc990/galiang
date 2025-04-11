@@ -10,7 +10,7 @@ import Sidebar from '@/app/components/navigation/Sidebar'
 import ContextProvider from './providers/ContextProvider'  
 import { SearchProvider,SearchConfig } from './components/search/SearchProvider'
 import { ClerkProvider } from "@clerk/nextjs";    
-
+import Image from "./components/ui/Image";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteMetadata.siteUrl),
@@ -77,8 +77,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <SectionContainer>
               <div className="flex h-screen flex-col justify-between font-sans">
                 <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
-                    <div className="flex items-center space-x-5 flex-nowrap mb-auto">
-                         <Header />   
+                    <div className="flex items-center flex-nowrap justify-between">
+                        <Header />   
                     </div>
                     <div className="flex space-x-5 mb-auto">
                       <Sidebar />
