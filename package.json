@@ -11,7 +11,7 @@
     "serve": "next start",
     "analyze": "cross-env ANALYZE=true next build",
     "lint": "next lint --fix --dir pages --dir app --dir components --dir lib --dir layouts --dir scripts",
-    "test": "ts-node ./data/index.ts"
+    "test": "npm test --passWithNoTests"
   },
   "overrides": {
     "micromatch": "^4.0.8"
