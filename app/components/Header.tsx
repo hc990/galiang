@@ -25,7 +25,7 @@ const Header = async () => {
               height={200}
               // objectFit="cover"
             />
-      </div> 
+      </div>
       <div className="flex items-center space-x-4 leading-4 pl-2">
         <Link href="/" aria-label={siteMetadata.headerTitle}>
           <div className="items-center">

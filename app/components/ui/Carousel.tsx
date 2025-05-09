@@ -3,7 +3,7 @@ import { motion, useAnimation } from 'framer-motion';
 import Image from "@/app/components/ui/Image";
 import Link from '@/app/components/ui/Link';
 interface CarouselProps {
-  images: string[]; // 图片数组
+  images: { id: any; name: string }[]; // 图片数组
   autoplay?: boolean; // 是否自动播放
   autoplayDelay?: number; // 自动播放间隔时间
   loop?: boolean; // 是否循环
@@ -13,7 +13,7 @@ interface CarouselProps {
 const Carousel: React.FC<CarouselProps> = ({ 
   images, 
   autoplay = true, 
-  autoplayDelay = 3000, 
+  autoplayDelay = 12000, 
   loop = true,
   imagesPerPage = 6 // 默认每页显示6张图片
 }) => {
@@ -67,13 +67,14 @@ const Carousel: React.FC<CarouselProps> = ({
           <div key={pageIndex} className="flex-none w-full flex">
             {images.slice(pageIndex * imagesPerPage, (pageIndex + 1) * imagesPerPage).map((img, index) => (  
               <div key={index} className="flex-none w-1/6">
-                <Link  href={`/blog/`+ img}>
+                <Link  href={`/blog/`+ img.id}>
                 <Image 
-                    src={'/thumbnail/'+ img +'.png'} 
+                    src={'/thumbnail/'+ img.id +'.png'} 
                     alt={`slide-${pageIndex * imagesPerPage + index}`}
                     className="w-full h-36 object-cover"
                     width= {360}
                     height= {400}
+                    title= {img.name}
                 /></Link>
               </div>  
             ))}

@@ -38,7 +38,7 @@ export default function Home() {
             {/* {siteMetadata.description} */}
           </p>
         </div>
-        <Carousel images={images.map((book:{id:any}) =>{return book.id})} autoplay autoplayDelay={5000} />
+        <Carousel images={images.map((image:{id:any,name:string}) =>({id:image.id,name:image.name}))} autoplay autoplayDelay={5000} />
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
         {books && books.length > 0 && books?.slice(0, MAX_DISPLAY).map((book: { id: any; slug: any; createAt: any; name: any; summary: any; tags: any; size: any; }) => {  
             const { id, slug, createAt, name, summary, tags, size } = book
