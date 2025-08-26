@@ -77,6 +77,7 @@ export async function PUT(req: Request) {
   try {
     const { params } = await req.json(); 
     const id = params.id
+    console.info(id)
     const status = params.status
     const comment = params.comment
     const book = await prisma.books.update({

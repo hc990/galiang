@@ -5,27 +5,56 @@ import { useGlobalState } from './context/globalProvider'
 import formatDate from '@/app/utils/formatDate'
 import Image from "@/app/components/ui/Image";
 import { useUser } from '@clerk/nextjs'
+import { useState, useEffect } from 'react';
 import Carousel from './components/ui/Carousel'
 import Spinner from './components/ui/Spinner'
 
 // import { shuffleArray } from "@/app/utils/utils";
 export default function Home() {
-  const MAX_DISPLAY = 5
+  const MAX_DISPLAY = 5; // For the book list
+  const CAROUSEL_SIZE = 18; // For the carousel
   const { user } = useUser();
-  const { books } = useGlobalState();
-  // let length = Math.floor(Math.random() * (books.length-5)) 
-  if(!books || books.length === 0) { 
-    return <div className='flex flex-col h-[400px] w-[700px] items-center justify-center'>
-          <div className="flex flex-col items-center">
-            <Spinner size={60} color="pink" speed={1.5} className="bg-pink-900 p-8 rounded" />
-             <p className="mt-4 text-pink-800 text-lg animate-pulse">
-              Loading...
-              </p>
-          </div>
-      </div>  
+  const { books, error } = useGlobalState();
+  const [randomStartIndex, setRandomStartIndex] = useState(0);
+  if (error) {
+    return <div className="text-red-500">Failed to load books: {error.message}</div>;
   }
-  const randomNumber = Math.random() * (books.length - 18)
-  const images = books.slice(randomNumber,randomNumber+18)
+  // let length = Math.floor(Math.random() * (books.length-5)) 
+  // if(!books || books.length === 0) { 
+  //   return <div className='flex flex-col h-[400px] w-[700px] items-center justify-center'>
+  //         <div className="flex flex-col items-center">
+  //           <Spinner size={60} color="pink" speed={1.5} className="bg-pink-900 p-8 rounded" />
+  //            <p className="mt-4 text-pink-800 text-lg animate-pulse">
+  //             Loading...
+  //             </p>
+  //         </div>
+  //     </div>  
+  // }
+  // const randomNumber = Math.random() * (books.length - 18)
+  // const images = books.slice(randomNumber,randomNumber+18)
+  // Generate random start index for carousel when books change
+
+  useEffect(() => {
+    if (books && books.length >= CAROUSEL_SIZE) {
+      const maxStartIndex = books.length - CAROUSEL_SIZE;
+      const newRandomIndex = Math.floor(Math.random() * (maxStartIndex + 1));
+      setRandomStartIndex(newRandomIndex);
+    } else {
+      setRandomStartIndex(0); // Fallback if not enough books
+    }
+  }, []);
+  // Loading state
+  if (!books || books.length === 0) {
+    return (
+      <div className="flex flex-col h-[400px] w-[700px] items-center justify-center">
+        <div className="flex flex-col items-center">
+          <Spinner size={60} color="pink" speed={1.5} className="bg-pink-900 p-8 rounded" />
+          <p className="mt-4 text-pink-800 text-lg animate-pulse">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+  const images = books.slice(randomStartIndex, randomStartIndex + CAROUSEL_SIZE);
   return (
     <>  
       <div className="divide-y divide-gray-200 dark:divide-gray-700">

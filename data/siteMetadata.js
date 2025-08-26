@@ -1,5 +1,5 @@
 const siteMetadata = {
-  title: '嘎亮锅贴',
+  title: 'ooxx',
   author: 'Everest',
   headerTitle: '',
   description: '',

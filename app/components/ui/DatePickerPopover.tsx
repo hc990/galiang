@@ -1,63 +1,127 @@
+
 import React, { useState, useRef, useEffect } from "react";
+import { format, parse } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
-import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
-  
+import { LuCalendarDays } from "react-icons/lu";
 interface DatePickerPopoverProps {
-  className?: string;
+  name: string;
+  label: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
+  required?: boolean;
 }
 
-const DatePickerPopover: React.FC<DatePickerPopoverProps> = ({ className = "" }) => {
+const DatePickerPopover: React.FC<DatePickerPopoverProps> = ({
+  name,
+  label,
+  value,
+  onChange,
+  error,
+  required,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-  const ref = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const popoverRef = useRef<HTMLDivElement>(null);
 
+  // Parse value to Date for DayPicker
+  const selectedDate = value ? parse(value, "yyyy-MM-dd", new Date()) : undefined;
+  if (selectedDate && isNaN(selectedDate.getTime())) {
+    console.warn(`Invalid date value for ${name}: ${value}`);
+  }
+
+  // Toggle popover
   const togglePopover = () => setIsOpen((prev) => !prev);
 
+  // Close popover when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !(ref.current as HTMLElement).contains(event.target as Node)) {
+      if (
+        popoverRef.current &&
+        !popoverRef.current.contains(event.target as Node) &&
+        inputRef.current &&
+        !inputRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Calculate popover position
+  const getPopoverPosition = () => {
+    if (!inputRef.current) return { top: 0, left: 0 };
+    const rect = inputRef.current.getBoundingClientRect();
+    return {
+      top: rect.bottom + window.scrollY + 4,
+      left: rect.left + window.scrollX,
     };
-  }, [ref.current]);
+  };
+
+  const { top, left } = getPopoverPosition();
+
+  // Handle date selection
+  const handleDateSelect = (date: Date | undefined) => {
+    const syntheticEvent = {
+      target: { name, value: date ? format(date, "yyyy-MM-dd") : "" },
+    } as React.ChangeEvent<HTMLInputElement>;
+    onChange(syntheticEvent);
+    setIsOpen(false);
+  };
 
   return (
-    <div ref={ref} className="relative inline-block">
-      <button  
-        onClick={togglePopover}
-        aria-label={selectedDate ? format(selectedDate, "yyyy-MM-dd") : "Select date"}
-        className="bg-pink-200 text-black px-12 py-2 rounded hover:bg-pink-600"
+    <div className="relative">
+      <label
+        htmlFor={name}
+        className="block font-medium text-gray-700 mb-1"
       >
-        {selectedDate ? format(selectedDate, "yyyy-MM-dd") : "Select Date"}
-      </button>
-
-      <AnimatePresence>
-        {isOpen && (
+        {label}
+        {required && <span className="text-pink-500">*</span>}
+      </label>
+      <div className="flex items-center gap-2">
+        <input
+          ref={inputRef}
+          type="text"
+          id={name}
+          name={name}
+          value={value}
+          onChange={onChange}
+          onClick={togglePopover}
+          placeholder="YYYY-MM-DD"
+          className={`border border-grep-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-pink-500 ${
+            error ? "border-pink-500" : ""
+          }`}
+        />
+        <button
+          type="button"
+          onClick={togglePopover}
+          className="bg-pink-500 text-white px-3 py-2 rounded-md hover:bg-pink-600 focus:ring-2 focus:ring-pink-400"
+        >
+          <LuCalendarDays/>
+        </button>
+      </div>
+      {error && <p className="text-sm text-pink-500 mt-1">{error}</p>}
+      {isOpen &&
           <motion.div
+            ref={popoverRef}
             initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}  
+            animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className={`absolute z-10 mt-2 p-4 bg-white border rounded shadow-lg ${className}`}
-            style={{ minWidth: "250px" }}
+            className="fixed z-50 bg-white border border-gray-300 rounded-md shadow-lg p-4"
+            style={{ top: `${top}px`, left: `${left}px`, minWidth: "250px" }}
           >
             <DayPicker
               mode="single"
               selected={selectedDate}
-              onSelect={(date) => {
-                setSelectedDate(date || undefined);
-                setIsOpen(false);
-              }}
+              onSelect={handleDateSelect}
             />
           </motion.div>
-        )}
-      </AnimatePresence>
+          
+        }
     </div>
   );
 };

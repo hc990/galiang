@@ -14,19 +14,18 @@ const Header = async () => {
   const { userId,sessionId } = await auth()
   // const { userId, sessionId } = useAuth(); // ✅ 在 Client 组件使用
   return (   
-    <header className="flex items-center flex-row justify-between">
-      <div>
-        <Image className="m-5 pr-5 space-x-3" 
+    <header >
+      <div className = "ml-10 flex items-center flex-row justify-between">
+        <Image className="m-5 pr-5 space-x-4 w-[150px] h-[110px]  mr-40" 
               src= "/static/images/logo.png"
-              alt="嘎亮"  
+              alt="ooxx"  
               priority
               // layout="fill" 
-              width={430} 
-              height={200}
+              width={100} 
+              height={150}
               // objectFit="cover"
             />
-      </div>
-      <div className="flex items-center space-x-4 leading-4 pl-2">
+      <div className="flex items-center justify-between space-x-6 leading-4 pl-2 ml-20">
         <Link href="/" aria-label={siteMetadata.headerTitle}>
           <div className="items-center">
             {typeof siteMetadata.headerTitle === 'string' ? (
@@ -52,7 +51,9 @@ const Header = async () => {
           ))}
            { userId ? <><SignOutButton signOutOptions={{ sessionId }} redirectUrl='/signin'><LuLogOut/></SignOutButton></>: <><Link href="/signin"><LuLogIn/></Link></>
                     }
+        
         <ThemeSwitch />
+         </div>
         <MobileNav />
       </div>
     </header>
