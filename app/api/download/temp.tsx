@@ -2,16 +2,11 @@ import SMB2 from '@tryjsky/v9u-smb2';
 import path from 'path';
 import { execSync } from 'child_process';
 import { NextResponse } from 'next/server';
-import axios from 'axios';
-import siteMetadata from '@/data/siteMetadata';
+import { axiosInstant } from '@/app/context/globalProvider';
 execSync('node --max-old-space-size=4096');
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 30000; // 2 seconds
-const axiosInstant = axios.create({
-  baseURL: siteMetadata.siteUrl ,
-  timeout: 3000
-});
 
 async function getSmb2Client() {
   const smb2Client = new SMB2({

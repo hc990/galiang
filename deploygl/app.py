@@ -8,6 +8,7 @@ import ebooklib
 from ebooklib import epub
 from PIL import Image
 import io
+from imghdr import what
 
 def extract_cover(epub_path, cover_path, thumbnail_size=(100, 150)):
     try:
@@ -68,7 +69,7 @@ db = client.test
 # shares = conn.listShares()
 # db.books.drop()
 
-PATH=r'/volume2/library/books'
+PATH=r'/app/data'
 
 i=1;
 for filename in os.listdir(PATH):
@@ -95,12 +96,12 @@ for filename in os.listdir(PATH):
                
             i=i+1;
             file_path = os.path.join(PATH, filename)
-            thumbnail_path = '/volume2/library/thumbnail/'+str(book.inserted_id)+'.png'
+            thumbnail_path = '/app/data/thumbnail/'+str(book.inserted_id)+'.png'
             if('pdf' in filename):
                 try:
                     generate_thumbnail(file_path, thumbnail_path)
                 except Exception as e:
-                    print(f"处理文件 {pdf_path} 时出错: {e}")
+                    print(f"处理文件 {file_path} 时出错: {e}")
             if('epub' in filename):
                 extract_cover(file_path, thumbnail_path)
             print(bookname)

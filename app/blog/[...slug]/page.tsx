@@ -3,10 +3,10 @@ import 'css/prism.css'
 import PostSimple from '@/layouts/PostSimple'
 import PostLayout from '@/layouts/PostLayout'
 import PostBanner from '@/layouts/PostBanner'
-import siteMetadata from '@/data/siteMetadata'  
-import axios from 'axios'
+// import siteMetadata from '@/data/siteMetadata'  
+// import axios from 'axios'
 import DownloadButton from '@/app/components/common/DownloadButton'
-
+import axiosInstance from '@/app/axios/axiosInstance'
 
 // type BookData = {
 //   id: string;
@@ -33,11 +33,11 @@ const layouts = {
   PostBanner,
 }
 
-const axiosInstant = axios.create({
-  baseURL: siteMetadata.siteUrl ,
-  timeout: 3000
-})
- 
+// const axiosInstant = axios.create({
+//   baseURL: siteMetadata.siteUrl ,
+//   timeout: 3000
+// })
+// const {  axiosInstant } = useGlobalState();
 export default async function Page(
   props
 : {
@@ -50,7 +50,7 @@ export default async function Page(
   try {
     const prev = {'path':'fdfdsf',"title":"fdsf"}
     const next = {'path':'34324',"title":"fdfs"}
-    const response = await axiosInstant.get('/api/blog', { params: { id: id } });
+    const response = await axiosInstance.get('/api/blog', { params: { id: id } });
     const book = response.data;
     if (!book) {
       return <div>No data available</div>;

@@ -7,9 +7,9 @@ const alertVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-background text-foreground",
+        default: "text-blue bg-background text-foreground",
         destructive:
-          "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
+          "border-destructive/50 bg-pink-300 text-destructive dark:border-destructive [&>svg]:text-destructive",
       },
     },
     defaultVariants: {
@@ -18,17 +18,38 @@ const alertVariants = cva(
   }
 )
 
-const Alert = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
->(({ className, variant, ...props }, ref) => (
-  <div
-    ref={ref}
-    role="alert"
-    className={cn(alertVariants({ variant }), className)}
-    {...props}
-  />
-))
+interface AlertProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof alertVariants> {
+  autoDismiss?: number // Time in milliseconds before the alert disappears
+}
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
+  ({ className, variant, autoDismiss = 3000, ...props }, ref) => {
+    const [isVisible, setIsVisible] = React.useState(true)
+
+    React.useEffect(() => {
+      if (autoDismiss > 0) {
+        const timer = setTimeout(() => {
+          setIsVisible(false)
+        }, autoDismiss)
+
+        return () => clearTimeout(timer) // Cleanup on unmount
+      }
+    }, [autoDismiss])
+
+    if (!isVisible) return null
+
+    return (
+      <div
+        ref={ref}
+        role="alert"
+        className={cn(alertVariants({ variant }), className)}
+        {...props}
+      />
+    )
+  }
+)
 Alert.displayName = "Alert"
 
 const AlertTitle = React.forwardRef<

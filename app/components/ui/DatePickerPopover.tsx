@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { LuCalendarDays } from "react-icons/lu";
+import Button from "./Button";
 interface DatePickerPopoverProps {
   name: string;
   label: string;
@@ -95,13 +96,13 @@ const DatePickerPopover: React.FC<DatePickerPopoverProps> = ({
             error ? "border-pink-500" : ""
           }`}
         />
-        <button
+        <Button
           type="button"
           onClick={togglePopover}
           className="bg-pink-500 text-white px-3 py-2 rounded-md hover:bg-pink-600 focus:ring-2 focus:ring-pink-400"
         >
           <LuCalendarDays/>
-        </button>
+        </Button>
       </div>
       {error && <p className="text-sm text-pink-500 mt-1">{error}</p>}
       {isOpen &&

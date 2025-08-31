@@ -19,21 +19,22 @@ export interface FormField {
 }
 
 interface GenericFormProps {
+  buttonType: number;
   fields: FormField[];
   onSubmit: (data: Record<string, string | boolean>) => void;
 }
 
-const GenericForm: React.FC<GenericFormProps> = ({ fields, onSubmit }) => {
-const initialFormData = fields.reduce((acc, field) => ({ ...acc, [field.name]: field.type === "checkbox" ? false : "" }), {});
-const initialErrors = fields.reduce((acc, field) => ({ ...acc, [field.name]: "" }), {});
-const [formData, setFormData] = useState<Record<string, string | boolean>>(
+const GenericForm: React.FC<GenericFormProps> = ({ buttonType, fields, onSubmit }) => {
+  const initialFormData = fields.reduce((acc, field) => ({ ...acc, [field.name]: field.type === "checkbox" ? false : "" }), {});
+  const initialErrors = fields.reduce((acc, field) => ({ ...acc, [field.name]: "" }), {});
+  const [formData, setFormData] = useState<Record<string, string | boolean>>(
     fields.reduce((acc, field) => ({ ...acc, [field.name]: field.type === "checkbox" ? false : "" }), {})
-);
-const [errors, setErrors] = useState<Record<string, string>>(
+  );
+  const [errors, setErrors] = useState<Record<string, string>>(
     fields.reduce((acc, field) => ({ ...acc, [field.name]: "" }), {})
-);
+  );
 
-const validate = () => {
+  const validate = () => {
     const newErrors: Record<string, string> = {};
     let isValid = true;
 
@@ -66,37 +67,36 @@ const validate = () => {
 
     setErrors(newErrors);
     return isValid;
-};
+  };
 
-const handleChange = (
+  const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-) => {
+  ) => {
     const { name, type, value, checked } = e.target as HTMLInputElement;
     setFormData({
       ...formData,
       [name]: type === "checkbox" ? checked : value,
     });
-};
+  };
 
-const handleClear = () => {
+  const handleClear = () => {
     setFormData(initialFormData);
     setErrors(initialErrors);
-};
+  };
 
-const handleSubmit = () => {
+  const handleSubmit = () => {
     if (validate()) {
       onSubmit(formData);
     }
-};
-const renderField = (field: FormField) => {
+  };
+  const renderField = (field: FormField) => {
     const commonProps = {
       id: field.name,
       name: field.name,
       value: formData[field.name] as string,
       onChange: handleChange,
-      className: `border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-pink-500 ${
-        errors[field.name] ? "border-pink-500" : ""
-      }`,
+      className: `border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-pink-500 ${errors[field.name] ? "border-pink-500" : ""
+        }`,
     };
     switch (field.type) {
       case "select":
@@ -244,42 +244,44 @@ const renderField = (field: FormField) => {
           <div key={field.name}>{renderField(field)}</div>
         ))}
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-1">
-        <div>
-        </div>
-        <div>
-             <label
-            className="block font-medium text-gray-700 mb-1"
-            >
-                操作      
-            </label>
-        </div>
-        {/* <div>
-          
-        </div> */}
-      </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-1 mb-1">
         <div>
         </div>
         <div>
-              <Button
-                type="button"
-                onClick={handleClear}
-                className="w-full bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600 focus:ring-2 focus:ring-pink-400"
-            >
-             Clear
-          </Button>
-       
+          <label
+            className="block font-medium text-gray-700 mb-1"
+          >
+          </label>
         </div>
         <div>
-         <Button
+          <label
+            className="block font-medium text-gray-700 mb-1"
+          >
+          </label>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-1 mb-1">
+        <div>
+        </div>
+        <div className='text-right' >
+        </div>
+        <div className="flex flex-wrap justify-end">
+          <Button
+            variant="outline"
+            type="reset"
+            onClick={handleClear}
+            className="bg-pink-500 text-white px-6 py-2 rounded-md hover:bg-pink-600 focus:ring-2 focus:ring-pink-400"
+          >
+            重置
+          </Button>
+          <Button
+            variant="outline"
             type="button"
             onClick={handleSubmit}
-            className="w-full bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600 focus:ring-2 focus:ring-pink-400"
+            className="bg-pink-500 text-white px-6 py-2 rounded-md hover:bg-pink-600 focus:ring-2 focus:ring-pink-400"
           >
-            Submit
+            {buttonType === 0 ? '提交' : '查询'}
           </Button>
-        
         </div>
       </div>
     </div>

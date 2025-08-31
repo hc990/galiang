@@ -4,13 +4,12 @@ import { NextResponse } from 'next/server';
 import axios from 'axios';
 import siteMetadata from '@/data/siteMetadata';
 import fs from 'fs';
+import axiosInstance from '@/app/axios/axiosInstance';
+
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 3000; // 3 seconds
-const axiosInstant = axios.create({
-  baseURL: siteMetadata.siteUrl,
-  timeout: 3000,
-});
+
 
 async function withRetries<T>(operation: () => Promise<T>, maxRetries: number, delay: number): Promise<T> {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
@@ -29,7 +28,7 @@ export async function GET(req: Request): Promise<Response> {
   const { searchParams } = new URL(req.url);
   const slug = searchParams.get('slug');
   try {
-    const book = await axiosInstant.get('/api/blog', { params: { id: slug } });
+    const book = await axiosInstance.get('/api/blog', { params: { id: slug } });
     // const nasPath = path.join(siteMetadata.nas.share, path.basename(book.data.oribookname));
     const nasPath = path.join(siteMetadata.nas.share, path.basename(book.data.oribookname));
     // 获取文件大小

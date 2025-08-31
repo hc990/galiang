@@ -34,8 +34,19 @@ model User {
 
 model accounts {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  channel    Int
+  comm_num   Int
+  comm_type  Int
+  comm_unit  Int
   order_time DateTime @db.Date
-  price      String
+  price      Int
+  store_name Int
+}
+
+model accountstemp {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  order_time DateTime @db.Date
+  price      Int
   store_name String
 }
 

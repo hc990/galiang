@@ -3,9 +3,12 @@ import React, { createContext, useState, useContext } from 'react';
 // import themes from "./themes";
 import axios from 'axios';
 // import toast from "react-hot-toast";
-// import siteMetadata from '@/data/siteMetadata'
+import siteMetadata from '@/data/siteMetadata'
+import { set } from 'date-fns';
 // import { useUser } from "@clerk/nextjs";
 // import { MdSignalCellularNull } from "react-icons/md";  
+import axiosInstance from '../axios/axiosInstance'
+
 
 export const GlobalContext = createContext();
 export const GlobalUpdateContext = createContext();
@@ -19,6 +22,13 @@ export const GlobalUpdateContext = createContext();
 //   });
 // }
 
+// export const axiosInstant = axios.create({  
+//     baseURL: siteMetadata.siteUrl ,
+//     timeout: 3000
+// }) 
+
+
+
 export const GlobalProvider = ({ children }) => {
   // const { user } = useUser();
   // const [selectedTheme, setSelectedTheme] = useState(0);
@@ -28,7 +38,8 @@ export const GlobalProvider = ({ children }) => {
   const [books, setBooks] = useState([]);
   const [accounts, setAccounts] = useState([]);
   const [booksNum, setBooksnum] = useState(0);
-  const [show, setShow] = useState(true)
+  const [show, setShow] = useState(true);
+
   // const [menuShow, setMenuShow] = useState(true)
 
   // const theme = themes[selectedTheme];
@@ -58,7 +69,7 @@ export const GlobalProvider = ({ children }) => {
       const params = {  
         id: null
       };  
-      const res = await axios.get("/api/blog",{ params });
+      const res = await axiosInstance.get("/api/blog",{ params });
       setBooks(res.data);
       setBooksnum(res.data.length)
       setIsLoading(false);
@@ -67,13 +78,13 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
-  const allAccounts = async () => {
+  const allAccounts = async () => {                     
     setIsLoading(true);
     try {  
       const params = {  
         id: null
       };  
-      const res = await axios.get("/api/account",{ params });
+      const res = await axiosInstance.get("/api/account",{ params });
       setAccounts(res.data);
       // setBooksnum(res.data.length)
       setIsLoading(false);
@@ -126,6 +137,7 @@ export const GlobalProvider = ({ children }) => {
         accounts,
         // deleteTask,
         isLoading,
+        // axiosInstant,
         // completedTasks,
         // importantTasks,
         // incompleteTasks,
@@ -134,12 +146,14 @@ export const GlobalProvider = ({ children }) => {
         // openModal,
         // closeModal,
         // allTasks,
+        setAccounts,
+        setBooks,
         allBooks,
         allAccounts,
         collapsed,
         collapseMenu,
         show,  
-        changeShow,
+        changeShow,  
         // menuShow,
         // changeMenuShow
       }}

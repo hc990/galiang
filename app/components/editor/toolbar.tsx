@@ -8,14 +8,10 @@ import { LuUndo2, LuRedo2,LuBold,LuSave,LuFileImage,LuItalic} from "react-icons/
 import { ImageUploadPopover } from './image-upload-popover'
 import { markdownFromHTML, htmlFromMarkdown } from './markdown'
 import { ListDOMSerializer } from 'prosekit/extensions/list'
-import axios from 'axios'
-import siteMetadata from '@/data/siteMetadata'
+// import axios from 'axios'
+// import { axiosInstant} from '../../context/globalProvider';
 import { NextResponse } from 'next/server'
-
-const axiosInstant = axios.create({  
-  baseURL: siteMetadata.siteUrl ,
-  timeout: 3000
-})
+import { useGlobalState } from '@/app/context/globalProvider'
 
 export default function Toolbar({ 
   hasUnsavedChange, setHasUnsavedChange, slug, comment} :{hasUnsavedChange:boolean,setHasUnsavedChange:Function,slug:any, comment:string}) {
@@ -41,6 +37,7 @@ export default function Toolbar({
     const html = htmlFromNode(editor.view.state.doc, {
       DOMSerializer: ListDOMSerializer,
     })
+    const { axiosInstant } = useGlobalState();
     const record = markdownFromHTML(html)
     try {
       await axiosInstant.put("/api/blog",{ params: { id: slug, comment: record, status:0 }});

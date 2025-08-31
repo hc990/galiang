@@ -69,7 +69,7 @@ const Dialog: React.FC<DialogProps> = ({
                  <LuX/> 
             </Button>
         </div>
-        <GenericForm fields={fields} onSubmit={handleFormSubmit}/>
+        <GenericForm fields={fields} buttonType={0} onSubmit={handleFormSubmit}/>
       </dialog>
     </div>
   );
