@@ -5,9 +5,9 @@ import { LuX } from "react-icons/lu"
 interface FormField {
   name: string;
   label: string;
-  type: "text" | "email" | "password" | "number" | "textarea" | "checkbox" | "radio" | "select" | "datepicker";
+  type: "text" | "email" | "password" | "number" | "textarea" | "checkbox" | "radio" | "select" | "datepicker" | "daterangepicker";
   required?: boolean;
-  validate?: (value: string | boolean) => string | null;
+  validate?: (value: string | boolean, formData: Record<string, string | boolean>) => string | null;
   options?: { value: string; label: string }[]; // For select and radio
   min?: number; // For number
   max?: number; // For number

@@ -39,7 +39,6 @@ export const GlobalProvider = ({ children }) => {
   const [accounts, setAccounts] = useState([]);
   const [booksNum, setBooksnum] = useState(0);
   const [show, setShow] = useState(true);
-
   // const [menuShow, setMenuShow] = useState(true)
 
   // const theme = themes[selectedTheme];

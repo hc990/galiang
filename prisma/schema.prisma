@@ -36,17 +36,20 @@ model accounts {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   channel    Int
   comm_num   Int
-  comm_type  Int
+  comm_type  Int 
   comm_unit  Int
+  createTime DateTime @db.Date
+  modifyTime DateTime @db.Date
   order_time DateTime @db.Date
   price      Int
+  status     Int
   store_name Int
 }
 
 model accountstemp {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   order_time DateTime @db.Date
-  price      Int
+  price      String
   store_name String
 }
 

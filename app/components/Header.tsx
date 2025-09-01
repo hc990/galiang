@@ -16,13 +16,13 @@ const Header = async () => {
   return (   
     <header >
       <div className = "ml-10 flex items-center flex-row justify-between">
-        <Image className="m-5 pr-5 space-x-4 w-[150px] h-[110px]  mr-40" 
+        <Image className="m-5 pr-5 space-x-4 w-[150px] h-[120px]  mr-40" 
               src= "/static/images/logo.png"
               alt="ooxx"  
               priority
               // layout="fill" 
               width={100} 
-              height={150}
+              height={180}
               // objectFit="cover"
             />
       <div className="flex items-center justify-between space-x-6 leading-4 pl-2 ml-20">

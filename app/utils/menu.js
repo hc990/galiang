@@ -20,9 +20,9 @@ const menu = [
   },
   {
     id: 4,
-    title: "黄色网站",
+    title: "账目管理",
     icon: todo,
-    link: "/incomplete",
+    link: "/account",
   },
 ];
 

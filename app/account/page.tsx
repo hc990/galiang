@@ -18,7 +18,7 @@ import { LuOctagonX, LuFilePenLine } from "react-icons/lu";
 import moment from "moment";
 import axiosInstance from "../axios/axiosInstance"
 
-export default function Arrange() {
+export default function Account() {
   // const axiosInstant = axios.create({  
   //   baseURL: siteMetadata.siteUrl ,  
   //   timeout: 3000
@@ -43,8 +43,15 @@ export default function Arrange() {
           ? "Please select a valid store."
           : null,
     },
-    { name: "startTime", label: "StartTime", type: "datepicker", required: true },
-    { name: "endTime", label: "EndTime", type: "datepicker", required: true },
+    // { name: "startTime", label: "StartTime", type: "datepicker", required: true },
+    // { name: "endTime", label: "EndTime", type: "datepicker", required: true },
+    {
+      name: "startDate",
+      label: "Start Date",
+      type: "daterangepicker",
+      required: true,
+      relatedField: "endDate",
+    },
     // {
     //   name: "username",
     //   label: "Username",
@@ -186,7 +193,8 @@ export default function Arrange() {
     { name: "price", label: "金额", type: "number", step: 1, min: 0, required: true },
   ];
   const handleSubmit = async (data: any) => {
-    const params = { store_name: data.store_name };
+    // alert("Form submitted: " + JSON.stringify(data));
+    const params = { store_name: data.store_name,start_time: data.startDate,end_time: data.endDate };
     await axiosInstance.get("/api/account",{ params }).then(function (response) {
         setAccounts(response.data)
         setSuccess("账目查询成功！")
@@ -203,6 +211,17 @@ export default function Arrange() {
       console.log(error);
     });
   }
+
+  const delAccount = async (data: any) => {
+      confirm("确定删除此账目吗？")
+      try {
+          await axiosInstance.put("/api/account",{ params: { id: data, status:1 }});
+          setAccounts((prev: any[]) => prev.filter((account) => account.id !== data));
+          setSuccess("账目删除成功！")
+      } catch (error) {
+          console.log("ERROR updating BOOK: ", error); 
+      }
+  };
 
   const handleFormSubmit = async (data: any) => {
     // alert("Form submitted: " + JSON.stringify(data));
@@ -345,7 +364,7 @@ export default function Arrange() {
                     </td>
                     <td className="px-2 py-2 border-r-2 border-solid border-slate-200">
                       <div className="flex justify-between">
-                        <a href="#" className="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-900 focus:ring-2 focus:ring-pink-400">
+                        <a href="#" onClick={() => delAccount(id)}  className="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-900 focus:ring-2 focus:ring-pink-400">
                           <LuOctagonX />
                         </a>
                         <a href="#" className="bg-pink-500 text-white px-4 pr-4 py-2 rounded-md hover:bg-pink-700 focus:ring-2 focus:ring-pink-400">

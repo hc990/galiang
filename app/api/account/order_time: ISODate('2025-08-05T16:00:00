@@ -1,0 +1,1 @@
+  order_time: ISODate('2025-08-05T16:00:00.000Z'),price: 3434,store_name: Long('2'),channel: Long('1'),comm_type: Long('1'),comm_num: Long('33'),comm_unit: Long('1'),status: Long('1'),createTime: ISODate('2025-09-01T01:46:22.978Z'),modifyTime: ISODate('2025-09-01T01:47:45.825Z')

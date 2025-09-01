@@ -1,6 +1,6 @@
-import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "@/app/utils/utils"
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/app/utils/utils";
 
 const alertVariants = cva(
   "relative w-full rounded-lg border px-4 py-3 text-sm [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground [&>svg~*]:pl-7",
@@ -16,29 +16,28 @@ const alertVariants = cva(
       variant: "default",
     },
   }
-)
+);
 
 interface AlertProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof alertVariants> {
-  autoDismiss?: number // Time in milliseconds before the alert disappears
+  autoDismiss?: number;
 }
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   ({ className, variant, autoDismiss = 3000, ...props }, ref) => {
-    const [isVisible, setIsVisible] = React.useState(true)
+    const [isVisible, setIsVisible] = React.useState(true);
 
     React.useEffect(() => {
       if (autoDismiss > 0) {
         const timer = setTimeout(() => {
-          setIsVisible(false)
-        }, autoDismiss)
-
-        return () => clearTimeout(timer) // Cleanup on unmount
+          setIsVisible(false);
+        }, autoDismiss);
+        return () => clearTimeout(timer);
       }
-    }, [autoDismiss])
+    }, [autoDismiss]);
 
-    if (!isVisible) return null
+    if (!isVisible) return null;
 
     return (
       <div
@@ -47,10 +46,10 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         className={cn(alertVariants({ variant }), className)}
         {...props}
       />
-    )
+    );
   }
-)
-Alert.displayName = "Alert"
+);
+Alert.displayName = "Alert";
 
 const AlertTitle = React.forwardRef<
   HTMLParagraphElement,
@@ -61,8 +60,8 @@ const AlertTitle = React.forwardRef<
     className={cn("mb-1 font-medium leading-none tracking-tight", className)}
     {...props}
   />
-))
-AlertTitle.displayName = "AlertTitle"
+));
+AlertTitle.displayName = "AlertTitle";
 
 const AlertDescription = React.forwardRef<
   HTMLParagraphElement,
@@ -73,7 +72,7 @@ const AlertDescription = React.forwardRef<
     className={cn("text-sm [&_p]:leading-relaxed", className)}
     {...props}
   />
-))
-AlertDescription.displayName = "AlertDescription"
+));
+AlertDescription.displayName = "AlertDescription";
 
-export { Alert, AlertTitle, AlertDescription }
+export { Alert, AlertTitle, AlertDescription };

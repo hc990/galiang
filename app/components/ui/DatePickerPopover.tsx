@@ -1,11 +1,11 @@
-
 import React, { useState, useRef, useEffect } from "react";
-import { format, parse } from "date-fns";
+import { format, parse, isValid } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { LuCalendarDays } from "react-icons/lu";
 import Button from "./Button";
+
 interface DatePickerPopoverProps {
   name: string;
   label: string;
@@ -13,6 +13,7 @@ interface DatePickerPopoverProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
   required?: boolean;
+  autoDismissPopover?: number;
 }
 
 const DatePickerPopover: React.FC<DatePickerPopoverProps> = ({
@@ -22,6 +23,7 @@ const DatePickerPopover: React.FC<DatePickerPopoverProps> = ({
   onChange,
   error,
   required,
+  autoDismissPopover = 10000,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -29,12 +31,19 @@ const DatePickerPopover: React.FC<DatePickerPopoverProps> = ({
 
   // Parse value to Date for DayPicker
   const selectedDate = value ? parse(value, "yyyy-MM-dd", new Date()) : undefined;
-  if (selectedDate && isNaN(selectedDate.getTime())) {
-    console.warn(`Invalid date value for ${name}: ${value}`);
-  }
 
   // Toggle popover
   const togglePopover = () => setIsOpen((prev) => !prev);
+
+  // Auto-dismiss popover
+  useEffect(() => {
+    if (isOpen && autoDismissPopover > 0) {
+      const timer = setTimeout(() => {
+        setIsOpen(false);
+      }, autoDismissPopover);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, autoDismissPopover]);
 
   // Close popover when clicking outside
   useEffect(() => {
@@ -92,7 +101,7 @@ const DatePickerPopover: React.FC<DatePickerPopoverProps> = ({
           onChange={onChange}
           onClick={togglePopover}
           placeholder="YYYY-MM-DD"
-          className={`border border-grep-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-pink-500 ${
+          className={`border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-pink-500 ${
             error ? "border-pink-500" : ""
           }`}
         />
@@ -101,18 +110,19 @@ const DatePickerPopover: React.FC<DatePickerPopoverProps> = ({
           onClick={togglePopover}
           className="bg-pink-500 text-white px-3 py-2 rounded-md hover:bg-pink-600 focus:ring-2 focus:ring-pink-400"
         >
-          <LuCalendarDays/>
+          <LuCalendarDays />
         </Button>
       </div>
       {error && <p className="text-sm text-pink-500 mt-1">{error}</p>}
-      {isOpen &&
+      <AnimatePresence>
+        {isOpen && (
           <motion.div
             ref={popoverRef}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed z-50 bg-white border border-gray-300 rounded-md shadow-lg p-4"
+            className="fixed z-50 bg-pink-200 bg-opacity-80 border border-gray-300 rounded-md shadow-lg p-4"
             style={{ top: `${top}px`, left: `${left}px`, minWidth: "250px" }}
           >
             <DayPicker
@@ -121,8 +131,8 @@ const DatePickerPopover: React.FC<DatePickerPopoverProps> = ({
               onSelect={handleDateSelect}
             />
           </motion.div>
-          
-        }
+        )}
+      </AnimatePresence>
     </div>
   );
 };

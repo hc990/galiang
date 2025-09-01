@@ -11,7 +11,8 @@ import { ListDOMSerializer } from 'prosekit/extensions/list'
 // import axios from 'axios'
 // import { axiosInstant} from '../../context/globalProvider';
 import { NextResponse } from 'next/server'
-import { useGlobalState } from '@/app/context/globalProvider'
+// import { useGlobalState } from '@/app/context/globalProvider'
+import axiosInstance from '@/app/axios/axiosInstance'
 
 export default function Toolbar({ 
   hasUnsavedChange, setHasUnsavedChange, slug, comment} :{hasUnsavedChange:boolean,setHasUnsavedChange:Function,slug:any, comment:string}) {
@@ -20,7 +21,7 @@ export default function Toolbar({
   // const [defaultDoc, setDefaultDoc] = useState<NodeJSON | undefined>()
 
   const editor = useEditor<EditorExtension>({ update: true })
-
+  // const { axiosInstance } = useGlobalState();
   const handleDocChange = useCallback(() => setHasUnsavedChange(true), [])
   useDocChange(handleDocChange, { editor })
   const [records, setRecords] = useState<string[]>([comment])  
@@ -37,10 +38,10 @@ export default function Toolbar({
     const html = htmlFromNode(editor.view.state.doc, {
       DOMSerializer: ListDOMSerializer,
     })
-    const { axiosInstant } = useGlobalState();
+
     const record = markdownFromHTML(html)
     try {
-      await axiosInstant.put("/api/blog",{ params: { id: slug, comment: record, status:0 }});
+      await axiosInstance.put("/api/blog",{ params: { id: slug, comment: record, status:0 }});
     } catch (error) {
       console.log("ERROR updating BOOK: ", error);
       return NextResponse.json({ error: "Error creating book", status: 500 });
