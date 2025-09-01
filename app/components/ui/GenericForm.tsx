@@ -338,7 +338,7 @@ const GenericForm: React.FC<GenericFormProps> = ({ buttonType, fields, onSubmit 
           variant="outline"
           type="reset"
           onClick={handleClear}
-          className="bg-gray-200 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-300 focus:ring-2 focus:ring-gray-400"
+          className="px-6 py-2 rounded-md"
         >
           重置
         </Button>
@@ -346,7 +346,7 @@ const GenericForm: React.FC<GenericFormProps> = ({ buttonType, fields, onSubmit 
           variant="outline"
           type="button"
           onClick={handleSubmit}
-          className="bg-pink-500 text-white px-6 py-2 rounded-md hover:bg-pink-600 focus:ring-2 focus:ring-pink-400"
+          className="px-6 py-2 rounded-md"
         >
           {buttonType === 0 ? "提交" : "查询"}
         </Button>

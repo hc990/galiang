@@ -23,10 +23,10 @@ function Button({
       type={type}
       className={`inline-flex items-center min-w-[38px] min-h-[38px] rounded px-3 py-1.5
       ${variant === "default"
-          ? "text-black dark:text-gray-300 bg-gray-50 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-900"
+          ? "text-white dark:text-pink-300 bg-pink-400 hover:bg-pink-500 dark:bg-pink-700 dark:hover:bg-pink-900"
           : variant === "outline"
-            ? "border border-gray-300 dark:border-gray-600 text-black dark:text-gray-300 bg-gray-50 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
-            : "text-black dark:text-gray-300 bg-transparent hover:bg-gray-200 dark:hover:bg-gray-700"
+            ? "text-white border border-pink-300 dark:border-pink-600 text-black dark:text-pink-300 bg-pink-400 hover:bg-pink-500 dark:bg-pink-800 dark:hover:bg-pink-900"
+            : "text-black dark:text-pink-300 bg-transparent hover:bg-pink-400 dark:hover:bg-pink-700"
         }
       ${className}`}
       {...props}

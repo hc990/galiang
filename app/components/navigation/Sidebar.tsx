@@ -30,8 +30,12 @@ function Sidebar() {
   let pathname = usePathname();
 
   const isActive = (link: string) => {
-    if (link === '/') {
-      return pathname === '/';
+    if (link.lastIndexOf('/') === link.length - 1) {
+      link = '/blog';
+      //  return pathname.indexOf('blog') !== -1;
+      if (pathname.lastIndexOf('/') === pathname.length - 1) {
+        return true
+      }
     }
     return pathname.startsWith(link);
   };
@@ -40,7 +44,7 @@ function Sidebar() {
     router.push(link);
   };
   return (
-    <nav className='border border-gray-300 rounded flex flex-col justify-between'>
+    <nav className='border border-pink-300 rounded flex flex-col justify-between'>
       <div className='px-2 pt-2 space-y-1'>
         <div className='flex items-center space-x-2 cursor-pointer'>
           <div className='relative overflow-hidden'>

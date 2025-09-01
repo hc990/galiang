@@ -5,6 +5,7 @@ const menu = [
     id: 1,
     title: "价值分析",
     link: "/",
+    icon: home,
   },
   {
     id: 2,
