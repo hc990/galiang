@@ -74,7 +74,7 @@ export async function GET(req: NextRequest) {
             status: 0
           },
           orderBy: {
-            id: 'desc'
+            order_time: 'desc'
           },
         }));
         return NextResponse.json(accounts);

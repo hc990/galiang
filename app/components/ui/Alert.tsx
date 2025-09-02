@@ -1,78 +1,51 @@
 import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/app/utils/utils";
+import { useEffect, useState } from "react";
 
-const alertVariants = cva(
-  "relative w-full rounded-lg border px-4 py-3 text-sm [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground [&>svg~*]:pl-7",
-  {
-    variants: {
-      variant: {
-        default: "text-blue bg-background text-foreground",
-        destructive:
-          "border-destructive/50 bg-pink-300 text-destructive dark:border-destructive [&>svg]:text-destructive",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
-  }
-);
 
-interface AlertProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof alertVariants> {
+
+interface AlertProps {
+  variant?: "default" | "destructive";
   autoDismiss?: number;
+  onDismiss?: () => void;
+  className?: string;
+  children: React.ReactNode;
 }
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
-  ({ className, variant, autoDismiss = 3000, ...props }, ref) => {
-    const [isVisible, setIsVisible] = React.useState(true);
+const Alert: React.FC<AlertProps> = ({ variant = "default", autoDismiss, onDismiss, className, children }) => {
+const [isVisible, setIsVisible] = useState(true);
 
-    React.useEffect(() => {
-      if (autoDismiss > 0) {
-        const timer = setTimeout(() => {
-          setIsVisible(false);
-        }, autoDismiss);
-        return () => clearTimeout(timer);
-      }
-    }, [autoDismiss]);
+  useEffect(() => {
+    if (autoDismiss) {
+      const timer = setTimeout(() => {
+        setIsVisible(false);
+        onDismiss?.();
+      }, autoDismiss);
+      return () => clearTimeout(timer);
+    }
+  }, [autoDismiss, onDismiss]);
 
-    if (!isVisible) return null;
+  if (!isVisible) return null;
 
-    return (
-      <div
-        ref={ref}
-        role="alert"
-        className={cn(alertVariants({ variant }), className)}
-        {...props}
-      />
-    );
-  }
+  return (
+    <div
+      className={cn(
+        "p-4 rounded-md",
+        variant === "destructive" ? "bg-pink-100 text-pink-800" : "bg-blue-100 text-blue-800",
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
+};
+
+const AlertTitle: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <h4 className="font-bold">{children}</h4>
 );
-Alert.displayName = "Alert";
 
-const AlertTitle = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h5
-    ref={ref}
-    className={cn("mb-1 font-medium leading-none tracking-tight", className)}
-    {...props}
-  />
-));
-AlertTitle.displayName = "AlertTitle";
-
-const AlertDescription = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("text-sm [&_p]:leading-relaxed", className)}
-    {...props}
-  />
-));
-AlertDescription.displayName = "AlertDescription";
+const AlertDescription: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <p>{children}</p>
+);
 
 export { Alert, AlertTitle, AlertDescription };

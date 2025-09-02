@@ -35,7 +35,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
         }`}
       >
         <option value="" disabled>
-          Select an option
+          请选择
         </option>
         {options.map((option) => (
           <option key={option.value} value={option.value}>

@@ -24,7 +24,13 @@ export default function Account() {
   //   timeout: 3000
   // }) 
   const { accounts, setAccounts } = useGlobalState();
-  const [success, setSuccess] = useState("");
+  // const [success, setSuccess] = useState(string | null);
+  const [success, setSuccess] = useState<string | null>(null);
+  // In handleDelete
+  const handleAlertDismiss = () => {    
+    setSuccess(null);
+  };
+
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const fields: FormField[] = [
     {
@@ -175,7 +181,7 @@ export default function Account() {
           : null,
     },
     { name: "order_time", label: "生成时间", type: "datepicker", required: true },
-    { name: "comm_num", label: "商品数量", type: "number", step: 1, min: 0, required: true },
+    { name: "comm_num", label: "商品数量", placeholder:"请填写数字", type: "number", step: 1, min: 0, required: true },
     {
       name: "comm_unit",
       label: "商品类型",
@@ -190,37 +196,37 @@ export default function Account() {
           ? "Please select a valid store."
           : null,
     },
-    { name: "price", label: "金额", type: "number", step: 1, min: 0, required: true },
+    { name: "price", label: "金额", placeholder:"请填写数字", type: "number", step: 1, min: 0, required: true },
   ];
   const handleSubmit = async (data: any) => {
     // alert("Form submitted: " + JSON.stringify(data));
-    const params = { store_name: data.store_name,start_time: data.startDate,end_time: data.endDate };
-    await axiosInstance.get("/api/account",{ params }).then(function (response) {
-        setAccounts(response.data)
-        setSuccess("账目查询成功！")
+    const params = { store_name: data.store_name, start_time: data.startDate, end_time: data.endDate };
+    await axiosInstance.get("/api/account", { params }).then(function (response) {
+      setAccounts(response.data)
+      setSuccess("账目查询成功！")
     }).catch(function (error) {
       console.log(error);
     });
-  }; 
+  };
   const onSuccess = async (response: any) => {
     const params = { id: null };
-    await axiosInstance.get("/api/account",{ params }).then(function (response) {
-        setAccounts(response.data)
-        setSuccess("账目添加成功！")
+    await axiosInstance.get("/api/account", { params }).then(function (response) {
+      setAccounts(response.data)
+      setSuccess("账目添加成功！")
     }).catch(function (error) {
       console.log(error);
     });
   }
 
   const delAccount = async (data: any) => {
-      confirm("确定删除此账目吗？")
-      try {
-          await axiosInstance.put("/api/account",{ params: { id: data, status:1 }});
-          setAccounts((prev: any[]) => prev.filter((account) => account.id !== data));
-          setSuccess("账目删除成功！")
-      } catch (error) {
-          console.log("ERROR updating BOOK: ", error); 
-      }
+    confirm("确定删除此账目吗？")
+    try {
+      await axiosInstance.put("/api/account", { params: { id: data, status: 1 } });
+      setAccounts((prev: any[]) => prev.filter((account) => account.id !== data));
+      setSuccess("账目删除成功！")
+    } catch (error) {
+      console.log("ERROR updating BOOK: ", error);
+    }
   };
 
   const handleFormSubmit = async (data: any) => {
@@ -231,17 +237,18 @@ export default function Account() {
       console.log(error);
     });;
   };
-  const buttons = [
-    { label: "Option 1", onClick: () => setActiveIndex(0), isActive: activeIndex === 0 },
-    { label: "Option 2", onClick: () => setActiveIndex(1), isActive: activeIndex === 1 },
-    { label: "Option 3", onClick: () => setActiveIndex(2), isActive: activeIndex === 2 },
-  ];
+  // const buttons = [
+  //   { label: "Option 1", onClick: () => setActiveIndex(0), isActive: activeIndex === 0 },
+  //   { label: "Option 2", onClick: () => setActiveIndex(1), isActive: activeIndex === 1 },
+  //   { label: "Option 3", onClick: () => setActiveIndex(2), isActive: activeIndex === 2 },
+  // ];
+
   return (
     <>
       {success && (
-              <Alert variant="destructive" autoDismiss={3000}>
-                <AlertDescription>{success}</AlertDescription>
-              </Alert>
+        <Alert variant="destructive" autoDismiss={3000} onDismiss={handleAlertDismiss}>
+          <AlertDescription>{success}</AlertDescription>
+        </Alert>
       )}
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className=" py-1 pt-1 md:space-y-1">
@@ -278,7 +285,9 @@ export default function Account() {
                 </th>
                 <th className="px-4 py-2 border-r-2 border-solid border-slate-200">
                   <p className="text-sm leading-none font-normal">
-                    交易时间
+                    {/* <a href="#" className=""> */}
+                      交易时间
+                    {/* </a> */}
                   </p>
                 </th>
                 <th className="px-4 py-2 border-r-2 border-solid border-slate-200">
@@ -354,7 +363,7 @@ export default function Account() {
                     </td>
                     <td className="px-4 py-2 border-r-2 border-solid border-slate-200">
                       <p className="text-sm text-center">
-                        {Math.round((price/comm_num + Number.EPSILON) * 100) / 100}
+                        {Math.round((price / comm_num + Number.EPSILON) * 100) / 100}
                       </p>
                     </td>
                     <td className="px-4 py-2 border-r-2 border-solid border-slate-200">
@@ -364,7 +373,7 @@ export default function Account() {
                     </td>
                     <td className="px-2 py-2 border-r-2 border-solid border-slate-200">
                       <div className="flex justify-between">
-                        <a href="#" onClick={() => delAccount(id)}  className="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-900 focus:ring-2 focus:ring-pink-400">
+                        <a href="#" onClick={() => delAccount(id)} className="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-900 focus:ring-2 focus:ring-pink-400">
                           <LuOctagonX />
                         </a>
                         <a href="#" className="bg-pink-500 text-white px-4 pr-4 py-2 rounded-md hover:bg-pink-700 focus:ring-2 focus:ring-pink-400">

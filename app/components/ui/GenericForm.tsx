@@ -143,7 +143,7 @@ const GenericForm: React.FC<GenericFormProps> = ({ buttonType, fields, onSubmit 
     if (validate()) {
       onSubmit(formData);
     } else {
-      setSubmitError("Please fix the errors in the form before submitting.");
+      setSubmitError("请正确提交查询选项！");
     }
   };
 
@@ -329,7 +329,7 @@ const GenericForm: React.FC<GenericFormProps> = ({ buttonType, fields, onSubmit 
       </div>
       {submitError && (
         <Alert variant="destructive" autoDismiss={5000} className="mb-4">
-          <AlertTitle>Form Error</AlertTitle>
+          <AlertTitle>查询选项输入错误</AlertTitle>
           <AlertDescription>{submitError}</AlertDescription>
         </Alert>
       )}
