@@ -7,7 +7,7 @@ import GenericForm from '../components/ui/GenericForm';
 // import projectsData from '@/data/projectsData'
 // import Card from '@/app/components/ui/Card'  
 // import { genPageMetadata } from 'app/seo'
-import { axiosInstance ,useGlobalState } from '../context/globalProvider';
+import { axiosInstance, useGlobalState } from '../context/globalProvider';
 import formatDate from '@/app/utils/formatDate'
 // import ButtonGroup from "../components/ui/ButtonGroup";
 import Dialog from "../components/ui/Dialog";
@@ -27,7 +27,7 @@ export default function Account() {
   // const [success, setSuccess] = useState(string | null);
   const [success, setSuccess] = useState<string | null>(null);
   // In handleDelete
-  const handleAlertDismiss = () => {    
+  const handleAlertDismiss = () => {
     setSuccess(null);
   };
 
@@ -181,7 +181,7 @@ export default function Account() {
           : null,
     },
     { name: "order_time", label: "生成时间", type: "datepicker", required: true },
-    { name: "comm_num", label: "商品数量", placeholder:"请填写数字", type: "number", step: 1, min: 0, required: true },
+    { name: "comm_num", label: "商品数量", placeholder: "请填写数字", type: "number", step: 1, min: 0, required: true },
     {
       name: "comm_unit",
       label: "商品类型",
@@ -196,7 +196,7 @@ export default function Account() {
           ? "Please select a valid store."
           : null,
     },
-    { name: "price", label: "金额", placeholder:"请填写数字", type: "number", step: 1, min: 0, required: true },
+    { name: "price", label: "金额", placeholder: "请填写数字", type: "number", step: 1, min: 0, required: true },
   ];
   const handleSubmit = async (data: any) => {
     // alert("Form submitted: " + JSON.stringify(data));
@@ -286,7 +286,7 @@ export default function Account() {
                 <th className="px-4 py-2 border-r-2 border-solid border-slate-200">
                   <p className="text-sm leading-none font-normal">
                     {/* <a href="#" className=""> */}
-                      交易时间
+                    交易时间
                     {/* </a> */}
                   </p>
                 </th>

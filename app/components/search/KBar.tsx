@@ -4,9 +4,10 @@ import type { Action } from 'kbar'
 import { KBarProvider } from 'kbar'
 import { useRouter } from 'next/navigation.js'
 import { KBarModal } from './KBarModal'
-import axios from "axios";
-import  formatDate from '@/app/utils/formatDate'
-import { auth } from "@clerk/nextjs/server"
+// import axios from "axios";
+import formatDate from '@/app/utils/formatDate'
+import { axiosInstance } from '@/app/context/globalProvider'
+// import { auth } from "@clerk/nextjs/server"
 
 export interface KBarSearchProps {
   // searchDocumentsPath: string | false
@@ -49,7 +50,7 @@ export const KBarSearchProvider: FC<{
   const [dataLoaded, setDataLoaded] = useState(false)
 
   useEffect(() => {
-    const mapBooks = ( books: any ) => {
+    const mapBooks = (books: any) => {
       const actions: Action[] = []
       // books.reverse()
       for (const book of books) {
@@ -70,11 +71,11 @@ export const KBarSearchProvider: FC<{
       //     searchDocumentsPath.indexOf('://') > 0 || searchDocumentsPath.indexOf('//') === 0
       //       ? searchDocumentsPath
       //       : new URL(searchDocumentsPath, window.location.origin)
-        const res = await axios.get("/api/search");
-        const json = res.data
-        const actions = onSearchDocumentsLoad ? onSearchDocumentsLoad( json ) :  mapBooks( json )
-        setSearchActions(actions)
-        setDataLoaded(true)
+      const res = await axiosInstance.get("/api/search");
+      const json = res.data
+      const actions = onSearchDocumentsLoad ? onSearchDocumentsLoad(json) : mapBooks(json)
+      setSearchActions(actions)
+      setDataLoaded(true)
       // }
     }
     if (!dataLoaded) {
@@ -82,9 +83,9 @@ export const KBarSearchProvider: FC<{
     } else {
       setDataLoaded(true)
     }
-  }, [defaultActions, dataLoaded, router , onSearchDocumentsLoad])
+  }, [defaultActions, dataLoaded, router, onSearchDocumentsLoad])
 
-  return (  
+  return (
     <KBarProvider actions={defaultActions}>
       <KBarModal actions={searchActions} isLoading={!dataLoaded} />
       {children}

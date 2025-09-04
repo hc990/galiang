@@ -60,16 +60,16 @@ const Dialog: React.FC<DialogProps> = ({
         className="items-top space-x-2 rounded-md bg-gray-50 p-6 shadow-lg  w-full  max-w-4xl "
       >
         <div className="flex justify-between gap-2 mt-4">
-        <h2 className="text-lg font-medium text-pink-700 mb-4">{dialogTitle}</h2>
-            <Button
-                type="button"
-                onClick={closeDialog}
-                className="px-4 py-2 border border-pink-300 rounded-md text-pink-700 hover:bg-pink-100"
-            >
-                 <LuX/> 
-            </Button>
+          <h2 className="text-lg font-medium text-pink-700 mb-4">{dialogTitle}</h2>
+          <Button
+            type="button"
+            onClick={closeDialog}
+            className="px-4 py-2 border border-pink-300 rounded-md text-pink-700 hover:bg-pink-100"
+          >
+            <LuX />
+          </Button>
         </div>
-        <GenericForm fields={fields} buttonType={0} onSubmit={handleFormSubmit}/>
+        <GenericForm fields={fields} buttonType={0} onSubmit={handleFormSubmit} />
       </dialog>
     </div>
   );

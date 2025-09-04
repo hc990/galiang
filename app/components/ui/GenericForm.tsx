@@ -5,21 +5,21 @@ import DatePickerPopover from "./DatePickerPopover";
 import Button from "./Button";
 import DateRangePicker from "./DateRangePicker";
 import { Alert, AlertTitle, AlertDescription } from "./Alert";
-            
+
 export interface FormField {
   name: string;
   label: string;
   type:
-    | "text"
-    | "email"
-    | "password"
-    | "number"
-    | "textarea"
-    | "checkbox"
-    | "radio"
-    | "select"
-    | "datepicker"
-    | "daterangepicker";
+  | "text"
+  | "email"
+  | "password"
+  | "number"
+  | "textarea"
+  | "checkbox"
+  | "radio"
+  | "select"
+  | "datepicker"
+  | "daterangepicker";
   required?: boolean;
   validate?: (value: string | boolean, formData: Record<string, string | boolean>) => string | null;
   options?: { value: string; label: string }[];
@@ -68,7 +68,7 @@ const GenericForm: React.FC<GenericFormProps> = ({ buttonType, fields, onSubmit 
     fields.forEach((field) => {
       const value = formData[field.name];
       let error = "";
-      
+
       if (field.required && (value === "" || value === false)) {
         error = `${field.label} is required.`;
       } else if (field.validate) {
@@ -104,9 +104,8 @@ const GenericForm: React.FC<GenericFormProps> = ({ buttonType, fields, onSubmit 
         if (field.relatedField && formData[field.relatedField]) {
           const endError =
             !isValid(endDate) && formData[field.relatedField] !== ""
-              ? `${
-                  fields.find((f) => f.name === field.relatedField)?.label || "End date"
-                } must be a valid date (YYYY-MM-DD).`
+              ? `${fields.find((f) => f.name === field.relatedField)?.label || "End date"
+              } must be a valid date (YYYY-MM-DD).`
               : "";
           newErrors[field.relatedField] = endError;
           if (endError) _isValid = false;
@@ -153,9 +152,8 @@ const GenericForm: React.FC<GenericFormProps> = ({ buttonType, fields, onSubmit 
       name: field.name,
       value: formData[field.name] as string,
       onChange: handleChange,
-      className: `border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-pink-500 ${
-        errors[field.name] ? "border-pink-500" : ""
-      }`,
+      className: `border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-pink-500 ${errors[field.name] ? "border-pink-500" : ""
+        }`,
     };
 
     switch (field.type) {
