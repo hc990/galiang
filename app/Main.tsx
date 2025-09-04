@@ -60,7 +60,7 @@ export default function Home() {
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="flex space-x-14 md:space-x-16 lg:space-x-18 items-end space-y-0.25 pb-6 pt-4 md:space-y-1"> 
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14">
-             金鼎店   
+             德养运善养福
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
           Welcome, {user?.firstName}!

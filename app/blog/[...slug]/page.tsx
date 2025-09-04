@@ -6,7 +6,8 @@ import PostBanner from '@/layouts/PostBanner'
 // import siteMetadata from '@/data/siteMetadata'  
 // import axios from 'axios'
 import DownloadButton from '@/app/components/common/DownloadButton'
-import axiosInstance from '@/app/axios/axiosInstance'
+import { axiosInstance } from '@/app/context/globalProvider'
+
 
 // type BookData = {
 //   id: string;
@@ -27,7 +28,7 @@ import axiosInstance from '@/app/axios/axiosInstance'
 //   data: BookData;
 // };
 const defaultLayout = 'PostLayout'
-const layouts = {  
+const layouts = {
   PostSimple,
   PostLayout,
   PostBanner,
@@ -40,16 +41,16 @@ const layouts = {
 // const {  axiosInstant } = useGlobalState();
 export default async function Page(
   props
-: {
-  params: Promise<{ slug: string[] }>;
-})  {
-  const { slug } =  await props.params;
+    : {
+      params: Promise<{ slug: string[] }>;
+    }) {
+  const { slug } = await props.params;
   const id = decodeURI(slug.join('/'))
-  const Layout = layouts["PostLayout"]   
+  const Layout = layouts["PostLayout"]
   // let book: BookData | null = null;
   try {
-    const prev = {'path':'fdfdsf',"title":"fdsf"}
-    const next = {'path':'34324',"title":"fdfs"}
+    const prev = { 'path': 'fdfdsf', "title": "fdsf" }
+    const next = { 'path': '34324', "title": "fdfs" }
     const response = await axiosInstance.get('/api/blog', { params: { id: id } });
     const book = response.data;
     if (!book) {
@@ -60,9 +61,9 @@ export default async function Page(
       <>
         <script
           type="application/ld+json"
-          // dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />  
-        <Layout book={book} path="/" prev={ prev }  next={ next } slug={ id } >
+        // dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <Layout book={book} path="/" prev={prev} next={next} slug={id} >
           <DownloadButton slug={id}>
             <div className="px-1">Download</div>
           </DownloadButton>
@@ -74,7 +75,7 @@ export default async function Page(
     return <div>Error loading data</div>;
   }
 
-  
+
 }
 
 

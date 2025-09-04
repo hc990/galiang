@@ -4,11 +4,11 @@ import React, { createContext, useState, useContext } from 'react';
 import axios from 'axios';
 // import toast from "react-hot-toast";
 import siteMetadata from '@/data/siteMetadata'
-import { set } from 'date-fns';
-// import { useUser } from "@clerk/nextjs";
-// import { MdSignalCellularNull } from "react-icons/md";  
-import axiosInstance from '../axios/axiosInstance'
 
+export const axiosInstance = axios.create({  
+    baseURL: siteMetadata.siteUrl ,
+    timeout: 300000
+}) 
 
 export const GlobalContext = createContext();
 export const GlobalUpdateContext = createContext();
@@ -66,7 +66,8 @@ export const GlobalProvider = ({ children }) => {
     setIsLoading(true);
     try {  
       const params = {  
-        id: null
+        id: null,
+        limit: 10
       };  
       const res = await axiosInstance.get("/api/blog",{ params });
       setBooks(res.data);
@@ -147,8 +148,8 @@ export const GlobalProvider = ({ children }) => {
         // allTasks,
         setAccounts,
         setBooks,
-        // allBooks,
-        // allAccounts,
+        allBooks,
+        allAccounts,
         collapsed,
         collapseMenu,
         show,  

@@ -51,6 +51,7 @@ export async function POST(req: Request) {
 export async function GET(req: NextRequest) {
   try {
     const id = req.nextUrl.searchParams.get("id")
+    const limit = req.nextUrl.searchParams.get("limit")
     if (id != null) {
       const books = await prisma.books.findUnique({
         where: {
@@ -63,6 +64,7 @@ export async function GET(req: NextRequest) {
         orderBy: {  
           id: 'desc'
         },
+        take: parseInt(limit?limit:'10') 
       }));
       return NextResponse.json(books);
     }   
@@ -77,7 +79,6 @@ export async function PUT(req: Request) {
   try {
     const { params } = await req.json(); 
     const id = params.id
-    console.info(id)
     const status = params.status
     const comment = params.comment
     const book = await prisma.books.update({

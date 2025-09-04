@@ -7,7 +7,7 @@ import GenericForm from '../components/ui/GenericForm';
 // import projectsData from '@/data/projectsData'
 // import Card from '@/app/components/ui/Card'  
 // import { genPageMetadata } from 'app/seo'
-import { useGlobalState } from '../context/globalProvider';
+import { axiosInstance ,useGlobalState } from '../context/globalProvider';
 import formatDate from '@/app/utils/formatDate'
 // import ButtonGroup from "../components/ui/ButtonGroup";
 import Dialog from "../components/ui/Dialog";
@@ -16,7 +16,7 @@ import { FormField } from "../components/ui/GenericForm";
 import { Alert, AlertDescription } from "../components/ui/Alert";
 import { LuOctagonX, LuFilePenLine } from "react-icons/lu";
 import moment from "moment";
-import axiosInstance from "../axios/axiosInstance"
+// import axiosInstance from "../axios/axiosInstance"
 
 export default function Account() {
   // const axiosInstant = axios.create({  
