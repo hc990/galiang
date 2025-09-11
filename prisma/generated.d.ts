@@ -1,5 +1,5 @@
 /* eslint-disable */
-import type { Prisma, Todo, User, accounts, accountstemp, authors, bookcode, books, books_demo, bookstmp2, captcha, movies, sessions, users } from "/Users/huangchong/Documents/workspaces/galiang/node_modules/@prisma/client";
+import type { Prisma, Todo, User, accounts, accountstemp, authors, bookcode, books, books_demo, bookstmp2, captcha, commodity, movies, sessions, users } from "/Users/huangchong/Documents/workspaces/galiang/node_modules/@prisma/client";
 export default interface PrismaTypes {
     Todo: {
         Name: "Todo";
@@ -135,6 +135,20 @@ export default interface PrismaTypes {
         OrderBy: Prisma.captchaOrderByWithRelationInput;
         WhereUnique: Prisma.captchaWhereUniqueInput;
         Where: Prisma.captchaWhereInput;
+        Create: {};
+        Update: {};
+        RelationName: never;
+        ListRelations: never;
+        Relations: {};
+    };
+    commodity: {
+        Name: "commodity";
+        Shape: commodity;
+        Include: never;
+        Select: Prisma.commoditySelect;
+        OrderBy: Prisma.commodityOrderByWithRelationInput;
+        WhereUnique: Prisma.commodityWhereUniqueInput;
+        Where: Prisma.commodityWhereInput;
         Create: {};
         Update: {};
         RelationName: never;

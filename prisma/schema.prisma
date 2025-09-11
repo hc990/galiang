@@ -36,7 +36,8 @@ model accounts {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   channel    Int
   comm_num   Int
-  comm_type  Int 
+  comm_type  String
+  comm_name  String
   comm_unit  Int
   createTime DateTime @db.Date
   modifyTime DateTime @db.Date
@@ -119,6 +120,17 @@ model captcha {
   captcha_text     String
   createdAt        DateTime @db.Date
   requestIp        String
+}
+
+model commodity {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  channel     Int
+  createTime  DateTime @db.Date
+  description String
+  modifyTime  DateTime @db.Date
+  name        String
+  status      Int
+  type        Int
 }
 
 model movies {

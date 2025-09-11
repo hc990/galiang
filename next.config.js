@@ -22,7 +22,7 @@ const ContentSecurityPolicy = `
 `/** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["localhost"],
+    domains: ["192.168.2.214"],
   },
   experimental: {
     appDir: true,

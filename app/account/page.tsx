@@ -1,37 +1,25 @@
 'use client'
 
 import { useState } from "react";
-// import Button from "../components/ui/Button"; 
-// import DatePickerPopover from '../components/ui/DatePickerPopover';
+
 import GenericForm from '../components/ui/GenericForm';
-// import projectsData from '@/data/projectsData'
-// import Card from '@/app/components/ui/Card'  
-// import { genPageMetadata } from 'app/seo'
-import { axiosInstance, useGlobalState } from '../context/globalProvider';
+import { useGlobalState } from '../context/globalProvider';
 import formatDate from '@/app/utils/formatDate'
-// import ButtonGroup from "../components/ui/ButtonGroup";
 import Dialog from "../components/ui/Dialog";
 import { FormField } from "../components/ui/GenericForm";
-// import siteMetadata from '@/data/siteMetadata'
+
 import { Alert, AlertDescription } from "../components/ui/Alert";
 import { LuOctagonX, LuFilePenLine } from "react-icons/lu";
 import moment from "moment";
-// import axiosInstance from "../axios/axiosInstance"
+import axiosInstance from "../axios/axios";
 
 export default function Account() {
-  // const axiosInstant = axios.create({  
-  //   baseURL: siteMetadata.siteUrl ,  
-  //   timeout: 3000
-  // }) 
-  const { accounts, setAccounts } = useGlobalState();
-  // const [success, setSuccess] = useState(string | null);
+
+  const { accounts, setAccounts, commodities } = useGlobalState();
   const [success, setSuccess] = useState<string | null>(null);
-  // In handleDelete
   const handleAlertDismiss = () => {
     setSuccess(null);
   };
-
-  const [activeIndex, setActiveIndex] = useState<number>(0);
   const fields: FormField[] = [
     {
       name: "store_name",
@@ -49,80 +37,13 @@ export default function Account() {
           ? "Please select a valid store."
           : null,
     },
-    // { name: "startTime", label: "StartTime", type: "datepicker", required: true },
-    // { name: "endTime", label: "EndTime", type: "datepicker", required: true },
     {
       name: "startDate",
       label: "Start Date",
       type: "daterangepicker",
       required: true,
       relatedField: "endDate",
-    },
-    // {
-    //   name: "username",
-    //   label: "Username",
-    //   type: "text", // Explicitly use literal type
-    //   required: true,
-    //   placeholder: "Enter your username",
-    // },
-    // {
-    //   name: "email",
-    //   label: "Email",
-    //   type: "email", // Explicitly use literal type
-    //   required: true,
-    //   validate: (value: any) =>
-    //     !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
-    //       ? "Invalid email format."
-    //       : null,
-    //   placeholder: "Enter your email",
-    // },
-    // {
-    //   name: "age",
-    //   label: "Age",
-    //   type: "number", // Explicitly use literal type
-    //   required: true,
-    //   min: 18,
-    //   max: 100,
-    //   step: 1,
-    //   placeholder: "Enter your age",
-    // },
-    // {
-    //   name: "bio",
-    //   label: "Bio",
-    //   type: "textarea", // Explicitly use literal type
-    //   placeholder: "Tell us about yourself",
-    // },
-    // {
-    //   name: "newsletter",
-    //   label: "Subscribe to Newsletter",
-    //   type: "checkbox", // Explicitly use literal type
-    // },
-    // { name: "createTime", label: "CreateTime", type: "datepicker", required: true },
-    // {
-    //   name: "role",
-    //   label: "Role",
-    //   type: "select", // Explicitly use literal type
-    //   required: true,
-    //   options: [
-    //     { value: "admin", label: "Admin" },
-    //     { value: "user", label: "User" },
-    //     { value: "guest", label: "Guest" },
-    //   ],
-    //   validate: (value: any) =>
-    //     !["admin", "user", "guest"].includes(value)
-    //       ? "Please select a valid role."
-    //       : null,
-    // },
-    // {
-    //   name: "status",
-    //   label: "Status",
-    //   type: "radio", // Explicitly use literal type
-    //   required: true,
-    //   options: [
-    //     { value: "active", label: "Active" },
-    //     { value: "inactive", label: "Inactive" },
-    //   ],
-    // },
+    }, 
   ];
 
   enum StoreNames {
@@ -132,22 +53,14 @@ export default function Account() {
     "巴黎春天店",
     "太平洋店"
   }
-  enum CommTypes {
-    "",
-    "芋圆",
-    "木薯",
-    "桃胶",
-    "汤圆",
-  }
   enum CommUnits {
     "",
     "包",
-    "袋"
+    "袋",
+    "箱"
   }
 
-
   const dialogfields: FormField[] = [
-    // { name: "storename", label: "Storename", type: "text", required: true },
     {
       name: "store_name",
       label: "店名",
@@ -169,16 +82,10 @@ export default function Account() {
       label: "商品名称",
       type: "select",
       required: true,
-      options: [
-        { value: '1', label: "芋圆" },
-        { value: '2', label: "木薯" },
-        { value: '3', label: "桃胶" },
-        { value: '4', label: "汤圆" },
-      ],
-      validate: (value: any) =>
-        !['1', '2', '3', '4'].includes(value)
-          ? "Please select a valid store."
-          : null,
+      options: commodities.map((commodity: { id: any; name: any; }) => ({
+        value: commodity.id+'|'+commodity.name,
+        label: commodity.name,
+      })),
     },
     { name: "order_time", label: "生成时间", type: "datepicker", required: true },
     { name: "comm_num", label: "商品数量", placeholder: "请填写数字", type: "number", step: 1, min: 0, required: true },
@@ -190,6 +97,7 @@ export default function Account() {
       options: [
         { value: '1', label: "包" },
         { value: '2', label: "袋" },
+        { value: '3', label: "箱" },
       ],
       validate: (value: any) =>
         !['1', '2', '3', '4'].includes(value)
@@ -208,6 +116,8 @@ export default function Account() {
       console.log(error);
     });
   };
+
+
   const onSuccess = async (response: any) => {
     const params = { id: null };
     await axiosInstance.get("/api/account", { params }).then(function (response) {
@@ -230,8 +140,8 @@ export default function Account() {
   };
 
   const handleFormSubmit = async (data: any) => {
-    // alert("Form submitted: " + JSON.stringify(data));
-    await axiosInstance.post("/api/account", { order_time: moment(data.order_time).toDate(), comm_type: parseFloat(data.comm_type), comm_num: parseFloat(data.comm_num), comm_unit: parseFloat(data.comm_unit), price: parseFloat(data.price), store_name: parseFloat(data.store_name), channel: 1 }).then(function (response) {
+    alert("Form submitted: " + JSON.stringify(data));
+    await axiosInstance.post("/api/account", { order_time: moment(data.order_time).toDate(), comm_type: data.comm_type.split('|')[0], comm_name: data.comm_type.split('|')[1], comm_num: parseFloat(data.comm_num), comm_unit: parseFloat(data.comm_unit), price: parseFloat(data.price), store_name: parseFloat(data.store_name), channel: 1 }).then(function (response) {
       onSuccess(response)
     }).catch(function (error) {
       console.log(error);
@@ -323,10 +233,10 @@ export default function Account() {
             <tbody>
               {accounts && accounts.length > 0 && accounts.map((account: {
                 id: any; order_time: any;
-                price: any; comm_type: any, comm_num: any, comm_unit: any, channel: any,
+                price: any; comm_type: any, comm_name: any, comm_num: any, comm_unit: any, channel: any,
                 store_name: any
               }) => {
-                const { id, order_time, comm_type, comm_num, comm_unit, channel,
+                const { id, order_time, comm_type, comm_name, comm_num, comm_unit, channel,
                   price,
                   store_name, } = account
                 return (
@@ -338,7 +248,7 @@ export default function Account() {
                     </td>
                     <td className="px-1 py-4 border-r-2 border-solid border-slate-200 ">
                       <p className="text-sm text-center">
-                        {CommTypes[comm_type]}
+                        {comm_name}
                       </p>
                     </td>
                     <td className="px-4 py-2 border-r-2 border-solid border-slate-200 ">

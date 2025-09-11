@@ -121,6 +121,6 @@ const server = createServer(yoga)
 
 server.listen(4000, () => {
   console.log(`
-  🚀 Server ready at: http://localhost:4000
+  🚀 Server ready at: http://192.168.2.214:4000
   ⭐️ See sample queries: http://pris.ly/e/js/graphql-sdl-first#using-the-graphql-api`)
 })

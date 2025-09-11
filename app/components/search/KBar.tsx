@@ -6,7 +6,8 @@ import { useRouter } from 'next/navigation.js'
 import { KBarModal } from './KBarModal'
 // import axios from "axios";
 import formatDate from '@/app/utils/formatDate'
-import { axiosInstance } from '@/app/context/globalProvider'
+import axiosInstance from '@/app/axios/axios'
+
 // import { auth } from "@clerk/nextjs/server"
 
 export interface KBarSearchProps {
@@ -70,13 +71,15 @@ export const KBarSearchProvider: FC<{
       //   const url =
       //     searchDocumentsPath.indexOf('://') > 0 || searchDocumentsPath.indexOf('//') === 0
       //       ? searchDocumentsPath
-      //       : new URL(searchDocumentsPath, window.location.origin)
-      const res = await axiosInstance.get("/api/search");
-      const json = res.data
-      const actions = onSearchDocumentsLoad ? onSearchDocumentsLoad(json) : mapBooks(json)
-      setSearchActions(actions)
-      setDataLoaded(true)
-      // }
+      //       : new URL(searchDocumentsPath, ≥window.location.origin)
+      await axiosInstance.get("/api/search").then(function (response) {
+        const json = response.data
+        const actions = onSearchDocumentsLoad ? onSearchDocumentsLoad(json) : mapBooks(json)
+        setSearchActions(actions)
+        setDataLoaded(true)
+      }).catch(function (error) {
+        console.log(error);
+      });
     }
     if (!dataLoaded) {
       fetchData()

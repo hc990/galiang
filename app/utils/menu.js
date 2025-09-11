@@ -15,9 +15,9 @@ const menu = [
   },
   {
     id: 3,
-    title: "效率分析",
+    title: "材料管理",
     icon: check,
-    link: "/completed",
+    link: "/commodity",
   },
   {
     id: 4,

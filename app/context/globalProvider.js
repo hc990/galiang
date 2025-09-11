@@ -1,62 +1,33 @@
 'use client';
 import React, { createContext, useState, useContext } from 'react';
-// import themes from "./themes";
-import axios from 'axios';
-// import toast from "react-hot-toast";
-import siteMetadata from '@/data/siteMetadata'
-
-export const axiosInstance = axios.create({  
-    baseURL: siteMetadata.siteUrl ,
-    timeout: 300000
-}) 
+import axiosInstance from "../axios/axios";
 
 export const GlobalContext = createContext();
 export const GlobalUpdateContext = createContext();
 
-// function getSmb2Client(){
-//   return new SMB2({
-//     share: siteMetadata.nas.share,
-//     domain: siteMetadata.nas.domain,
-//     username: siteMetadata.nas.username,
-//     password: siteMetadata.nas.password,
-//   });
-// }
-
-// export const axiosInstant = axios.create({  
-//     baseURL: siteMetadata.siteUrl ,
-//     timeout: 3000
-// }) 
-
-
-
 export const GlobalProvider = ({ children }) => {
-  // const { user } = useUser();
-  // const [selectedTheme, setSelectedTheme] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  // const [modal, setModal] = useState(false);
   const [collapsed, setCollapsed] = useState(true);
   const [books, setBooks] = useState([]);
   const [accounts, setAccounts] = useState([]);
+  const [commodities, setCommodities] = useState([]);
   const [booksNum, setBooksnum] = useState(0);
   const [show, setShow] = useState(true);
-  // const [menuShow, setMenuShow] = useState(true)
-
-  // const theme = themes[selectedTheme];
-  // setShow((v)=> !v)
-  const changeShow = () =>{ 
+  const changeShow = () => {
     setShow(!show)
   }
-  // const changeMenuShow = () =>{
-  //   setMenuShow(false)
-  // }
-  
-  // const openModal = () => {
-  //   setModal(true);
-  // };
 
-  // const closeModal = () => {
-  //   setModal(false);
-  // };
+  // useEffect(() => {
+  //   const fetchName = async () => {
+  //     try {
+  //       const commodityName = await getCommtype(id);
+  //       setName(commodityName);
+  //     } catch (err) {
+  //       console.error('Failed to fetch commodity name:', err);
+  //     }
+  //   };
+  //   fetchName();
+  // }, [id, getCommtype]);
 
   const collapseMenu = () => {
     setCollapsed(!collapsed);
@@ -64,68 +35,63 @@ export const GlobalProvider = ({ children }) => {
 
   const allBooks = async () => {
     setIsLoading(true);
-    try {  
-      const params = {  
+    try {
+      const params = {
         id: null,
-        limit: 10
-      };  
-      const res = await axiosInstance.get("/api/blog",{ params });
-      setBooks(res.data);
-      setBooksnum(res.data.length)
-      setIsLoading(false);
-    } catch (error) {  
+        limit: 18
+      };
+      await axiosInstance.get("/api/blog", { params }).then(function (response) {
+        setBooks(response.data);
+        setBooksnum(response.data.length)
+        setIsLoading(false);
+      }).catch(function (error) {
+        console.log(error);
+      });;
+
+    } catch (error) {
       console.log(error);
     }
   };
 
-  const allAccounts = async () => {                     
+  const allAccounts = async () => {
     setIsLoading(true);
-    try {  
-      const params = {  
+    try {
+      const params = {
         id: null
-      };  
-      const res = await axiosInstance.get("/api/account",{ params });
-      setAccounts(res.data);
-      // setBooksnum(res.data.length)
-      setIsLoading(false);
-    } catch (error) {  
+      };
+      await axiosInstance.get("/api/account", { params }).then(function (response) {
+        setAccounts(response.data);
+        setIsLoading(false);
+      }).catch(function (error) {
+        console.log(error);
+      });;
+    } catch (error) {
       console.log(error);
     }
   };
 
-  // const deleteTask = async (id) => {
-  //   try {
-  //     const res = await axios.delete(`/api/tasks/${id}`);
-  //     toast.success("Task deleted");
-  //     allTasks();
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error("Something went wrong");
-  //   }
-  // };
-  // const updateTask = async (task) => {
-  //   try {
-  //     const res = await axios.put(`/api/tasks`, task);
-  //     toast.success("Task updated");
-  //     allTasks();
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error("Something went wrong");
-  //   }
-  // };
-  // const completedTasks = tasks.filter((task) => task.isCompleted === true);
-  // const importantTasks = tasks.filter((task) => task.isImportant === true);
-  // const incompleteTasks = tasks.filter((task) => task.isCompleted === false);
-  // React.useEffect(() => {
-  //   if (user) allTasks();
-  // }, [user]);
-  // React.useEffect(() => {
-  //   if (user) allBooks();
-  // }, [user]);
+  const allCommodities = async () => {
+    setIsLoading(true);
+    try {
+      const params = {
+        id: null
+      };
+      await axiosInstance.get("/api/commodity", { params }).then(function (response) {
+        setCommodities(response.data);
+        setIsLoading(false);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
   React.useEffect(() => {
     allBooks();
     allAccounts();
+    allCommodities();
   }, []);
   return (
     <GlobalContext.Provider
@@ -148,12 +114,14 @@ export const GlobalProvider = ({ children }) => {
         // allTasks,
         setAccounts,
         setBooks,
+        commodities,
+        setCommodities,
         // allBooks,
         // allAccounts,
         collapsed,
         collapseMenu,
-        show,  
-        changeShow,  
+        show,
+        changeShow,
         // menuShow,
         // changeMenuShow
       }}

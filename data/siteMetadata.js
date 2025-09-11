@@ -4,8 +4,12 @@ const siteMetadata = {
   headerTitle: '',
   description: '',
   language: 'en-us',
-  theme: 'system', // system, dark or light
-  siteUrl: 'http://localhost:3000',
+  theme: 'system', // system, dark or light  
+  /***
+    
+   ***/
+  // siteUrl: 'http://192.168.2.214:3000',//
+  siteUrl: 'http://localhost:3000',//
   siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/twitter-card.png',

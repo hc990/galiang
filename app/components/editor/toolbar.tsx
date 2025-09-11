@@ -11,7 +11,9 @@ import { ListDOMSerializer } from 'prosekit/extensions/list'
 // import axios from 'axios'
 // import { axiosInstant} from '../../context/globalProvider';
 import { NextResponse } from 'next/server'
-import { axiosInstance } from '@/app/context/globalProvider'
+
+import axiosInstance from '@/app/axios/axios'
+
 // import { useGlobalState } from '@/app/context/globalProvider'
 // import axiosInstance from '@/app/axios/axiosInstance'
 

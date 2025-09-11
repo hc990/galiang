@@ -64,7 +64,7 @@ export async function GET(req: NextRequest) {
         orderBy: {  
           id: 'desc'
         },
-        take: parseInt(limit?limit:'10') 
+        take: parseInt(limit?limit:'18') 
       }));
       return NextResponse.json(books);
     }   

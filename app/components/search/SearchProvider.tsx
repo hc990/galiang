@@ -1,14 +1,13 @@
 
 import { ReactNode } from 'react'
-import { KBarSearchProvider } from './KBar'  
-import type { KBarConfig } from './KBar'  
-import { useGlobalState } from '@/app/context/globalProvider'
+import { KBarSearchProvider } from './KBar'
+import type { KBarConfig } from './KBar'
 
 export type SearchConfig = KBarConfig
-export interface SearchConfigProps {  
-  searchConfig: SearchConfig 
+export interface SearchConfigProps {
+  searchConfig: SearchConfig
   children: React.ReactNode
-}  
+}
 
 /**
  * Command palette like search component - `ctrl-k` to open the palette.
@@ -32,10 +31,10 @@ export interface SearchConfigProps {
  * @param {SearchConfig} searchConfig
  * @return {*}
  */
-export const SearchProvider = ({  searchConfig, children }: SearchConfigProps): ReactNode=> {
+export const SearchProvider = ({ searchConfig, children }: SearchConfigProps): ReactNode => {
   // const { books } = useGlobalState();
   if (searchConfig && searchConfig.provider) {
-        return <KBarSearchProvider  kbarConfig={searchConfig.kbarConfig}>{children}</KBarSearchProvider>
+    return <KBarSearchProvider kbarConfig={searchConfig.kbarConfig}>{children}</KBarSearchProvider>
   } else {
     return <>{children}</>
   }

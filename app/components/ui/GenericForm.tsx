@@ -210,7 +210,7 @@ const GenericForm: React.FC<GenericFormProps> = ({ buttonType, fields, onSubmit 
             <textarea
               {...commonProps}
               placeholder={field.placeholder || ""}
-              rows={4}
+              rows={1}
             />
             {errors[field.name] && (
               <p className="text-sm text-pink-500 mt-1">{errors[field.name]}</p>

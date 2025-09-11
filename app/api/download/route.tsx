@@ -4,7 +4,9 @@ import { NextResponse } from 'next/server';
 import axios from 'axios';
 import siteMetadata from '@/data/siteMetadata';
 import fs from 'fs';
-import axiosInstance from '@/app/axios/axiosInstance';
+import axiosInstance from '@/app/axios/axios';
+ 
+
 
 
 const MAX_RETRIES = 3;
