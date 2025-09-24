@@ -1,11 +1,16 @@
-// app/[...slug]/page.tsx
-import 'css/prism.css';
-import { notFound } from 'next/navigation';
-import PostSimple from '@/layouts/PostSimple';
-import PostLayout from '@/layouts/PostLayout';
-import PostBanner from '@/layouts/PostBanner';
-import DownloadButton from '@/app/components/common/DownloadButton';
-import axiosInstance from '@/app/axios/axios';
+ import 'css/prism.css'
+
+import PostSimple from '@/layouts/PostSimple'
+import PostLayout from '@/layouts/PostLayout'
+import PostBanner from '@/layouts/PostBanner'
+// import siteMetadata from '@/data/siteMetadata'  
+// import axios from 'axios'
+import DownloadButton from '@/app/components/common/DownloadButton'
+import axiosInstance from '@/app/axios/axios'
+import { notFound } from 'next/navigation'
+
+
+
 
 // 定义类型
 interface BookData {
