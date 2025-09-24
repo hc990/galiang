@@ -35,16 +35,17 @@ model User {
 model accounts {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   channel    Int
+  comm_name  String
   comm_num   Int
   comm_type  String
-  comm_name  String
   comm_unit  Int
   createTime DateTime @db.Date
   modifyTime DateTime @db.Date
   order_time DateTime @db.Date
   price      Int
   status     Int
-  store_name Int
+  store_id   String
+  store_name String
 }
 
 model accountstemp {
@@ -122,7 +123,7 @@ model captcha {
   requestIp        String
 }
 
-model commodity {
+model commodities {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   channel     Int
   createTime  DateTime @db.Date
@@ -151,6 +152,17 @@ model sessions {
   /// Could not determine type: the field only had null or empty values in the sample set.
   keep_logged_in Json?
   username       String?
+}
+
+model stores {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  address    String
+  createTime DateTime @db.Date
+  employee   Int[]
+  modifyTime DateTime @db.Date
+  name       String
+  status     Int
+  type       Int
 }
 
 model users {

@@ -60,7 +60,7 @@ export default function SignIn() {
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center">
-            Sign In to Galiang
+            Sign In ...
           </CardTitle>
         </CardHeader> 
         <CardContent>

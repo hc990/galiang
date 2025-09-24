@@ -11,6 +11,7 @@ export const GlobalProvider = ({ children }) => {
   const [books, setBooks] = useState([]);
   const [accounts, setAccounts] = useState([]);
   const [commodities, setCommodities] = useState([]);
+  const [stores, setStores] = useState([]);
   const [booksNum, setBooksnum] = useState(0);
   const [show, setShow] = useState(true);
   const changeShow = () => {
@@ -87,11 +88,27 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
-
+  const allStores = async () => {
+    setIsLoading(true);
+    try {
+      const params = {
+        id: null
+      };
+      await axiosInstance.get("/api/store", { params }).then(function (response) {
+        setStores(response.data);
+        setIsLoading(false);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   React.useEffect(() => {
     allBooks();
     allAccounts();
     allCommodities();
+    allStores();
   }, []);
   return (
     <GlobalContext.Provider
@@ -101,6 +118,8 @@ export const GlobalProvider = ({ children }) => {
         books,
         booksNum,
         accounts,
+        stores,
+        commodities,
         // deleteTask,
         isLoading,
         // axiosInstant,
@@ -114,8 +133,8 @@ export const GlobalProvider = ({ children }) => {
         // allTasks,
         setAccounts,
         setBooks,
-        commodities,
         setCommodities,
+        setStores,
         // allBooks,
         // allAccounts,
         collapsed,

@@ -9,9 +9,9 @@ const menu = [
   },
   {
     id: 2,
-    title: "员工考勤",
+    title: "门店管理",
     icon: list,
-    link: "/important",
+    link: "/store",
   },
   {
     id: 3,

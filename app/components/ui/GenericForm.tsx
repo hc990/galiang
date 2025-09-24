@@ -314,7 +314,7 @@ const GenericForm: React.FC<GenericFormProps> = ({ buttonType, fields, onSubmit 
   };
 
   return (
-    <div className="bg-gray-50 p-6 rounded-md shadow-md">
+    <div className="p-6 rounded-md shadow-md">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         {fields.map((field) => (
           <div

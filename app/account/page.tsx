@@ -15,7 +15,7 @@ import axiosInstance from "../axios/axios";
 
 export default function Account() {
 
-  const { accounts, setAccounts, commodities } = useGlobalState();
+  const { accounts, setAccounts, commodities, stores } = useGlobalState();
   const [success, setSuccess] = useState<string | null>(null);
   const handleAlertDismiss = () => {
     setSuccess(null);
@@ -26,16 +26,10 @@ export default function Account() {
       label: "选择店铺",
       type: "select",
       required: true,
-      options: [
-        { value: '1', label: "合生汇店" },
-        { value: '2', label: "北外滩店" },
-        { value: '3', label: "巴黎春天店" },
-        { value: '4', label: "太平洋店" },
-      ],
-      validate: (value: any) =>
-        !['1', '2', '3', '4'].includes(value)
-          ? "Please select a valid store."
-          : null,
+      options: stores.map((store: { id: any; name: any; }) => ({
+        value: store.id + '|' + store.name,
+        label: store.name,
+      })),
     },
     {
       name: "startDate",
@@ -43,39 +37,24 @@ export default function Account() {
       type: "daterangepicker",
       required: true,
       relatedField: "endDate",
-    }, 
+    },
   ];
-
-  enum StoreNames {
-    "",
-    "合生汇店",
-    "北外滩店",
-    "巴黎春天店",
-    "太平洋店"
-  }
   enum CommUnits {
     "",
     "包",
     "袋",
     "箱"
   }
-
   const dialogfields: FormField[] = [
     {
       name: "store_name",
       label: "店名",
       type: "select",
       required: true,
-      options: [
-        { value: '1', label: "合生汇店" },
-        { value: '2', label: "北外滩店" },
-        { value: '3', label: "巴黎春天店" },
-        { value: '4', label: "太平洋店" },
-      ],
-      validate: (value: any) =>
-        !['1', '2', '3', '4'].includes(value)
-          ? "Please select a valid store."
-          : null,
+      options: stores.map((store: { id: any; name: any; }) => ({
+        value: store.id + '|' + store.name,
+        label: store.name,
+      })),
     },
     {
       name: "comm_type",
@@ -83,7 +62,7 @@ export default function Account() {
       type: "select",
       required: true,
       options: commodities.map((commodity: { id: any; name: any; }) => ({
-        value: commodity.id+'|'+commodity.name,
+        value: commodity.id + '|' + commodity.name,
         label: commodity.name,
       })),
     },
@@ -108,7 +87,7 @@ export default function Account() {
   ];
   const handleSubmit = async (data: any) => {
     // alert("Form submitted: " + JSON.stringify(data));
-    const params = { store_name: data.store_name, start_time: data.startDate, end_time: data.endDate };
+    const params = { store_id: data.store_id, start_time: data.startDate, end_time: data.endDate };
     await axiosInstance.get("/api/account", { params }).then(function (response) {
       setAccounts(response.data)
       setSuccess("账目查询成功！")
@@ -116,8 +95,6 @@ export default function Account() {
       console.log(error);
     });
   };
-
-
   const onSuccess = async (response: any) => {
     const params = { id: null };
     await axiosInstance.get("/api/account", { params }).then(function (response) {
@@ -127,7 +104,6 @@ export default function Account() {
       console.log(error);
     });
   }
-
   const delAccount = async (data: any) => {
     confirm("确定删除此账目吗？")
     try {
@@ -140,8 +116,8 @@ export default function Account() {
   };
 
   const handleFormSubmit = async (data: any) => {
-    alert("Form submitted: " + JSON.stringify(data));
-    await axiosInstance.post("/api/account", { order_time: moment(data.order_time).toDate(), comm_type: data.comm_type.split('|')[0], comm_name: data.comm_type.split('|')[1], comm_num: parseFloat(data.comm_num), comm_unit: parseFloat(data.comm_unit), price: parseFloat(data.price), store_name: parseFloat(data.store_name), channel: 1 }).then(function (response) {
+    // alert("Form submitted: " + JSON.stringify(data));
+    await axiosInstance.post("/api/account", { order_time: moment(data.order_time).toDate(), comm_type: data.comm_type.split('|')[0], comm_name: data.comm_type.split('|')[1], comm_num: parseFloat(data.comm_num), comm_unit: parseFloat(data.comm_unit), price: parseFloat(data.price), store_id: data.store_name.split('|')[0] ,store_name: data.store_name.split('|')[1] , channel: 1 }).then(function (response) {
       onSuccess(response)
     }).catch(function (error) {
       console.log(error);
@@ -152,7 +128,6 @@ export default function Account() {
   //   { label: "Option 2", onClick: () => setActiveIndex(1), isActive: activeIndex === 1 },
   //   { label: "Option 3", onClick: () => setActiveIndex(2), isActive: activeIndex === 2 },
   // ];
-
   return (
     <>
       {success && (
@@ -179,7 +154,7 @@ export default function Account() {
         <div className="py-3 pt-1 md:space-y-1">
           <GenericForm fields={fields} buttonType={1} onSubmit={handleSubmit} />
         </div>
-        <div className="relative flex flex-col overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
+        <div className="relative flex flex-col overflow-scroll text-gray-500  shadow-md rounded-lg bg-clip-border">
           <table className="">
             <thead>
               <tr className="text-slate-500 border-b border-slate-300 bg-slate-50">
@@ -200,11 +175,11 @@ export default function Account() {
                     {/* </a> */}
                   </p>
                 </th>
-                <th className="px-4 py-2 border-r-2 border-solid border-slate-200">
+                {/* <th className="px-4 py-2 border-r-2 border-solid border-slate-200">
                   <p className="text-sm leading-none font-normal">
                     渠道
                   </p>
-                </th>
+                </th> */}
                 <th className="px-4 py-2 border-r-2 border-solid border-slate-200">
                   <p className="text-sm leading-none font-normal">
                     数量
@@ -236,14 +211,14 @@ export default function Account() {
                 price: any; comm_type: any, comm_name: any, comm_num: any, comm_unit: any, channel: any,
                 store_name: any
               }) => {
-                const { id, order_time, comm_type, comm_name, comm_num, comm_unit, channel,
+                const { id, order_time, comm_name, comm_num, comm_unit, channel,
                   price,
                   store_name, } = account
                 return (
                   <tr className="hover:bg-slate-50  border-2 border-solid border-x-slate-200" key={id}>
                     <td className="px-4 py-2 border-r-2 border-solid border-slate-200">
                       <p className="text-sm font-bold  ">
-                        {StoreNames[store_name]}
+                        {store_name}
                       </p>
                     </td>
                     <td className="px-1 py-4 border-r-2 border-solid border-slate-200 ">
@@ -256,11 +231,11 @@ export default function Account() {
                         {formatDate(order_time)}
                       </p>
                     </td>
-                    <td className="px-4 py-2 border-r-2 border-solid border-slate-200">
+                    {/* <td className="px-4 py-2 border-r-2 border-solid border-slate-200">
                       <p className="text-sm text-center">
                         {channel}
                       </p>
-                    </td>
+                    </td> */}
                     <td className="px-4 py-2 border-r-2 border-solid border-slate-200">
                       <p className="text-sm text-center">
                         {comm_num}

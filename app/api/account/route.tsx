@@ -10,9 +10,11 @@ export async function POST(req: Request) {
     const {
       order_time,
       price,
+      store_id,
       store_name,
       channel,
       comm_type,
+      comm_id,
       comm_name,
       comm_num,
       comm_unit,
@@ -36,6 +38,7 @@ export async function POST(req: Request) {
       data: {
         order_time,
         price,
+        store_id,
         store_name,
         channel,
         comm_type,
@@ -57,7 +60,7 @@ export async function POST(req: Request) {
 export async function GET(req: NextRequest) {
   try {
     const id = req.nextUrl.searchParams.get("id")
-    const store_name = req.nextUrl.searchParams.get("store_name")
+    const store_id = req.nextUrl.searchParams.get("store_id")
     const start_time = req.nextUrl.searchParams.get("start_time")
     const end_time = req.nextUrl.searchParams.get("end_time")
     if (id != null) {
@@ -68,10 +71,10 @@ export async function GET(req: NextRequest) {
       });
       return NextResponse.json(accounts);
     } else {
-      if (store_name != null && start_time != null && end_time != null) {
+      if (store_id != null && start_time != null && end_time != null) {
         const accounts = (await prisma.accounts.findMany({
           where: {
-            store_name: parseInt(store_name),
+            store_id: store_id,
             order_time: {gte: moment(start_time).toDate(), lte:moment(end_time).toDate()},
             status: 0
           },

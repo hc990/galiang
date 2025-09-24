@@ -1,5 +1,5 @@
 /* eslint-disable */
-import type { Prisma, Todo, User, accounts, accountstemp, authors, bookcode, books, books_demo, bookstmp2, captcha, commodity, movies, sessions, users } from "/Users/huangchong/Documents/workspaces/galiang/node_modules/@prisma/client";
+import type { Prisma, Todo, User, accounts, accountstemp, authors, bookcode, books, books_demo, bookstmp2, captcha, commodities, movies, sessions, stores, users } from "/Users/huangchong/Documents/workspaces/galiang/node_modules/@prisma/client";
 export default interface PrismaTypes {
     Todo: {
         Name: "Todo";
@@ -141,14 +141,14 @@ export default interface PrismaTypes {
         ListRelations: never;
         Relations: {};
     };
-    commodity: {
-        Name: "commodity";
-        Shape: commodity;
+    commodities: {
+        Name: "commodities";
+        Shape: commodities;
         Include: never;
-        Select: Prisma.commoditySelect;
-        OrderBy: Prisma.commodityOrderByWithRelationInput;
-        WhereUnique: Prisma.commodityWhereUniqueInput;
-        Where: Prisma.commodityWhereInput;
+        Select: Prisma.commoditiesSelect;
+        OrderBy: Prisma.commoditiesOrderByWithRelationInput;
+        WhereUnique: Prisma.commoditiesWhereUniqueInput;
+        Where: Prisma.commoditiesWhereInput;
         Create: {};
         Update: {};
         RelationName: never;
@@ -177,6 +177,20 @@ export default interface PrismaTypes {
         OrderBy: Prisma.sessionsOrderByWithRelationInput;
         WhereUnique: Prisma.sessionsWhereUniqueInput;
         Where: Prisma.sessionsWhereInput;
+        Create: {};
+        Update: {};
+        RelationName: never;
+        ListRelations: never;
+        Relations: {};
+    };
+    stores: {
+        Name: "stores";
+        Shape: stores;
+        Include: never;
+        Select: Prisma.storesSelect;
+        OrderBy: Prisma.storesOrderByWithRelationInput;
+        WhereUnique: Prisma.storesWhereUniqueInput;
+        Where: Prisma.storesWhereInput;
         Create: {};
         Update: {};
         RelationName: never;

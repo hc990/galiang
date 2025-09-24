@@ -26,10 +26,10 @@ export async function POST(req: Request) {
         status: 400,
       });
     }
-    const commodity = await prisma.commodity.create({
+    const commodity = await prisma.commodities.create({
       data: {
         name,
-        channel:1,
+        channel: 1,
         type,
         status: 0,
         description: description ? description : '',
@@ -47,14 +47,13 @@ export async function POST(req: Request) {
 
 export async function GET(req: NextRequest) {
   try {
-    
     const id = req.nextUrl.searchParams.get("id")
     const type = req.nextUrl.searchParams.get("type")
     const name = req.nextUrl.searchParams.get("name")
     const start_time = req.nextUrl.searchParams.get("start_time")
     const end_time = req.nextUrl.searchParams.get("end_time")
     if (id != null) {
-      const commodities = await prisma.commodity.findUnique({
+      const commodities = await prisma.commodities.findUnique({
         where: {
           id: id
         },
@@ -62,10 +61,10 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(commodities);
     } else {
       if (start_time != null && end_time != null) {
-        const accounts = (await prisma.commodity.findMany({
-          where: {   
-            type: type? parseInt(type): {gte: 0, lte:99},
-            createTime: {gte: moment(start_time).toDate(), lte:moment(end_time).toDate()},
+        const accounts = (await prisma.commodities.findMany({
+          where: {
+            type: type ? parseInt(type) : { gte: 0, lte: 99 },
+            createTime: { gte: moment(start_time).toDate(), lte: moment(end_time).toDate() },
             status: 0,
             ...(name && { name: { contains: name, mode: 'insensitive' } }), // 添加模糊查询
           },
@@ -75,7 +74,7 @@ export async function GET(req: NextRequest) {
         }));
         return NextResponse.json(accounts);
       } else {
-        const commodities = (await prisma.commodity.findMany({
+        const commodities = (await prisma.commodities.findMany({
           where: {
             status: 0
           },
@@ -127,7 +126,7 @@ export async function PUT(req: Request) {
     const id = params.id
     const status = params.status
     const description = params.description
-    const commodity = await prisma.commodity.update({
+    const commodity = await prisma.commodities.update({
       where: {
         id,
       },
