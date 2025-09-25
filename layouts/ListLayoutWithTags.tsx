@@ -10,15 +10,17 @@ import formatDate from '@/app/utils/formatDate'
 interface PaginationProps {
   totalPages: number
   currentPage: number
+  currentCursor: string
+  nextCursor: string
 }
 interface ListLayoutProps {
-  books: []
+  // books: []
   title: string
   initialDisplayBooks: []
   pagination?: PaginationProps
 }
 
-function Pagination({ totalPages, currentPage }: PaginationProps) {
+function Pagination({ totalPages, currentPage, currentCursor, nextCursor }: PaginationProps) {
   const pathname = usePathname()
   const basePath = pathname.split('/')[1]
   const prevPage = currentPage - 1 > 0
@@ -26,7 +28,7 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
   return (
     <div className="space-y-2 pb-8 pt-6 md:space-y-5">
       <nav className="flex justify-between">
-        
+
         {!prevPage && (
           <button className="cursor-auto disabled:opacity-50" disabled={!prevPage}>
             Previous
@@ -34,7 +36,8 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
         )}
         {prevPage && (
           <Link
-            href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
+            // href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
+            href={currentPage - 1 === 1 ? `/${basePath}/4` : `/${basePath}/page/${currentCursor+currentPage}`}
             rel="prev"
           >
             Previous
@@ -49,7 +52,8 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
           </button>
         )}
         {nextPage && (
-          <Link href={`/${basePath}/page/${currentPage + 1}`} rel="next">
+          // <Link href={`/${basePath}/page/${currentPage + 1}`} rel="next">
+          <Link href={`/${basePath}/page/${nextCursor+currentPage}`} rel="next">
             Next
           </Link>
         )}
@@ -68,7 +72,6 @@ export default function ListLayoutWithTags({
   const tagKeys = Object.keys(tagCounts)
   const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a])
   const displayBooks = initialDisplayBooks;
-
   return (
     <>
       <div>
@@ -115,7 +118,6 @@ export default function ListLayoutWithTags({
           </div>
           <div>
             <ul>
-            
               {displayBooks.map((book) => {
                 const { size, path, createAt, name, id, summary, tags } = book
                 return (
@@ -140,7 +142,7 @@ export default function ListLayoutWithTags({
                           </div>
                         </div>
                         <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                        { Math.round(size) }MB
+                          {Math.round(size)}MB
                         </div>
                       </div>
                     </article>
@@ -149,7 +151,7 @@ export default function ListLayoutWithTags({
               })}
             </ul>
             {pagination && pagination.totalPages > 1 && (
-              <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} />
+              <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} currentCursor={pagination.currentCursor} nextCursor={pagination.nextCursor} />
             )}
           </div>
         </div>

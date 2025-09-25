@@ -11,23 +11,24 @@ const POSTS_PER_PAGE = 5
 
 // export const metadata = genPageMetadata({ title: 'Blog' })
 
-export default function BookPage() {  
-  const { allBooks, books, booksNum } = useGlobalState();
+export default function BookPage() {
+  const { books, booksNum } = useGlobalState();
   const pageNumber = 1
   const initialDisplayBooks = books.slice(
-    POSTS_PER_PAGE * (pageNumber - 1),  
+    POSTS_PER_PAGE * (pageNumber - 1),
     POSTS_PER_PAGE * pageNumber
   )
-  // const booksNum =  books.size
   const pagination = {
     currentPage: pageNumber,
-    totalPages: Math.ceil( booksNum / POSTS_PER_PAGE),
+    totalPages: Math.ceil(booksNum / POSTS_PER_PAGE),
+    currentCursor: initialDisplayBooks[0] ? initialDisplayBooks[0].id : '',
+    nextCursor: initialDisplayBooks[POSTS_PER_PAGE - 1] ? initialDisplayBooks[POSTS_PER_PAGE - 1].id : ''
   }
   return (
     <ListLayout
       initialDisplayBooks={initialDisplayBooks}
       pagination={pagination}
       title="All Books"
-      books= { allBooks }   />
+    />
   )
 }

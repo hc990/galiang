@@ -53,10 +53,14 @@ export async function GET(req: NextRequest) {
     const id = req.nextUrl.searchParams.get("id")
     const limit = req.nextUrl.searchParams.get("limit")
     if (id != null) {
-      const books = await prisma.books.findUnique({
+      const books = await prisma.books.findMany({
         where: {
-          id: id  
+          id: { lt: id }
         },
+        orderBy: {  
+          id: 'desc'
+        },
+        take: 5
       });
       return NextResponse.json(books);
     } else {
@@ -64,7 +68,7 @@ export async function GET(req: NextRequest) {
         orderBy: {  
           id: 'desc'
         },
-        take: parseInt(limit?limit:'18') 
+        // take: parseInt(limit?limit:'18') 
       }));
       return NextResponse.json(books);
     }   

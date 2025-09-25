@@ -1,18 +1,10 @@
-'use client'
-
 import axiosInstance from '@/app/axios/axios';
-import { useGlobalState } from '@/app/context/globalProvider'
 import ListLayout from '@/layouts/ListLayoutWithTags'
-
-
+import { notFound } from 'next/navigation';
 // import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
 // import { allBlogs } from 'contentlayer/generated'
+
 const POSTS_PER_PAGE = 5
-// export const generateStaticParams = {
-//   const totalPages = Math.ceil(booksNum / POSTS_PER_PAGE)
-//   const paths = Array.from({ length: totalPages }, (_, i) => ({ page: (i + 1).toString() }))
-//   return paths
-// }
 
 // 定义类型
 interface BookData {
@@ -29,40 +21,50 @@ interface BookData {
   tag: string;
   structuredData?: Record<string, unknown>;
 }
-// 异步获取数据
-async function fetchBook(id: string): Promise<BookData | null> {
+
+interface PageProps {
+  params: Promise<{ page: string }>;
+}
+
+async function getBooksCursor(id: string | null): Promise<{ books: BookData[] | []; nextCursor: string | null }> {
   try {
-    const response = await axiosInstance.get<BookData>('/api/blog', {
+    const response = await axiosInstance.get<BookData[]>('/api/blog', {
       params: { id },
       headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=59' },
-    });
-    return response.data || null;
+    })
+    const nextCursor = response.data.length > 0 ? response.data[response.data.length - 1].id : null;
+    return { books: response.data, nextCursor };
   } catch (error) {
     console.error('Error fetching book:', error);
-    return null;
+    return { books: [], nextCursor: null };
   }
 }
 
-
-export default async function Page( props : { params: Promise<{ page: string }> }) {
-  const slug = await props.params;
-  
-  const totalPages = Math.ceil(allBooks.length / POSTS_PER_PAGE)
-  const paths = Array.from({ length: totalPages }, (_, i) => ({ page: (i + 1).toString() }))
-  // const posts = allBooks
-  const pageNumber = parseInt(slug.page as string)
-  const initialDisplayBooks = allBooks.slice(
-    POSTS_PER_PAGE * (pageNumber - 1),
-    POSTS_PER_PAGE * pageNumber
-  )
+export default async function Page({ params }: PageProps) {
+  const { page } = await params;
+  const id = page.substring(0,page.length - 1)
+  // const currentPage = 
+  // const id = decodeURI(page.join('/'));
+  const data = await getBooksCursor(id)
+  if (!data) {
+    notFound();
+  }
+  const initialDisplayBooks = data.books
+  const pageNumber = parseInt(page.substring(page.length-1, page.length))+1
+  // const initialDisplayBooks = (await books).slice(
+  //   POSTS_PER_PAGE * (pageNumber - 1),
+  //   POSTS_PER_PAGE * pageNumber
+  // )
   const pagination = {
     currentPage: pageNumber,
-    totalPages: Math.ceil(allBooks.length / POSTS_PER_PAGE),
+    totalPages: Math.ceil(8000/ POSTS_PER_PAGE),
+    currentCursor: initialDisplayBooks[0] ? initialDisplayBooks[0].id : '',
+    nextCursor: initialDisplayBooks[POSTS_PER_PAGE - 1] ? initialDisplayBooks[POSTS_PER_PAGE - 1].id : ''
   }
   return (
     <ListLayout
-      books={ allBooks }
-      initialDisplayBooks={initialDisplayBooks}
+      // books={books}
+      initialDisplayBooks={initialDisplayBooks as []}
       pagination={pagination}
       title="All Books"
     />

@@ -22,7 +22,7 @@ const postDateTemplate: Intl.DateTimeFormatOptions = {
 }
 
 interface LayoutProps {
-  book: { id: any, size: number, name: string, bookname: string, createAt: string, comment:any },
+  book: { id: string, size: number, name: string, bookname: string, createAt: string, comment: any },
   // authorDetails: []
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
@@ -31,8 +31,8 @@ interface LayoutProps {
   children: ReactNode
 }
 
-export default function PostLayout({ slug , book, path, next, prev, children }: LayoutProps) {
-  const { id, size, name, bookname, createAt, comment } = book
+export default function PostLayout({ slug, book, path, next, prev, children }: LayoutProps) {
+  const { id, size, name, createAt, comment } = book
   const basePath = path.split('/')[0]
   return (
     <SectionContainer>
@@ -45,7 +45,7 @@ export default function PostLayout({ slug , book, path, next, prev, children }: 
                 <div>
                   <dt className="sr-only">Published on</dt>
                   <dd className="text-base font-medium leading-4 text-gray-500 dark:text-gray-400">
-                  Published on： <time dateTime={createAt}>{formatDate(createAt)}</time>
+                    Published on： <time dateTime={createAt}>{formatDate(createAt)}</time>
                   </dd>
                 </div>
               </dl>
@@ -56,76 +56,76 @@ export default function PostLayout({ slug , book, path, next, prev, children }: 
           </header>
           <div className="xl:grid-2·grid-rows-[auto_1fr]·divide-y··divide-gray-200·dark:divide-gray-700">
             <dl className="pb-3 pt-3 xl:border-b xl:border-gray-200 xl:pt-6 xl:dark:border-gray-700">
-              <dt className="sr-only">Authors</dt>  
+              <dt className="sr-only">Authors</dt>
               <dd>
                 <ul className="flex flex-wrap justify-center gap-4 sm:space-x-6 xl:block xl:space-x-0 xl:space-y-6">
                   {/* { */}
-                      {/* {authorDetails.map((author) => ( */}
-                    <li className="flex items-center space-x-2" key={''}>
-                      {/* {author.avatar && ( */}
-                        <Image
-                          src={'/static/images/google.png'}
-                          width={38}
-                          height={38}
-                          alt='avatar'
-                          className='h-10 w-10 rounded-full'
-                        />
-                      {/* )} */}
-                      <dl className='whitespace-nowrap text-sm font-medium leading-5'>
-                        <dt className='sr-only'>Name</dt>
-                        <dd className='text-gray-900 dark:text-gray-100'>{'Everest'}</dd>
-                        <dt className='sr-only'></dt>
-                        <dd>
-                          {/* {author.twitter && ( */}
-                            <Link
-                              href={''}
-                              className='text-primary-500 hover:text-primary-600 dark:hover:text-primary-400'
-                            >
-                              {''}
-                            </Link>
-                          {/* )} */}
-                        </dd>
-                      </dl>
-                    </li>
-                    {/* ))} } */}
+                  {/* {authorDetails.map((author) => ( */}
+                  <li className="flex items-center space-x-2" key={''}>
+                    {/* {author.avatar && ( */}
+                    <Image
+                      src={'/static/images/google.png'}
+                      width={38}
+                      height={38}
+                      alt='avatar'
+                      className='h-10 w-10 rounded-full'
+                    />
+                    {/* )} */}
+                    <dl className='whitespace-nowrap text-sm font-medium leading-5'>
+                      <dt className='sr-only'>Name</dt>
+                      <dd className='text-gray-900 dark:text-gray-100'>{'Everest'}</dd>
+                      <dt className='sr-only'></dt>
+                      <dd>
+                        {/* {author.twitter && ( */}
+                        <Link
+                          href={''}
+                          className='text-primary-500 hover:text-primary-600 dark:hover:text-primary-400'
+                        >
+                          {''}
+                        </Link>
+                        {/* )} */}
+                      </dd>
+                    </dl>
+                  </li>
+                  {/* ))} } */}
                 </ul>
               </dd>
             </dl>
             <div className='divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0'>
               <div className='space-y-5 pt-2 pb-2'>
                 <Image
-                  src={'/thumbnail/'+ id +'.png'}  
+                  src={'/thumbnail/' + id + '.png'}
                   width={160}
                   height={160}
-                  alt='avatar'    
+                  alt='avatar'
                 />
               </div>
               <div className='prose max-w-none text-gray-500 dark:text-gray-400'>
-                 { Math.round(size) }MB
+                {Math.round(size)}MB
               </div>
               <div className='prose w-full pb-8 pt-10 dark:prose-invert'>
-                      { children }  
+                {children}
               </div>
               {siteMetadata.comments && (
                 <div
                   className='pb-6 pt-6 text-center text-gray-700 dark:text-gray-300'
                   id='comment'
-                > 
-                  <Comments slug={slug } comment={comment}/>
+                >
+                  <Comments slug={slug} comment={comment} />
                 </div>
               )}
             </div>
             <footer>
-                <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">
+              <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">
                 {/* {tags && ( */}
-                  <div className='py-1 xl:py-3'>
+                <div className='py-1 xl:py-3'>
                   <h2 className='text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400'>
-                      Tags
+                    Tags
                   </h2>
                   <div className="flex flex-wrap">
-                      {/* {tags.map((tag) => ( */}
-                      <Tag key={1} text={'奇异'} />
-                      <Tag key={2} text={'历史'} />
+                    {/* {tags.map((tag) => ( */}
+                    <Tag key={1} text={'奇异'} />
+                    <Tag key={2} text={'历史'} />
                     {/* ))} */}
                   </div>
                 </div>
