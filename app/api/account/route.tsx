@@ -1,11 +1,12 @@
 
 import prisma from "@/data/prisma";
 import moment from "moment";
-// import { currentUser, auth } from '@clerk/nextjs/server'
+import { auth } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from "next/server";
 
 
 export async function POST(req: Request) {
+  await auth.protect();
   try {
     const {
       order_time,
@@ -43,7 +44,7 @@ export async function POST(req: Request) {
         channel,
         comm_type,
         comm_name,
-        comm_num,    
+        comm_num,
         comm_unit,
         status: 0,
         createTime: new Date(),
@@ -75,7 +76,7 @@ export async function GET(req: NextRequest) {
         const accounts = (await prisma.accounts.findMany({
           where: {
             store_id: store_id,
-            order_time: {gte: moment(start_time).toDate(), lte:moment(end_time).toDate()},
+            order_time: { gte: moment(start_time).toDate(), lte: moment(end_time).toDate() },
             status: 0
           },
           orderBy: {
@@ -104,15 +105,15 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: Request) {
   try {
-    const { params } = await req.json(); 
+    const { params } = await req.json();
     const id = params.id
     const status = params.status
     const account = await prisma.accounts.update({
-      where: {  
+      where: {
         id,
       },
       data: {
-        status 
+        status
       },
     });
     return NextResponse.json(account);

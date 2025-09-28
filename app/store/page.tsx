@@ -242,7 +242,7 @@ export default function Commodity() {
                 const { id, name, type, status, create_time, description, address
                 } = stores
                 return (
-                  <tr className="hover:bg-slate-50  border-2 border-solid border-x-slate-200" key={id}>
+                  <tr className="hover:bg-pink-100  border-2 border-solid border-x-slate-200" key={id}>
                     <td className="px-4 py-2 border-r-2 border-solid border-slate-200">
                       <p className="text-sm font-bold  ">
                         {name}

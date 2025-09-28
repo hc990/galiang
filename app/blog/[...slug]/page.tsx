@@ -33,9 +33,12 @@ const layouts = {
 };
 const defaultLayout = 'PostLayout';
 async function fetchBook(id: string): Promise<BookData[] | null> {// 异步获取数据
+  if("page"===id){
+    notFound()
+  }
   try {
     const response = await axiosInstance.get<BookData[]>('/api/blog', {
-      params: { id },
+      params: { id, postion:0 },
       headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=59' },
     });
     return response.data || null;

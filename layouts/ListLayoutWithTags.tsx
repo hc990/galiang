@@ -37,7 +37,7 @@ function Pagination({ totalPages, currentPage, currentCursor, nextCursor }: Pagi
         {prevPage && (
           <Link
             // href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
-            href={currentPage - 1 === 1 ? `/${basePath}/4` : `/${basePath}/page/${currentCursor+currentPage}`}
+            href={currentPage === 1 ? `/${basePath}/` : `/${basePath}/page/${currentCursor+String(currentPage-1)}`}
             rel="prev"
           >
             Previous
@@ -53,7 +53,7 @@ function Pagination({ totalPages, currentPage, currentCursor, nextCursor }: Pagi
         )}
         {nextPage && (
           // <Link href={`/${basePath}/page/${currentPage + 1}`} rel="next">
-          <Link href={`/${basePath}/page/${nextCursor+currentPage}`} rel="next">
+          <Link href={`/${basePath}/page/${nextCursor+String(currentPage+1)}`} rel="next">
             Next
           </Link>
         )}
@@ -61,7 +61,6 @@ function Pagination({ totalPages, currentPage, currentCursor, nextCursor }: Pagi
     </div>
   )
 }
-
 export default function ListLayoutWithTags({
   title,
   initialDisplayBooks,

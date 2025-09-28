@@ -220,74 +220,74 @@ export default function Commodity() {
         <div className="relative flex flex-col overflow-scroll text-gray-500  shadow-md rounded-lg bg-clip-border">
           <table className="">
             <thead>
-              <tr className="text-slate-500 border-b border-slate-300 bg-slate-50">
-                <th className="px-4 py-1 border-r-2 border-solid border-slate-200">
+              <tr className="text-slate-500 border-b border-pink-300 bg-pink-50">
+                <th className="px-4 py-1 border-r-2 border-solid border-pink-200">
                   <p className="text-sm leading-none font-normal">
                     材料名称
                   </p>
                 </th>
-                <th className="px-2 py-2 border-r-2 border-solid border-slate-200">
+                <th className="px-2 py-2 border-r-2 border-solid border-pink-200">
                   <p className="text-sm leading-none font-normal">
                     品类
                   </p>
                 </th>
-                <th className="px-4 py-2 border-r-2 border-solid border-slate-200">
+                <th className="px-4 py-2 border-r-2 border-solid border-pink-200">
                   <p className="text-sm leading-none font-normal">
                     {/* <a href="#" className=""> */}
                     交易时间
                     {/* </a> */}
                   </p>
                 </th>
-                <th className="px-4 py-2 border-r-2 border-solid border-slate-200">
+                <th className="px-4 py-2 border-r-2 border-solid border-pink-200">
                   <p className="text-sm leading-none font-normal">
                     渠道
                   </p>
                 </th>
-                <th className="px-4 py-2 border-r-2 border-solid border-slate-200">
+                <th className="px-4 py-2 border-r-2 border-solid border-pink-200">
                   <p className="text-sm leading-none font-normal">
                     备注描述
                   </p>
                 </th>
-                <th className="px-2 py-4 border-r-2 border-solid border-slate-200">
+                <th className="px-2 py-4 border-r-2 border-solid border-pink-200">
                   <p>操作</p>
                 </th>
               </tr>
             </thead>
             <tbody>
               {commodities && commodities.length > 0 && commodities.map((commodity: {
-                id: any; name: any; channel: any; type: any; create_time: any;  description: any;
-                
+                id: any; name: any; channel: any; type: any; create_time: any; description: any;
+
               }) => {
-                const { id,  name, type, channel, create_time, description
-                   } = commodity
+                const { id, name, type, channel, create_time, description
+                } = commodity
                 return (
-                  <tr className="hover:bg-slate-50  border-2 border-solid border-x-slate-200" key={id}>
-                    <td className="px-4 py-2 border-r-2 border-solid border-slate-200">
+                  <tr className="hover:bg-pink-100 border-2 border-solid border-pink-200 " key={id}>
+                    <td className="px-4 py-2 border-r-2 border-solid border-pink-200">
                       <p className="text-sm font-bold  ">
                         {name}
                       </p>
                     </td>
-                    <td className="px-1 py-4 border-r-2 border-solid border-slate-200 ">
+                    <td className="px-1 py-4 border-r-2 border-solid border-pink-200 ">
                       <p className="text-sm text-center">
                         {StyleNames[type]}
                       </p>
                     </td>
-                    <td className="px-4 py-2 border-r-2 border-solid border-slate-200 ">
+                    <td className="px-4 py-2 border-r-2 border-solid border-pink-200 ">
                       <p className="text-sm text-center">
                         {formatDate(create_time)}
                       </p>
                     </td>
-                    <td className="px-4 py-2 border-r-2 border-solid border-slate-200">
+                    <td className="px-4 py-2 border-r-2 border-solid border-pink-200">
                       <p className="text-sm text-center">
                         {ChannelNames[channel]}
                       </p>
                     </td>
-                      <td className="px-4 py-2 border-r-2 border-solid border-slate-200">
+                    <td className="px-4 py-2 border-r-2 border-solid border-pink-200">
                       <p className="text-sm text-center">
                         {description}
                       </p>
                     </td>
-                    <td className="px-1 py-2 border-r-1 border-solid border-slate-200">
+                    <td className="px-1 py-2 border-r-1 border-solid border-pink-200">
                       <div className="flex justify-center space-x-2">
                         <a href="#" onClick={() => delAccount(id)} className="bg-pink-500 text-white px-8 py-2 rounded-md hover:bg-pink-900 focus:ring-2 focus:ring-pink-400">
                           <LuOctagonX />
