@@ -79,12 +79,8 @@ export async function GET(req: NextRequest) {
       } else {
          books = await prisma.books.findMany({
           where: {
-            id: { gte: id }
-          },
-          orderBy: {
-            id: 'asc'
-          },
-          take: 1
+            id: id
+          }
         });
       }
       return NextResponse.json(books);
