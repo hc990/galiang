@@ -38,7 +38,7 @@ async function fetchBook(id: string): Promise<BookData[] | null> {// 异步获�
   }
   try {
     const response = await axiosInstance.get<BookData[]>('/api/blog', {
-      params: { id, postion:0 },
+      params: { id, postion:99 },
       headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=59' },
     });
     return response.data || null;

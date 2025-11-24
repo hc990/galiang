@@ -1,7 +1,7 @@
 // import SMB2 from '@tryjsky/v9u-smb2';
 import path from 'path';
 import { NextResponse } from 'next/server';
-import axios from 'axios';
+// import axios from 'axios';
 import siteMetadata from '@/data/siteMetadata';
 import fs from 'fs';
 import axiosInstance from '@/app/axios/axios';
@@ -30,9 +30,9 @@ export async function GET(req: Request): Promise<Response> {
   const { searchParams } = new URL(req.url);
   const slug = searchParams.get('slug');
   try {
-    const book = await axiosInstance.get('/api/blog', { params: { id: slug } });
+    const book = await axiosInstance.get('/api/blog', { params: { id: slug, postion: 99} });
     // const nasPath = path.join(siteMetadata.nas.share, path.basename(book.data.oribookname));
-    const nasPath = path.join(siteMetadata.nas.share, path.basename(book.data.oribookname));
+    const nasPath = path.join(siteMetadata.nas.share, path.basename(book.data[0].oribookname));
     // 获取文件大小
     const fileStats = await withRetries(
       () =>
@@ -74,7 +74,7 @@ export async function GET(req: Request): Promise<Response> {
       },
     });
     const response = new NextResponse(stream, { status: 200 });
-    response.headers.set('Content-Disposition', `attachment; filename="${encodeURIComponent(book.data.bookname)}"`);
+    response.headers.set('Content-Disposition', `attachment; filename="${encodeURIComponent(book.data[0].bookname)}"`);
     response.headers.set('Content-Type', 'application/octet-stream');
     if (fileSize && fileSize > 0) {
         response.headers.set('Content-Length', fileSize.toString());

@@ -29,7 +29,7 @@ interface PageProps {
 async function getBooksCursor(id: string | null, postion: string | null): Promise<{ books: BookData[] | []; nextCursor: string | null }> {
   try {
     const response = await axiosInstance.get<BookData[]>('/api/blog', {
-      params: { id, postion },
+      params: { id,  },
       headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=59' },
     })
     const nextCursor = response.data.length > 0 ? response.data[response.data.length - 1].id : null;
@@ -54,8 +54,8 @@ export default async function Page({ params }: PageProps) {
     const predata = await getBooksCursor(id, '1')
     currentCursor = predata.books[0].id
   } else if (pageNumber === 2) {
-    const predata = await getBooksCursor(id, '2')
-    console.info(predata.books)
+    const predata = await getBooksCursor(id, '99')
+    // console.info(predata.books)
     currentCursor = predata.books[0].id
   } else {
     redirect('/blog')

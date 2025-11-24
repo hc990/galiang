@@ -44,7 +44,7 @@ const DownloadButton = ({slug,children}: ButtonProps) => {
       <Button
         icon={LuDownload}
         onClick={handleClick}
-        className="br-4 bg-white hover:bg-white text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+        className="br-4 hover:bg-white text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
         aria-label={`Download`}
       >
         {children}
