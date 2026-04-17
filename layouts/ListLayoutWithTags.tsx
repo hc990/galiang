@@ -28,7 +28,6 @@ function Pagination({ totalPages, currentPage, currentCursor, nextCursor }: Pagi
   return (
     <div className="space-y-2 pb-8 pt-6 md:space-y-5">
       <nav className="flex justify-between">
-
         {!prevPage && (
           <button className="cursor-auto disabled:opacity-50" disabled={!prevPage}>
             Previous
@@ -37,7 +36,11 @@ function Pagination({ totalPages, currentPage, currentCursor, nextCursor }: Pagi
         {prevPage && (
           <Link
             // href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
-            href={currentPage === 1 ? `/${basePath}/` : `/${basePath}/page/${currentCursor+String(currentPage-1)}`}
+            href={
+              currentPage === 1
+                ? `/${basePath}/`
+                : `/${basePath}/page/${currentCursor + String(currentPage - 1)}`
+            }
             rel="prev"
           >
             Previous
@@ -53,7 +56,7 @@ function Pagination({ totalPages, currentPage, currentCursor, nextCursor }: Pagi
         )}
         {nextPage && (
           // <Link href={`/${basePath}/page/${currentPage + 1}`} rel="next">
-          <Link href={`/${basePath}/page/${nextCursor+String(currentPage+1)}`} rel="next">
+          <Link href={`/${basePath}/page/${nextCursor + String(currentPage + 1)}`} rel="next">
             Next
           </Link>
         )}
@@ -70,7 +73,7 @@ export default function ListLayoutWithTags({
   const tagCounts = tagData as Record<string, number>
   const tagKeys = Object.keys(tagCounts)
   const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a])
-  const displayBooks = initialDisplayBooks;
+  const displayBooks = initialDisplayBooks
   return (
     <>
       <div>
@@ -150,7 +153,12 @@ export default function ListLayoutWithTags({
               })}
             </ul>
             {pagination && pagination.totalPages > 1 && (
-              <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} currentCursor={pagination.currentCursor} nextCursor={pagination.nextCursor} />
+              <Pagination
+                currentPage={pagination.currentPage}
+                totalPages={pagination.totalPages}
+                currentCursor={pagination.currentCursor}
+                nextCursor={pagination.nextCursor}
+              />
             )}
           </div>
         </div>

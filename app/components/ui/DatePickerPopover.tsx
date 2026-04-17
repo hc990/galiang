@@ -1,19 +1,19 @@
-import React, { useState, useRef, useEffect } from "react";
-import { format, parse, isValid } from "date-fns";
-import { AnimatePresence, motion } from "framer-motion";
-import { DayPicker } from "react-day-picker";
-import "react-day-picker/dist/style.css";
-import { LuCalendarDays } from "react-icons/lu";
-import Button from "./Button";
+import React, { useState, useRef, useEffect } from 'react'
+import { format, parse, isValid } from 'date-fns'
+import { AnimatePresence, motion } from 'framer-motion'
+import { DayPicker } from 'react-day-picker'
+import 'react-day-picker/dist/style.css'
+import { LuCalendarDays } from 'react-icons/lu'
+import Button from './Button'
 
 interface DatePickerPopoverProps {
-  name: string;
-  label: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  error?: string;
-  required?: boolean;
-  autoDismissPopover?: number;
+  name: string
+  label: string
+  value: string
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  error?: string
+  required?: boolean
+  autoDismissPopover?: number
 }
 
 const DatePickerPopover: React.FC<DatePickerPopoverProps> = ({
@@ -25,25 +25,25 @@ const DatePickerPopover: React.FC<DatePickerPopoverProps> = ({
   required,
   autoDismissPopover = 10000,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const popoverRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const popoverRef = useRef<HTMLDivElement>(null)
 
   // Parse value to Date for DayPicker
-  const selectedDate = value ? parse(value, "yyyy-MM-dd", new Date()) : undefined;
+  const selectedDate = value ? parse(value, 'yyyy-MM-dd', new Date()) : undefined
 
   // Toggle popover
-  const togglePopover = () => setIsOpen((prev) => !prev);
+  const togglePopover = () => setIsOpen((prev) => !prev)
 
   // Auto-dismiss popover
   useEffect(() => {
     if (isOpen && autoDismissPopover > 0) {
       const timer = setTimeout(() => {
-        setIsOpen(false);
-      }, autoDismissPopover);
-      return () => clearTimeout(timer);
+        setIsOpen(false)
+      }, autoDismissPopover)
+      return () => clearTimeout(timer)
     }
-  }, [isOpen, autoDismissPopover]);
+  }, [isOpen, autoDismissPopover])
 
   // Close popover when clicking outside
   useEffect(() => {
@@ -54,40 +54,37 @@ const DatePickerPopover: React.FC<DatePickerPopoverProps> = ({
         inputRef.current &&
         !inputRef.current.contains(event.target as Node)
       ) {
-        setIsOpen(false);
+        setIsOpen(false)
       }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   // Calculate popover position
   const getPopoverPosition = () => {
-    if (!inputRef.current) return { top: 0, left: 0 };
-    const rect = inputRef.current.getBoundingClientRect();
+    if (!inputRef.current) return { top: 0, left: 0 }
+    const rect = inputRef.current.getBoundingClientRect()
     return {
       top: rect.bottom + window.scrollY + 4,
       left: rect.left + window.scrollX,
-    };
-  };
+    }
+  }
 
-  const { top, left } = getPopoverPosition();
+  const { top, left } = getPopoverPosition()
 
   // Handle date selection
   const handleDateSelect = (date: Date | undefined) => {
     const syntheticEvent = {
-      target: { name, value: date ? format(date, "yyyy-MM-dd") : "" },
-    } as React.ChangeEvent<HTMLInputElement>;
-    onChange(syntheticEvent);
-    setIsOpen(false);
-  };
+      target: { name, value: date ? format(date, 'yyyy-MM-dd') : '' },
+    } as React.ChangeEvent<HTMLInputElement>
+    onChange(syntheticEvent)
+    setIsOpen(false)
+  }
 
   return (
     <div className="relative">
-      <label
-        htmlFor={name}
-        className="block font-medium text-gray-700 mb-1"
-      >
+      <label htmlFor={name} className="mb-1 block font-medium text-gray-700">
         {label}
         {required && <span className="text-pink-500">*</span>}
       </label>
@@ -101,19 +98,19 @@ const DatePickerPopover: React.FC<DatePickerPopoverProps> = ({
           onChange={onChange}
           onClick={togglePopover}
           placeholder="YYYY-MM-DD"
-          className={`border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-pink-500 ${
-            error ? "border-pink-500" : ""
+          className={`w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-500 ${
+            error ? 'border-pink-500' : ''
           }`}
         />
         <Button
           type="button"
           onClick={togglePopover}
-          className="bg-pink-500 text-white px-3 py-2 rounded-md hover:bg-pink-600 focus:ring-2 focus:ring-pink-400"
+          className="rounded-md bg-pink-500 px-3 py-2 text-white hover:bg-pink-600 focus:ring-2 focus:ring-pink-400"
         >
           <LuCalendarDays />
         </Button>
       </div>
-      {error && <p className="text-sm text-pink-500 mt-1">{error}</p>}
+      {error && <p className="mt-1 text-sm text-pink-500">{error}</p>}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -122,19 +119,15 @@ const DatePickerPopover: React.FC<DatePickerPopoverProps> = ({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed z-50 bg-pink-200 bg-opacity-80 border border-gray-300 rounded-md shadow-lg p-4"
-            style={{ top: `${top}px`, left: `${left}px`, minWidth: "250px" }}
+            className="fixed z-50 rounded-md border border-gray-300 bg-pink-200 bg-opacity-80 p-4 shadow-lg"
+            style={{ top: `${top}px`, left: `${left}px`, minWidth: '250px' }}
           >
-            <DayPicker
-              mode="single"
-              selected={selectedDate}
-              onSelect={handleDateSelect}
-            />
+            <DayPicker mode="single" selected={selectedDate} onSelect={handleDateSelect} />
           </motion.div>
         )}
       </AnimatePresence>
     </div>
-  );
-};
+  )
+}
 
-export default DatePickerPopover;
+export default DatePickerPopover

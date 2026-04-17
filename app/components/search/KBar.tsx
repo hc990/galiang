@@ -22,7 +22,6 @@ export interface KBarConfig {
   kbarConfig: KBarSearchProps
 }
 
-
 /**
  * Command palette like search component with kbar - `ctrl-k` to open the palette.
  *
@@ -44,49 +43,43 @@ export const KBarSearchProvider: FC<{
   children: ReactNode
   kbarConfig: KBarSearchProps
 }> = ({ kbarConfig, children }) => {
-
   const router = useRouter()
   const { defaultActions, onSearchDocumentsLoad } = kbarConfig
   const [searchActions, setSearchActions] = useState<Action[]>([])
   const [dataLoaded, setDataLoaded] = useState(false)
 
   useEffect(() => {
-    const mapBooks = (books: any) => {
-      const actions: Action[] = []
-      // books.reverse()
-      for (const book of books) {
-        actions.push({
-          id: book.id,
-          name: book.name,
-          keywords: book?.name || '',
-          section: 'Content',
-          subtitle: formatDate(book.createAt),
-          perform: () => router.push('/blog/' + book.id),
-        })
-      }
-      return actions
-    }
+    const controller = new AbortController()
+
+    const mapBooks = (books: any) =>
+      books.map((book: any) => ({
+        id: book.id,
+        name: book.name,
+        keywords: book?.name || '',
+        section: 'Content',
+        subtitle: formatDate(book.createAt),
+        perform: () => router.push('/blog/' + book.id),
+      }))
+
     async function fetchData() {
-      // if (searchDocumentsPath) {
-      //   const url =
-      //     searchDocumentsPath.indexOf('://') > 0 || searchDocumentsPath.indexOf('//') === 0
-      //       ? searchDocumentsPath
-      //       : new URL(searchDocumentsPath, ≥window.location.origin)
-      await axiosInstance.get("/api/search").then(function (response) {
-        const json = response.data
-        const actions = onSearchDocumentsLoad ? onSearchDocumentsLoad(json) : mapBooks(json)
+      try {
+        const response = await axiosInstance.get('/api/search', { signal: controller.signal })
+        const actions = onSearchDocumentsLoad
+          ? onSearchDocumentsLoad(response.data)
+          : mapBooks(response.data)
         setSearchActions(actions)
         setDataLoaded(true)
-      }).catch(function (error) {
-        console.log(error);
-      });
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          console.log(error)
+        }
+      }
     }
-    if (!dataLoaded) {
-      fetchData()
-    } else {
-      setDataLoaded(true)
-    }
-  }, [defaultActions, dataLoaded, router, onSearchDocumentsLoad])
+
+    fetchData()
+
+    return () => controller.abort()
+  }, [onSearchDocumentsLoad, router])
 
   return (
     <KBarProvider actions={defaultActions}>

@@ -75,7 +75,7 @@ export default function ListLayout({
 
   // If initialDisplayPosts exist, display it if no searchValue is specified
   const displayPosts =
-  initialDisplayBooks.length > 0 && !searchValue ? initialDisplayBooks : filteredBlogPosts
+    initialDisplayBooks.length > 0 && !searchValue ? initialDisplayBooks : filteredBlogPosts
 
   return (
     <>

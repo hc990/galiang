@@ -1,19 +1,19 @@
-import React from "react";
-import { isBefore, isValid, parse } from "date-fns";
-import DatePickerPopover from "./DatePickerPopover";
+import React from 'react'
+import { isBefore, isValid, parse } from 'date-fns'
+import DatePickerPopover from './DatePickerPopover'
 
 interface DateRangePickerProps {
-  startName: string;
-  endName: string;
-  startLabel: string;
-  endLabel: string;
-  startValue: string;
-  endValue: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  startError?: string;
-  endError?: string;
-  required?: boolean;
-  autoDismissPopover?: number;
+  startName: string
+  endName: string
+  startLabel: string
+  endLabel: string
+  startValue: string
+  endValue: string
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  startError?: string
+  endError?: string
+  required?: boolean
+  autoDismissPopover?: number
 }
 
 const DateRangePicker: React.FC<DateRangePickerProps> = ({
@@ -31,8 +31,8 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
 }) => {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-row gap-4 md:gap-6 flex-wrap">
-        <div className="flex-1 min-w-[200px]">
+      <div className="flex flex-row flex-wrap gap-4 md:gap-6">
+        <div className="min-w-[200px] flex-1">
           <DatePickerPopover
             name={startName}
             label={startLabel}
@@ -43,7 +43,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
             autoDismissPopover={autoDismissPopover}
           />
         </div>
-        <div className="flex-1 min-w-[200px]">
+        <div className="min-w-[200px] flex-1">
           <DatePickerPopover
             name={endName}
             label={endLabel}
@@ -56,7 +56,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DateRangePicker;
+export default DateRangePicker

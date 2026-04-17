@@ -1,4 +1,3 @@
-
 import { ReactNode } from 'react'
 import { KBarSearchProvider } from './KBar'
 import type { KBarConfig } from './KBar'

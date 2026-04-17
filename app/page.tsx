@@ -1,9 +1,5 @@
 import Main from './Main'
 
-export default async function Page() {  
-  return (    
-      <Main/>
-    )
-  }
-  
-  
+export default async function Page() {
+  return <Main />
+}

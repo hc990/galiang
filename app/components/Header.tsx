@@ -1,11 +1,10 @@
-
 import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
 import Link from './ui/Link'
 import MobileNav from './ui/MobileNav'
 import ThemeSwitch from './ui/ThemeSwitch'
 import SearchButton from './ui/SearchButton'
-import Image from "./ui/Image";
+import Image from './ui/Image'
 import { auth } from '@clerk/nextjs/server'
 import { LuLogIn, LuLogOut } from 'react-icons/lu'
 import { SignOutButton, UserButton } from '@clerk/nextjs'
@@ -14,22 +13,23 @@ const Header = async () => {
   const { userId, sessionId } = await auth()
   // const { userId, sessionId } = useAuth(); // ✅ 在 Client 组件使用
   return (
-    <header >
-      <div className="ml-10 flex items-center flex-row justify-between">
-        <Image className="m-5 pr-5 space-x-4 w-[150px] h-[120px]  mr-40"
+    <header>
+      <div className="ml-10 flex flex-row items-center justify-between">
+        <Image
+          className="m-5 mr-40 h-[120px] w-[150px] space-x-4  pr-5"
           src="/static/images/logo.png"
           alt="ooxx"
           priority
-          // layout="fill" 
+          // layout="fill"
           width={100}
           height={180}
-        // objectFit="cover"
+          // objectFit="cover"
         />
-        <div className="flex items-center justify-between space-x-6 leading-4 pl-2 ml-20">
+        <div className="ml-20 flex items-center justify-between space-x-6 pl-2 leading-4">
           <Link href="/" aria-label={siteMetadata.headerTitle}>
             <div className="items-center">
               {typeof siteMetadata.headerTitle === 'string' ? (
-                <div className="hidden h-1 text-1xl font-semibold sm:block">
+                <div className="text-1xl hidden h-1 font-semibold sm:block">
                   {siteMetadata.headerTitle}
                 </div>
               ) : (
@@ -44,13 +44,24 @@ const Header = async () => {
               <Link
                 key={link.title}
                 href={link.href}
-                className="hidden space-x-2 font-medium  flex-col text-gray-900 dark:text-gray-100 sm:block"
+                className="hidden flex-col space-x-2  font-medium text-gray-900 dark:text-gray-100 sm:block"
               >
                 {link.title}
               </Link>
             ))}
-          {userId ? <><SignOutButton signOutOptions={{ sessionId }} redirectUrl='/signin'><LuLogOut /></SignOutButton></> : <><Link href="/signin"><LuLogIn /></Link></>
-          }
+          {userId ? (
+            <>
+              <SignOutButton signOutOptions={{ sessionId }} redirectUrl="/signin">
+                <LuLogOut />
+              </SignOutButton>
+            </>
+          ) : (
+            <>
+              <Link href="/signin">
+                <LuLogIn />
+              </Link>
+            </>
+          )}
 
           <ThemeSwitch />
         </div>
@@ -61,5 +72,3 @@ const Header = async () => {
 }
 
 export default Header
-
-

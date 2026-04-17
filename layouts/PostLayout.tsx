@@ -22,7 +22,7 @@ const postDateTemplate: Intl.DateTimeFormatOptions = {
 }
 
 interface LayoutProps {
-  book: { id: string, size: number, name: string, bookname: string, createAt: string, comment: any },
+  book: { id: string; size: number; name: string; bookname: string; createAt: string; comment: any }
   // authorDetails: []
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
@@ -67,19 +67,19 @@ export default function PostLayout({ slug, book, path, next, prev, children }: L
                       src={'/static/images/google.png'}
                       width={38}
                       height={38}
-                      alt='avatar'
-                      className='h-10 w-10 rounded-full'
+                      alt="avatar"
+                      className="h-10 w-10 rounded-full"
                     />
                     {/* )} */}
-                    <dl className='whitespace-nowrap text-sm font-medium leading-5'>
-                      <dt className='sr-only'>Name</dt>
-                      <dd className='text-gray-900 dark:text-gray-100'>{'Everest'}</dd>
-                      <dt className='sr-only'></dt>
+                    <dl className="whitespace-nowrap text-sm font-medium leading-5">
+                      <dt className="sr-only">Name</dt>
+                      <dd className="text-gray-900 dark:text-gray-100">{'Everest'}</dd>
+                      <dt className="sr-only"></dt>
                       <dd>
                         {/* {author.twitter && ( */}
                         <Link
                           href={''}
-                          className='text-primary-500 hover:text-primary-600 dark:hover:text-primary-400'
+                          className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
                         >
                           {''}
                         </Link>
@@ -91,25 +91,18 @@ export default function PostLayout({ slug, book, path, next, prev, children }: L
                 </ul>
               </dd>
             </dl>
-            <div className='divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0'>
-              <div className='space-y-5 pt-2 pb-2'>
-                <Image
-                  src={'/thumbnail/' + id + '.png'}
-                  width={160}
-                  height={160}
-                  alt='avatar'
-                />
+            <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
+              <div className="space-y-5 pb-2 pt-2">
+                <Image src={'/thumbnail/' + id + '.png'} width={160} height={160} alt="avatar" />
               </div>
-              <div className='prose max-w-none text-gray-500 dark:text-gray-400'>
+              <div className="prose max-w-none text-gray-500 dark:text-gray-400">
                 {Math.round(size)}MB
               </div>
-              <div className='prose w-full pb-8 pt-10 dark:prose-invert'>
-                {children}
-              </div>
+              <div className="prose w-full pb-8 pt-10 dark:prose-invert">{children}</div>
               {siteMetadata.comments && (
                 <div
-                  className='pb-6 pt-6 text-center text-gray-700 dark:text-gray-300'
-                  id='comment'
+                  className="pb-6 pt-6 text-center text-gray-700 dark:text-gray-300"
+                  id="comment"
                 >
                   <Comments slug={slug} comment={comment} />
                 </div>
@@ -118,8 +111,8 @@ export default function PostLayout({ slug, book, path, next, prev, children }: L
             <footer>
               <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">
                 {/* {tags && ( */}
-                <div className='py-1 xl:py-3'>
-                  <h2 className='text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400'>
+                <div className="py-1 xl:py-3">
+                  <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
                     Tags
                   </h2>
                   <div className="flex flex-wrap">

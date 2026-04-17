@@ -6,7 +6,15 @@ import { useCallback, useMemo, useState } from 'react'
 import Toolbar from './toolbar'
 import { defineExtension } from './extension'
 
-export default function Editor({ defaultContent, slug, comment }: { defaultContent?: NodeJSON, slug: any, comment: string }) {
+export default function Editor({
+  defaultContent,
+  slug,
+  comment,
+}: {
+  defaultContent?: NodeJSON
+  slug: any
+  comment: string
+}) {
   // const [key, setKey] = useState(1)
   // const [defaultDoc, setDefaultDoc] = useState<NodeJSON>()
   // const updateText = (comment: string) => {
@@ -19,7 +27,7 @@ export default function Editor({ defaultContent, slug, comment }: { defaultConte
   // updateText(comment)
   // alert(defaultDoc)
 
-  // alert(comment??'') 
+  // alert(comment??'')
   // setRecords((comment: any) => [...records, [comment??'']])
   // setRecords((records: any) => [...records, [comment??''])
   const editor = useMemo(() => {
@@ -28,16 +36,20 @@ export default function Editor({ defaultContent, slug, comment }: { defaultConte
   }, [defaultContent])
   const [hasUnsavedChange, setHasUnsavedChange] = useState(false)
   return (
-    <ProseKit editor={editor} >
-      <div className='box-border h-full min-h-32 overflow-y-auto rounded-md border border-solid border-gray-200 shadow dark:border-zinc-700'>
-        <Toolbar slug={slug}
+    <ProseKit editor={editor}>
+      <div className="box-border h-full min-h-32 overflow-y-auto rounded-md border border-solid border-gray-200 shadow dark:border-zinc-700">
+        <Toolbar
+          slug={slug}
           hasUnsavedChange={hasUnsavedChange}
           setHasUnsavedChange={setHasUnsavedChange}
           comment={comment}
-        // records ={records}
-        // setRecords ={setRecords}
+          // records ={records}
+          // setRecords ={setRecords}
         />
-        <div ref={editor.mount} className='pl-4 pr-4 flex-1 overflow-y-auto h-full max-w-[1100px] whitespace-nowrap overflow-hidden overflow-ellipsis text-left relative box-border  bg-white dark:bg-neutral-900px-[max(16px,_calc(50%-330px))] py-[16px] outline-none outline-0 [&_span[data-mention="user"]]:text-blue-500 [&_span[data-mention="tag"]]:text-violet-500 [&_pre]:text-white [&_pre]:bg-zinc-800'></div>
+        <div
+          ref={editor.mount}
+          className='dark:bg-neutral-900px-[max(16px,_calc(50%-330px))] relative box-border h-full max-w-[1100px] flex-1 overflow-hidden overflow-y-auto overflow-ellipsis whitespace-nowrap bg-white py-[16px]  pl-4 pr-4 text-left outline-none outline-0 [&_pre]:bg-zinc-800 [&_pre]:text-white [&_span[data-mention="tag"]]:text-violet-500 [&_span[data-mention="user"]]:text-blue-500'
+        ></div>
       </div>
     </ProseKit>
   )

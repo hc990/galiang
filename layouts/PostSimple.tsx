@@ -11,7 +11,7 @@ import ScrollTopAndComment from '@/app/components/ui/ScrollTopAndComment'
 import formatDate from '@/app/utils/formatDate'
 
 interface LayoutProps {
-  book: { size: '';name: '';bookname: '';createAt: '';comment: '' }
+  book: { size: ''; name: ''; bookname: ''; createAt: ''; comment: '' }
   children: ReactNode
   slug: string
   next?: { path: string; title: string }

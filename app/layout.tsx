@@ -9,8 +9,8 @@ import { Metadata } from 'next'
 import Sidebar from '@/app/components/navigation/Sidebar'
 import ContextProvider from './providers/ContextProvider'
 import { SearchProvider, SearchConfig } from './components/search/SearchProvider'
-import { ClerkProvider } from "@clerk/nextjs";
-import Image from "./components/ui/Image";
+import { ClerkProvider } from '@clerk/nextjs'
+import Image from './components/ui/Image'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteMetadata.siteUrl),
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
 // const { userId } = await auth()
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ClerkProvider >
+    <ClerkProvider>
       <html
         lang={siteMetadata.language}
         // className={`${space_grotesk.variable} scroll-smooth`}
@@ -77,10 +77,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <SectionContainer>
                 <div className="flex h-screen flex-col justify-between font-sans">
                   <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
-                    <div className="flex items-center flex-nowrap justify-between">
+                    <div className="flex flex-nowrap items-center justify-between">
                       <Header />
                     </div>
-                    <div className="flex space-x-5 mb-auto">
+                    <div className="mb-auto flex space-x-5">
                       <Sidebar />
                       <main>{children}</main>
                     </div>

@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react'
 
 interface SelectFieldProps {
-  name: string;
-  label: string;
-  options: { value: string; label: string }[];
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  error?: string;
-  required?: boolean;
+  name: string
+  label: string
+  options: { value: string; label: string }[]
+  value: string
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  error?: string
+  required?: boolean
 }
 
 const SelectField: React.FC<SelectFieldProps> = ({
@@ -21,7 +21,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
 }) => {
   return (
     <div>
-      <label htmlFor={name} className="block font-medium text-gray-700 mb-1">
+      <label htmlFor={name} className="mb-1 block font-medium text-gray-700">
         {label}
         {required && <span className="text-pink-500">*</span>}
       </label>
@@ -30,8 +30,8 @@ const SelectField: React.FC<SelectFieldProps> = ({
         name={name}
         value={value}
         onChange={onChange}
-        className={`border border-pink-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-pink-500 ${
-          error ? "border-pink-500" : ""
+        className={`w-full rounded border border-pink-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-500 ${
+          error ? 'border-pink-500' : ''
         }`}
       >
         <option value="" disabled>
@@ -43,9 +43,9 @@ const SelectField: React.FC<SelectFieldProps> = ({
           </option>
         ))}
       </select>
-      {error && <p className="text-sm text-pink-500 mt-1">{error}</p>}
+      {error && <p className="mt-1 text-sm text-pink-500">{error}</p>}
     </div>
-  );
-};
+  )
+}
 
-export default SelectField;
+export default SelectField

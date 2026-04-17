@@ -1,68 +1,60 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
-import { useState } from "react"
-import { useSignIn } from "@clerk/nextjs"
-import { useRouter } from "next/navigation"
-import Link from "next/link";
+import { useState } from 'react'
+import { useSignIn } from '@clerk/nextjs'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 // import Card from "../components/ui/Card";
-import { Input } from "../components/ui/Input"
-import Button from "../components/ui/Button"
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter,
-} from "../components/ui/Card"
-import { Label } from "../components/ui/Label"
-import { Alert, AlertDescription } from "../components/ui/Alert"
-import { LuEye, LuEyeOff } from "react-icons/lu"
+import { Input } from '../components/ui/Input'
+import Button from '../components/ui/Button'
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '../components/ui/Card'
+import { Label } from '../components/ui/Label'
+import { Alert, AlertDescription } from '../components/ui/Alert'
+import { LuEye, LuEyeOff } from 'react-icons/lu'
 
 export default function SignIn() {
-  const { isLoaded, signIn, setActive } = useSignIn();
-  const [emailAddress, setEmailAddress] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
+  const { isLoaded, signIn, setActive } = useSignIn()
+  const [emailAddress, setEmailAddress] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const router = useRouter()
 
   if (!isLoaded) {
-    return null;
+    return null
   }
 
   async function submit(e: React.FormEvent) {
-    e.preventDefault();
+    e.preventDefault()
     if (!isLoaded) {
-      return;
+      return
     }
 
     try {
       const result = await signIn.create({
         identifier: emailAddress,
         password,
-      });
+      })
 
-      if (result.status === "complete") {
-        await setActive({ session: result.createdSessionId });
-        router.push("/");
+      if (result.status === 'complete') {
+        await setActive({ session: result.createdSessionId })
+        router.push('/')
       } else {
-        console.error(JSON.stringify(result, null, 2));
+        console.error(JSON.stringify(result, null, 2))
       }
     } catch (err: any) {
-      console.error("error", err.errors[0].message);
-      setError(err.errors[0].message);
+      console.error('error', err.errors[0].message)
+      setError(err.errors[0].message)
     }
   }
 
   return (
-    <div className="flex items-start justify-center min-h-screen bg-background">
+    <div className="bg-background flex min-h-screen items-start justify-center">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">
-            Sign In ...
-          </CardTitle>
-        </CardHeader> 
+          <CardTitle className="text-center text-2xl font-bold">Sign In ...</CardTitle>
+        </CardHeader>
         <CardContent>
           <form onSubmit={submit} className="space-y-4">
             <div className="space-y-2">
@@ -79,7 +71,7 @@ export default function SignIn() {
               <Label htmlFor="password">Password</Label>
               <div className="relative">
                 <Input
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -109,17 +101,14 @@ export default function SignIn() {
           </form>
         </CardContent>
         <CardFooter className="justify-center">
-          <p className="text-sm text-muted-foreground">
-            Don&apos;t have an account?{" "}
-            <Link
-              href="/signup"
-              className="font-medium text-primary hover:underline"
-            >
+          <p className="text-muted-foreground text-sm">
+            Don&apos;t have an account?{' '}
+            <Link href="/signup" className="text-primary font-medium hover:underline">
               Sign up
             </Link>
           </p>
         </CardFooter>
       </Card>
     </div>
-  );
+  )
 }

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
-import { MdOutlineWbSunny } from "react-icons/md"
-import { IoMdMoon } from "react-icons/io";
+import { MdOutlineWbSunny } from 'react-icons/md'
+import { IoMdMoon } from 'react-icons/io'
 import Button from '@/app/components/ui/Button'
 const ThemeSwitch = () => {
   const [mounted, setMounted] = useState(false)
@@ -21,8 +21,7 @@ const ThemeSwitch = () => {
       aria-label="Toggle Dark Mode"
       onClick={() => setTheme(theme === 'dark' || resolvedTheme === 'dark' ? 'light' : 'dark')}
       icon={theme === 'dark' || resolvedTheme === 'dark' ? IoMdMoon : MdOutlineWbSunny}
-    >
-    </Button>
+    ></Button>
   )
 }
 
