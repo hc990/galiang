@@ -10,7 +10,7 @@ interface DatePickerPopoverProps {
   name: string
   label: string
   value: string
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   error?: string
   required?: boolean
   autoDismissPopover?: number
