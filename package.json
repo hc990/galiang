@@ -318,7 +318,7 @@
     "postcss": "^8.4.49",
     "prelude-ls": "^1.2.1",
     "prettier-linter-helpers": "^1.0.0",
-    "prisma": "6.0.1",
+    "prisma": "^7.7.0",
     "prop-types": "^15.8.1",
     "prosekit": "^0.9.1",
     "punycode": "^2.3.1",
