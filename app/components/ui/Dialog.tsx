@@ -29,11 +29,11 @@ interface DialogProps {
   triggerButtonText: string
   dialogTitle: string
   fields: FormField[]
-  onSubmit: (data: Record<string, string>) => void
+  onSubmit: (data: Record<string, string | boolean>) => void
 }
 
 const Dialog: React.FC<DialogProps> = ({ triggerButtonText, dialogTitle, fields, onSubmit }) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [, setIsDialogOpen] = useState(false)
   const dialogRef = useRef<HTMLDialogElement>(null)
 
   const openDialog = () => {
@@ -46,7 +46,7 @@ const Dialog: React.FC<DialogProps> = ({ triggerButtonText, dialogTitle, fields,
     dialogRef.current?.close()
   }
 
-  const handleFormSubmit = (data: Record<string, string>) => {
+  const handleFormSubmit = (data: Record<string, string | boolean>) => {
     onSubmit(data)
     closeDialog() // Close dialog after successful submission
   }
