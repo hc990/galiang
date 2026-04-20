@@ -1,32 +1,22 @@
-import prisma from "@/data/prisma";
+import prisma from '@/data/prisma'
 // import { currentUser, auth } from '@clerk/nextjs/server'
-import { NextRequest, NextResponse } from "next/server";
-
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
   try {
-    const {
-      bookname,
-      createAt,
-      extend,
-      name,
-      oribookname,
-      serial,
-      size,
-      status,
-      comment
-    } = await req.json();
+    const { bookname, createAt, extend, name, oribookname, serial, size, status, comment } =
+      await req.json()
     if (!bookname || !extend) {
       return NextResponse.json({
-        error: "Missing required fields",
+        error: 'Missing required fields',
         status: 400,
-      });
+      })
     }
     if (bookname.length < 3) {
       return NextResponse.json({
-        error: "Title must be at least 3 characters long",
+        error: 'Title must be at least 3 characters long',
         status: 400,
-      });
+      })
     }
     const book = await prisma.books.create({
       data: {
@@ -38,70 +28,70 @@ export async function POST(req: Request) {
         serial,
         size,
         status,
-        comment
+        comment,
       },
-    });
-    return NextResponse.json(book);
+    })
+    return NextResponse.json(book)
   } catch (error) {
-    console.log("ERROR CREATING BOOK: ", error);
-    return NextResponse.json({ error: "Error creating book", status: 500 });
+    console.log('ERROR CREATING BOOK: ', error)
+    return NextResponse.json({ error: 'Error creating book', status: 500 })
   }
 }
 
 export async function GET(req: NextRequest) {
   try {
-    const id = req.nextUrl.searchParams.get("id")
-    const postion = req.nextUrl.searchParams.get("postion")
-    const limit = req.nextUrl.searchParams.get("limit")
-    let books: any[] = []
+    const id = req.nextUrl.searchParams.get('id')
+    const postion = req.nextUrl.searchParams.get('postion')
+    const limit = req.nextUrl.searchParams.get('limit')
+    let books: Record<string, unknown>[] = []
     if (id != null) {
       if (postion === '0') {
         books = await prisma.books.findMany({
           where: {
-            id: { lt: id }
+            id: { lt: id },
           },
           orderBy: {
-            id: 'desc'
+            id: 'desc',
           },
-          take: 6
-        });
+          take: 6,
+        })
       } else if (postion === '1') {
         books = await prisma.books.findMany({
           where: {
-            id: { gt: id }
+            id: { gt: id },
           },
           orderBy: {
-            id: 'asc'
+            id: 'asc',
           },
           skip: 5,
-          take: 1
-        });
+          take: 1,
+        })
       } else {
-         books = await prisma.books.findMany({
+        books = await prisma.books.findMany({
           where: {
-            id: id
-          }
-        });
+            id: id,
+          },
+        })
       }
-      return NextResponse.json(books);
+      return NextResponse.json(books)
     } else {
-      const books = (await prisma.books.findMany({
+      const books = await prisma.books.findMany({
         orderBy: {
-          id: 'desc'
+          id: 'desc',
         },
-        take: parseInt(limit ? limit : '18')
-      }));
-      return NextResponse.json(books);
+        take: parseInt(limit ? limit : '18'),
+      })
+      return NextResponse.json(books)
     }
   } catch (error) {
-    console.log("ERROR GETTING BOOKS: ", error);
-    return NextResponse.json({ error: "Error getting book", status: 500 });
+    console.log('ERROR GETTING BOOKS: ', error)
+    return NextResponse.json({ error: 'Error getting book', status: 500 })
   }
 }
 
 export async function PUT(req: Request) {
   try {
-    const { params } = await req.json();
+    const { params } = await req.json()
     const id = params.id
     const status = params.status
     const comment = params.comment
@@ -111,12 +101,12 @@ export async function PUT(req: Request) {
       },
       data: {
         status,
-        comment
+        comment,
       },
-    });
-    return NextResponse.json(book);
+    })
+    return NextResponse.json(book)
   } catch (error) {
-    console.log("ERROR UPDATING BOOK: ", error);
-    return NextResponse.json({ error: "Error updating book", status: 500 });
+    console.log('ERROR UPDATING BOOK: ', error)
+    return NextResponse.json({ error: 'Error updating book', status: 500 })
   }
 }

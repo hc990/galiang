@@ -3,7 +3,7 @@ import { motion, useAnimation } from 'framer-motion'
 import Image from '@/app/components/ui/Image'
 import Link from '@/app/components/ui/Link'
 interface CarouselProps {
-  images: { id: any; name: string }[] // 图片数组
+  images: { id: string; name: string }[] // 图片数组
   autoplay?: boolean // 是否自动播放
   autoplayDelay?: number // 自动播放间隔时间
   loop?: boolean // 是否循环
@@ -98,9 +98,10 @@ const Carousel: React.FC<CarouselProps> = ({
       {/* Indicators */}
       <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 transform space-x-2">
         {Array.from({ length: totalPages }).map((_, pageIndex) => (
-          <div
+          <button
             key={pageIndex}
             onClick={() => setCurrentIndex(pageIndex)}
+            aria-label={`Go to page ${pageIndex + 1}`}
             className={`h-3 w-3 cursor-pointer rounded-full ${
               currentIndex === pageIndex ? 'bg-pink-500' : 'bg-gray-300'
             }`}

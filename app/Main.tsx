@@ -55,7 +55,7 @@ export default function Home() {
           </p>
         </div>
         <Carousel
-          images={images.map((image: { id: any; name: string }) => ({
+          images={images.map((image: { id: string; name: string }) => ({
             id: image.id,
             name: image.name,
           }))}
@@ -69,13 +69,13 @@ export default function Home() {
               ?.slice(0, MAX_DISPLAY)
               .map(
                 (book: {
-                  id: any
-                  slug: any
-                  createAt: any
-                  name: any
-                  summary: any
-                  tags: any
-                  size: any
+                  id: string
+                  slug: string
+                  createAt: string
+                  name: string
+                  summary: string
+                  tags: string[]
+                  size: number
                 }) => {
                   const { id, slug, createAt, name, summary, tags, size } = book
                   return (

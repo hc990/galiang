@@ -51,8 +51,8 @@ export const KBarSearchProvider: FC<{
   useEffect(() => {
     const controller = new AbortController()
 
-    const mapBooks = (books: any) =>
-      books.map((book: any) => ({
+    const mapBooks = (books: { id: string; name: string; createAt: string }[]) =>
+      books.map((book: { id: string; name: string; createAt: string }) => ({
         id: book.id,
         name: book.name,
         keywords: book?.name || '',

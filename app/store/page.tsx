@@ -12,6 +12,17 @@ import moment from 'moment'
 import axiosInstance from '../axios/axios'
 // import { description } from "@/data/siteMetadata";
 
+interface Store {
+  id: string
+  name: string
+  channel: number
+  type: number
+  address: string
+  create_time: string
+  status: number
+  description: string
+}
+
 export default function Commodity() {
   const { stores, setStores } = useGlobalState()
   const [success, setSuccess] = useState<string | null>(null)
@@ -60,7 +71,7 @@ export default function Commodity() {
         { value: '1', label: '闭店中' },
         { value: '2', label: '筹备中' },
       ],
-      validate: (value: any) =>
+      validate: (value: string | boolean) =>
         !['0', '1', '2'].includes(value) ? 'Please select a valid type.' : null,
     },
     {
@@ -98,7 +109,7 @@ export default function Commodity() {
         { value: '3', label: '参股持有' },
         { value: '4', label: '全资持有' },
       ],
-      validate: (value: any) =>
+      validate: (value: string | boolean) =>
         !['1', '2', '3', '4'].includes(value) ? 'Please select a valid type.' : null,
     },
     {
@@ -111,7 +122,7 @@ export default function Commodity() {
         { value: '1', label: '闭店中' },
         { value: '2', label: '筹备中' },
       ],
-      validate: (value: any) =>
+      validate: (value: string | boolean) =>
         !['0', '1', '2'].includes(value) ? 'Please select a valid type.' : null,
     },
     {
@@ -121,8 +132,7 @@ export default function Commodity() {
       placeholder: '请输入门店描述信息',
     },
   ]
-  const handleSubmit = async (data: any) => {
-    // alert("Form submitted: " + JSON.stringify(data));
+  const handleSubmit = async (data: Record<string, string | boolean>) => {
     const params = {
       name: data.name,
       type: data.type,
@@ -139,7 +149,7 @@ export default function Commodity() {
         console.log(error)
       })
   }
-  const onSuccess = async (response: any) => {
+  const onSuccess = async () => {
     const params = { id: null }
     await axiosInstance
       .get('/api/store', { params })
@@ -152,29 +162,29 @@ export default function Commodity() {
       })
   }
 
-  const delAccount = async (data: any) => {
+  const delAccount = async (data: string) => {
     confirm('确定删除此门店吗？')
     try {
       await axiosInstance.put('/api/store', { params: { id: data, status: 1 } })
-      setStores((prev: any[]) => prev.filter((commodity) => commodity.id !== data))
+      setStores((prev: Store[]) => prev.filter((commodity) => commodity.id !== data))
       setSuccess('门店删除成功！')
     } catch (error) {
       console.log('ERROR updating store: ', error)
     }
   }
 
-  const handleFormSubmit = async (data: any) => {
+  const handleFormSubmit = async (data: Record<string, string | boolean>) => {
     alert('Form submitted: ' + JSON.stringify(data))
     await axiosInstance
       .post('/api/store', {
         name: data.name,
-        type: parseFloat(data.type),
+        type: parseFloat(data.type as string),
         address: data.address,
-        status: parseFloat(data.status),
+        status: parseFloat(data.status as string),
         description: data.description,
       })
-      .then(function (response) {
-        onSuccess(response)
+      .then(function () {
+        onSuccess()
       })
       .catch(function (error) {
         console.log(error)
@@ -241,62 +251,47 @@ export default function Commodity() {
             <tbody>
               {stores &&
                 stores.length > 0 &&
-                stores.map(
-                  (stores: {
-                    id: any
-                    name: any
-                    channel: any
-                    type: any
-                    address: any
-                    create_time: any
-                    status: any
-                    description: any
-                  }) => {
-                    const { id, name, type, status, create_time, description, address } = stores
-                    return (
-                      <tr
-                        className="border-2  border-solid border-x-slate-200 hover:bg-pink-100"
-                        key={id}
-                      >
-                        <td className="border-r-2 border-solid border-slate-200 px-4 py-2">
-                          <p className="text-sm font-bold  ">{name}</p>
-                        </td>
-                        <td className="border-r-2 border-solid border-slate-200 px-1 py-4 ">
-                          <p className="text-center text-sm">{StoreNames[type]}</p>
-                        </td>
-                        <td className="border-r-2 border-solid border-slate-200 px-4 py-2 ">
-                          <p className="text-center text-sm">{formatDate(create_time)}</p>
-                        </td>
-                        <td className="border-r-2 border-solid border-slate-200 px-4 py-2">
-                          <p className="text-center text-sm">{address}</p>
-                        </td>
-                        <td className="border-r-2 border-solid border-slate-200 px-4 py-2">
-                          <p className="text-center text-sm">{StatusNames[status]}</p>
-                        </td>
-                        <td className="border-r-2 border-solid border-slate-200 px-4 py-2">
-                          <p className="text-center text-sm">{description}</p>
-                        </td>
-                        <td className="border-r-1 border-solid border-slate-200 px-1 py-2">
-                          <div className="flex justify-center space-x-2">
-                            <a
-                              href="#"
-                              onClick={() => delAccount(id)}
-                              className="rounded-md bg-pink-500 px-8 py-2 text-white hover:bg-pink-900 focus:ring-2 focus:ring-pink-400"
-                            >
-                              <LuOctagonX />
-                            </a>
-                            <a
-                              href="#"
-                              className="rounded-md bg-pink-500 px-8  py-2 text-white hover:bg-pink-700 focus:ring-2 focus:ring-pink-400"
-                            >
-                              <LuFilePenLine />
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                  }
-                )}
+                stores.map((store: Store) => {
+                  const { id, name, type, status, create_time, description, address } = store
+                  return (
+                    <tr
+                      className="border-2  border-solid border-x-slate-200 hover:bg-pink-100"
+                      key={id}
+                    >
+                      <td className="border-r-2 border-solid border-slate-200 px-4 py-2">
+                        <p className="text-sm font-bold  ">{name}</p>
+                      </td>
+                      <td className="border-r-2 border-solid border-slate-200 px-1 py-4 ">
+                        <p className="text-center text-sm">{StoreNames[type]}</p>
+                      </td>
+                      <td className="border-r-2 border-solid border-slate-200 px-4 py-2 ">
+                        <p className="text-center text-sm">{formatDate(create_time)}</p>
+                      </td>
+                      <td className="border-r-2 border-solid border-slate-200 px-4 py-2">
+                        <p className="text-center text-sm">{address}</p>
+                      </td>
+                      <td className="border-r-2 border-solid border-slate-200 px-4 py-2">
+                        <p className="text-center text-sm">{StatusNames[status]}</p>
+                      </td>
+                      <td className="border-r-2 border-solid border-slate-200 px-4 py-2">
+                        <p className="text-center text-sm">{description}</p>
+                      </td>
+                      <td className="border-r-1 border-solid border-slate-200 px-1 py-2">
+                        <div className="flex justify-center space-x-2">
+                          <button
+                            onClick={() => delAccount(id)}
+                            className="rounded-md bg-pink-500 px-8 py-2 text-white hover:bg-pink-900 focus:ring-2 focus:ring-pink-400"
+                          >
+                            <LuOctagonX />
+                          </button>
+                          <button className="rounded-md bg-pink-500 px-8  py-2 text-white hover:bg-pink-700 focus:ring-2 focus:ring-pink-400">
+                            <LuFilePenLine />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })}
             </tbody>
           </table>
         </div>

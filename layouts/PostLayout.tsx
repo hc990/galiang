@@ -22,7 +22,14 @@ const postDateTemplate: Intl.DateTimeFormatOptions = {
 }
 
 interface LayoutProps {
-  book: { id: string; size: number; name: string; bookname: string; createAt: string; comment: any }
+  book: {
+    id: string
+    size: number
+    name: string
+    bookname: string
+    createAt: string
+    comment: string
+  }
   // authorDetails: []
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
@@ -78,10 +85,10 @@ export default function PostLayout({ slug, book, path, next, prev, children }: L
                       <dd>
                         {/* {author.twitter && ( */}
                         <Link
-                          href={''}
+                          href="/about"
                           className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
                         >
-                          {''}
+                          {'Everest'}
                         </Link>
                         {/* )} */}
                       </dd>

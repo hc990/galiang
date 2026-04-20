@@ -12,7 +12,7 @@ export default function Editor({
   comment,
 }: {
   defaultContent?: NodeJSON
-  slug: any
+  slug: string
   comment: string
 }) {
   // const [key, setKey] = useState(1)

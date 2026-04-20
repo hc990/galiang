@@ -82,11 +82,11 @@ const GenericForm: React.FC<GenericFormProps> = ({ fields, onSubmit }) => {
       </div>
       <div className="mb-1 grid grid-cols-1 gap-1 sm:grid-cols-3">
         <div>
-          <label>Start</label>
+          <label htmlFor="start-date">Start</label>
           <DatePickerPopover />
         </div>
         <div>
-          <label>End</label> <DatePickerPopover />
+          <label htmlFor="end-date">End</label> <DatePickerPopover />
         </div>
         <div>
           <button

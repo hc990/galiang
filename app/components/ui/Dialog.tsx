@@ -46,7 +46,7 @@ const Dialog: React.FC<DialogProps> = ({ triggerButtonText, dialogTitle, fields,
     dialogRef.current?.close()
   }
 
-  const handleFormSubmit = (data: any) => {
+  const handleFormSubmit = (data: Record<string, string>) => {
     onSubmit(data)
     closeDialog() // Close dialog after successful submission
   }

@@ -24,8 +24,8 @@ export default function Toolbar({
   comment,
 }: {
   hasUnsavedChange: boolean
-  setHasUnsavedChange: Function
-  slug: any
+  setHasUnsavedChange: (value: boolean) => void
+  slug: string
   comment: string
 }) {
   // const [key, setKey] = useState(1)
@@ -58,7 +58,7 @@ export default function Toolbar({
       console.log('ERROR updating BOOK: ', error)
       return NextResponse.json({ error: 'Error creating book', status: 500 })
     }
-    setRecords((records: any) => [...records, record])
+    setRecords((prev: string[]) => [...prev, record])
     setHasUnsavedChange(false)
   }, [editor])
 

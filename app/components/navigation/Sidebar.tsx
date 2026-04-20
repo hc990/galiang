@@ -22,7 +22,7 @@ function Sidebar() {
     imageUrl: '/static/images/logo.png',
   }
   const router = useRouter()
-  let pathname = usePathname()
+  const pathname = usePathname()
 
   const isActive = (link: string) => {
     if (link.lastIndexOf('/') === link.length - 1) {
@@ -71,6 +71,11 @@ function Sidebar() {
           {menu.map((item) => (
             <li
               key={item.id}
+              role="menuitem"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') window.location.href = item.link
+              }}
               className={clsx(
                 'mt-2 flex cursor-pointer items-center space-x-2 rounded-md px-4 py-2',
                 {

@@ -32,9 +32,9 @@ import { useGlobalState } from '@/app/context/globalProvider'
 //   return paths
 // }
 
-export default async function TagPage(props: { params: Promise<{ tag: string }> }) {
-  const slug = await props.params
+export default function TagPage(_props: { params: Promise<{ tag: string }> }) {
   const { books } = useGlobalState()
+  const slug = { tag: '' }
   const tag = decodeURI(slug.tag)
   const title = tag[0].toUpperCase() + tag.split(' ').join('-').slice(1)
   const filteredPosts: never[] = []

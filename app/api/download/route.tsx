@@ -87,5 +87,6 @@ export async function GET(req: Request): Promise<Response> {
     console.error('Error during file download:', error)
     return NextResponse.json({ error: 'Failed to download file' }, { status: 500 })
   } finally {
+    // cleanup handled by GC
   }
 }

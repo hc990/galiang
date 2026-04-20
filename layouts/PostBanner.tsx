@@ -10,7 +10,7 @@ import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/app/components/ui/ScrollTopAndComment'
 
 interface LayoutProps {
-  book: { size: number; name: string; bookname: string; createAt: any }
+  book: { size: number; name: string; bookname: string; createAt: string }
   children: ReactNode
   path: string
   next?: { path: string; title: string }

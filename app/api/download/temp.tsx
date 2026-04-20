@@ -18,7 +18,11 @@ async function getSmb2Client() {
   return smb2Client
 }
 
-async function withRetries(operation: () => any, maxRetries: number, delay: number | undefined) {
+async function withRetries(
+  operation: () => Promise<unknown>,
+  maxRetries: number,
+  delay: number | undefined
+) {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       return await operation()
@@ -36,7 +40,7 @@ export async function GET(req: Request): Promise<Response> {
   const book = await axiosInstant.get('/api/blog', { params: { id: slug } })
   const smb2Client = await getSmb2Client()
   return new Promise((resolve) => {
-    const buffers: any[] | Uint8Array[] = []
+    const buffers: Uint8Array[] = []
     const naspath = path.join('books', book.data.oribookname)
     console.info(naspath)
     withRetries(

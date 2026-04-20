@@ -5,7 +5,7 @@ import siteMetadata from '@/data/siteMetadata'
 import Editor from './editor/Editor'
 import Button from './ui/Button'
 
-export default function Comments({ slug, comment }: { slug: any; comment: '' }) {
+export default function Comments({ slug, comment }: { slug: string; comment: string }) {
   const [loadComments, setLoadComments] = useState(false)
   return (
     <>

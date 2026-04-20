@@ -17,7 +17,15 @@ const Popover: React.FC<PopoverProps> = ({ trigger, content, className = '' }) =
   return (
     <div className="relative inline-block" ref={popoverRef}>
       {/* Trigger Button */}
-      <div onClick={togglePopover} className="cursor-pointer">
+      <div
+        onClick={togglePopover}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') togglePopover()
+        }}
+        role="button"
+        tabIndex={0}
+        className="cursor-pointer"
+      >
         {trigger}
       </div>
 

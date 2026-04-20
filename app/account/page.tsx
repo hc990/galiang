@@ -13,6 +13,18 @@ import { LuOctagonX, LuFilePenLine } from 'react-icons/lu'
 import moment from 'moment'
 import axiosInstance from '../axios/axios'
 
+interface Account {
+  id: string
+  order_time: string
+  price: number
+  comm_type: string
+  comm_name: string
+  comm_num: number
+  comm_unit: number
+  channel: number
+  store_name: string
+}
+
 export default function Account() {
   const { accounts, setAccounts, commodities, stores } = useGlobalState()
   const [success, setSuccess] = useState<string | null>(null)
@@ -25,7 +37,7 @@ export default function Account() {
       label: '选择店铺',
       type: 'select',
       required: true,
-      options: stores.map((store: { id: any; name: any }) => ({
+      options: stores.map((store: { id: string; name: string }) => ({
         value: store.id + '|' + store.name,
         label: store.name,
       })),
@@ -50,7 +62,7 @@ export default function Account() {
       label: '店名',
       type: 'select',
       required: true,
-      options: stores.map((store: { id: any; name: any }) => ({
+      options: stores.map((store: { id: string; name: string }) => ({
         value: store.id + '|' + store.name,
         label: store.name,
       })),
@@ -60,7 +72,7 @@ export default function Account() {
       label: '商品名称',
       type: 'select',
       required: true,
-      options: commodities.map((commodity: { id: any; name: any }) => ({
+      options: commodities.map((commodity: { id: string; name: string }) => ({
         value: commodity.id + '|' + commodity.name,
         label: commodity.name,
       })),
@@ -85,8 +97,10 @@ export default function Account() {
         { value: '2', label: '袋' },
         { value: '3', label: '箱' },
       ],
-      validate: (value: any) =>
-        !['1', '2', '3', '4'].includes(value) ? 'Please select a valid store.' : null,
+      validate: (value: string | boolean) =>
+        typeof value === 'string' && !['1', '2', '3', '4'].includes(value)
+          ? 'Please select a valid store.'
+          : null,
     },
     {
       name: 'price',
@@ -98,8 +112,7 @@ export default function Account() {
       required: true,
     },
   ]
-  const handleSubmit = async (data: any) => {
-    // alert("Form submitted: " + JSON.stringify(data));
+  const handleSubmit = async (data: Record<string, string | boolean>) => {
     const params = { store_id: data.store_id, start_time: data.startDate, end_time: data.endDate }
     await axiosInstance
       .get('/api/account', { params })
@@ -111,7 +124,7 @@ export default function Account() {
         console.log(error)
       })
   }
-  const onSuccess = async (response: any) => {
+  const onSuccess = async () => {
     const params = { id: null }
     await axiosInstance
       .get('/api/account', { params })
@@ -123,33 +136,32 @@ export default function Account() {
         console.log(error)
       })
   }
-  const delAccount = async (data: any) => {
+  const delAccount = async (data: string) => {
     confirm('确定删除此账目吗？')
     try {
       await axiosInstance.put('/api/account', { params: { id: data, status: 1 } })
-      setAccounts((prev: any[]) => prev.filter((account) => account.id !== data))
+      setAccounts((prev: Account[]) => prev.filter((account) => account.id !== data))
       setSuccess('账目删除成功！')
     } catch (error) {
       console.log('ERROR updating BOOK: ', error)
     }
   }
 
-  const handleFormSubmit = async (data: any) => {
-    // alert("Form submitted: " + JSON.stringify(data));
+  const handleFormSubmit = async (data: Record<string, string | boolean>) => {
     await axiosInstance
       .post('/api/account', {
-        order_time: moment(data.order_time).toDate(),
-        comm_type: data.comm_type.split('|')[0],
-        comm_name: data.comm_type.split('|')[1],
-        comm_num: parseFloat(data.comm_num),
-        comm_unit: parseFloat(data.comm_unit),
-        price: parseFloat(data.price),
-        store_id: data.store_name.split('|')[0],
-        store_name: data.store_name.split('|')[1],
+        order_time: moment(data.order_time as string).toDate(),
+        comm_type: (data.comm_type as string).split('|')[0],
+        comm_name: (data.comm_type as string).split('|')[1],
+        comm_num: parseFloat(data.comm_num as string),
+        comm_unit: parseFloat(data.comm_unit as string),
+        price: parseFloat(data.price as string),
+        store_id: (data.store_name as string).split('|')[0],
+        store_name: (data.store_name as string).split('|')[1],
         channel: 1,
       })
       .then(function (response) {
-        onSuccess(response)
+        onSuccess()
       })
       .catch(function (error) {
         console.log(error)
@@ -229,82 +241,66 @@ export default function Account() {
             <tbody>
               {accounts &&
                 accounts.length > 0 &&
-                accounts.map(
-                  (account: {
-                    id: any
-                    order_time: any
-                    price: any
-                    comm_type: any
-                    comm_name: any
-                    comm_num: any
-                    comm_unit: any
-                    channel: any
-                    store_name: any
-                  }) => {
-                    const {
-                      id,
-                      order_time,
-                      comm_name,
-                      comm_num,
-                      comm_unit,
-                      channel,
-                      price,
-                      store_name,
-                    } = account
-                    return (
-                      <tr
-                        className="border-2 border-solid border-pink-200 hover:bg-pink-100"
-                        key={id}
-                      >
-                        <td className="border-r-2 border-solid border-pink-200 px-4 py-2">
-                          <p className="text-sm font-bold  ">{store_name}</p>
-                        </td>
-                        <td className="border-r-2 border-solid border-pink-200 px-1 py-4 ">
-                          <p className="text-center text-sm">{comm_name}</p>
-                        </td>
-                        <td className="border-r-2 border-solid border-pink-200 px-4 py-2 ">
-                          <p className="text-center text-sm">{formatDate(order_time)}</p>
-                        </td>
-                        {/* <td className="px-4 py-2 border-r-2 border-solid border-slate-200">
+                accounts.map((account: Account) => {
+                  const {
+                    id,
+                    order_time,
+                    comm_name,
+                    comm_num,
+                    comm_unit,
+                    channel,
+                    price,
+                    store_name,
+                  } = account
+                  return (
+                    <tr
+                      className="border-2 border-solid border-pink-200 hover:bg-pink-100"
+                      key={id}
+                    >
+                      <td className="border-r-2 border-solid border-pink-200 px-4 py-2">
+                        <p className="text-sm font-bold  ">{store_name}</p>
+                      </td>
+                      <td className="border-r-2 border-solid border-pink-200 px-1 py-4 ">
+                        <p className="text-center text-sm">{comm_name}</p>
+                      </td>
+                      <td className="border-r-2 border-solid border-pink-200 px-4 py-2 ">
+                        <p className="text-center text-sm">{formatDate(order_time)}</p>
+                      </td>
+                      {/* <td className="px-4 py-2 border-r-2 border-solid border-slate-200">
                       <p className="text-sm text-center">
                         {channel}
                       </p>
                     </td> */}
-                        <td className="border-r-2 border-solid border-pink-200 px-4 py-2">
-                          <p className="text-center text-sm">{comm_num}</p>
-                        </td>
-                        <td className="border-r-2 border-solid border-pink-200 px-4 py-2">
-                          <p className="text-center text-sm">{CommUnits[comm_unit]}</p>
-                        </td>
-                        <td className="border-r-2 border-solid border-pink-200 px-4 py-2">
-                          <p className="text-center text-sm">
-                            {Math.round((price / comm_num + Number.EPSILON) * 100) / 100}
-                          </p>
-                        </td>
-                        <td className="border-r-2 border-solid border-pink-200 px-4 py-2">
-                          <p className="text-center text-sm">{price}</p>
-                        </td>
-                        <td className="border-r-2 border-solid border-pink-200 px-2 py-2">
-                          <div className="flex justify-between">
-                            <a
-                              href="#"
-                              onClick={() => delAccount(id)}
-                              className="rounded-md bg-pink-500 px-4 py-2 text-white hover:bg-pink-900 focus:ring-2 focus:ring-pink-400"
-                            >
-                              <LuOctagonX />
-                            </a>
-                            <a
-                              href="#"
-                              className="rounded-md bg-pink-500 px-4 py-2 pr-4 text-white hover:bg-pink-700 focus:ring-2 focus:ring-pink-400"
-                            >
-                              <LuFilePenLine />
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                  }
-                )}
+                      <td className="border-r-2 border-solid border-pink-200 px-4 py-2">
+                        <p className="text-center text-sm">{comm_num}</p>
+                      </td>
+                      <td className="border-r-2 border-solid border-pink-200 px-4 py-2">
+                        <p className="text-center text-sm">{CommUnits[comm_unit]}</p>
+                      </td>
+                      <td className="border-r-2 border-solid border-pink-200 px-4 py-2">
+                        <p className="text-center text-sm">
+                          {Math.round((price / comm_num + Number.EPSILON) * 100) / 100}
+                        </p>
+                      </td>
+                      <td className="border-r-2 border-solid border-pink-200 px-4 py-2">
+                        <p className="text-center text-sm">{price}</p>
+                      </td>
+                      <td className="border-r-2 border-solid border-pink-200 px-2 py-2">
+                        <div className="flex justify-between">
+                          <button
+                            onClick={() => delAccount(id)}
+                            className="rounded-md bg-pink-500 px-4 py-2 text-white hover:bg-pink-900 focus:ring-2 focus:ring-pink-400"
+                          >
+                            <LuOctagonX />
+                          </button>
+                          <button className="rounded-md bg-pink-500 px-4 py-2 pr-4 text-white hover:bg-pink-700 focus:ring-2 focus:ring-pink-400">
+                            <LuFilePenLine />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })}
             </tbody>
           </table>
         </div>

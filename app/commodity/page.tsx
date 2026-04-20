@@ -12,6 +12,15 @@ import moment from 'moment'
 import axiosInstance from '../axios/axios'
 // import { description } from "@/data/siteMetadata";
 
+interface Commodity {
+  id: string
+  name: string
+  channel: number
+  type: number
+  create_time: string
+  description: string
+}
+
 export default function Commodity() {
   const { commodities, setCommodities } = useGlobalState()
   const [success, setSuccess] = useState<string | null>(null)
@@ -140,8 +149,10 @@ export default function Commodity() {
         { value: '1', label: '食品材料' },
         { value: '2', label: '包装材料' },
       ],
-      validate: (value: any) =>
-        !['1', '2'].includes(value) ? 'Please select a valid type.' : null,
+      validate: (value: string | boolean) =>
+        typeof value === 'string' && !['1', '2'].includes(value)
+          ? 'Please select a valid type.'
+          : null,
     },
     {
       name: 'description',
@@ -150,7 +161,7 @@ export default function Commodity() {
       placeholder: '请输入材料描述信息',
     },
   ]
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (data: Record<string, string | boolean>) => {
     // alert("Form submitted: " + JSON.stringify(data));
     const params = {
       name: data.name,
@@ -168,7 +179,7 @@ export default function Commodity() {
         console.log(error)
       })
   }
-  const onSuccess = async (response: any) => {
+  const onSuccess = async () => {
     const params = { id: null }
     await axiosInstance
       .get('/api/commodity', { params })
@@ -181,27 +192,27 @@ export default function Commodity() {
       })
   }
 
-  const delAccount = async (data: any) => {
+  const delAccount = async (data: string) => {
     confirm('确定删除此材料吗？')
     try {
       await axiosInstance.put('/api/commodity', { params: { id: data, status: 1 } })
-      setCommodities((prev: any[]) => prev.filter((commodity) => commodity.id !== data))
+      setCommodities((prev: Commodity[]) => prev.filter((commodity) => commodity.id !== data))
       setSuccess('材料删除成功！')
     } catch (error) {
       console.log('ERROR updating commodity: ', error)
     }
   }
 
-  const handleFormSubmit = async (data: any) => {
+  const handleFormSubmit = async (data: Record<string, string | boolean>) => {
     await axiosInstance
       .post('/api/commodity', {
         name: data.name,
-        type: parseFloat(data.type),
+        type: parseFloat(data.type as string),
         channel: 1,
         description: data.description,
       })
       .then(function (response) {
-        onSuccess(response)
+        onSuccess()
       })
       .catch(function (error) {
         console.log(error)
@@ -265,57 +276,44 @@ export default function Commodity() {
             <tbody>
               {commodities &&
                 commodities.length > 0 &&
-                commodities.map(
-                  (commodity: {
-                    id: any
-                    name: any
-                    channel: any
-                    type: any
-                    create_time: any
-                    description: any
-                  }) => {
-                    const { id, name, type, channel, create_time, description } = commodity
-                    return (
-                      <tr
-                        className="border-2 border-solid border-pink-200 hover:bg-pink-100 "
-                        key={id}
-                      >
-                        <td className="border-r-2 border-solid border-pink-200 px-4 py-2">
-                          <p className="text-sm font-bold  ">{name}</p>
-                        </td>
-                        <td className="border-r-2 border-solid border-pink-200 px-1 py-4 ">
-                          <p className="text-center text-sm">{StyleNames[type]}</p>
-                        </td>
-                        <td className="border-r-2 border-solid border-pink-200 px-4 py-2 ">
-                          <p className="text-center text-sm">{formatDate(create_time)}</p>
-                        </td>
-                        <td className="border-r-2 border-solid border-pink-200 px-4 py-2">
-                          <p className="text-center text-sm">{ChannelNames[channel]}</p>
-                        </td>
-                        <td className="border-r-2 border-solid border-pink-200 px-4 py-2">
-                          <p className="text-center text-sm">{description}</p>
-                        </td>
-                        <td className="border-r-1 border-solid border-pink-200 px-1 py-2">
-                          <div className="flex justify-center space-x-2">
-                            <a
-                              href="#"
-                              onClick={() => delAccount(id)}
-                              className="rounded-md bg-pink-500 px-8 py-2 text-white hover:bg-pink-900 focus:ring-2 focus:ring-pink-400"
-                            >
-                              <LuOctagonX />
-                            </a>
-                            <a
-                              href="#"
-                              className="rounded-md bg-pink-500 px-8  py-2 text-white hover:bg-pink-700 focus:ring-2 focus:ring-pink-400"
-                            >
-                              <LuFilePenLine />
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                  }
-                )}
+                commodities.map((commodity: Commodity) => {
+                  const { id, name, type, channel, create_time, description } = commodity
+                  return (
+                    <tr
+                      className="border-2 border-solid border-pink-200 hover:bg-pink-100 "
+                      key={id}
+                    >
+                      <td className="border-r-2 border-solid border-pink-200 px-4 py-2">
+                        <p className="text-sm font-bold  ">{name}</p>
+                      </td>
+                      <td className="border-r-2 border-solid border-pink-200 px-1 py-4 ">
+                        <p className="text-center text-sm">{StyleNames[type]}</p>
+                      </td>
+                      <td className="border-r-2 border-solid border-pink-200 px-4 py-2 ">
+                        <p className="text-center text-sm">{formatDate(create_time)}</p>
+                      </td>
+                      <td className="border-r-2 border-solid border-pink-200 px-4 py-2">
+                        <p className="text-center text-sm">{ChannelNames[channel]}</p>
+                      </td>
+                      <td className="border-r-2 border-solid border-pink-200 px-4 py-2">
+                        <p className="text-center text-sm">{description}</p>
+                      </td>
+                      <td className="border-r-1 border-solid border-pink-200 px-1 py-2">
+                        <div className="flex justify-center space-x-2">
+                          <button
+                            onClick={() => delAccount(id)}
+                            className="rounded-md bg-pink-500 px-8 py-2 text-white hover:bg-pink-900 focus:ring-2 focus:ring-pink-400"
+                          >
+                            <LuOctagonX />
+                          </button>
+                          <button className="rounded-md bg-pink-500 px-8  py-2 text-white hover:bg-pink-700 focus:ring-2 focus:ring-pink-400">
+                            <LuFilePenLine />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })}
             </tbody>
           </table>
         </div>
