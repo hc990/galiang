@@ -1,15 +1,10 @@
 generator client {
-  provider = "prisma-client-js"
-}
-
-generator pothos {
-  provider = "prisma-pothos-types"
-  output   = "./generated.d.ts"
+  provider = "prisma-client"
+  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "mongodb"
-  url      = env("DATABASE_URL")
 }
 
 type SessionsFlash {
@@ -34,16 +29,16 @@ model User {
 
 model accounts {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  channel    Int
+  channel    BigInt
   comm_name  String
-  comm_num   Int
+  comm_num   BigInt
   comm_type  String
-  comm_unit  Int
+  comm_unit  BigInt
   createTime DateTime @db.Date
   modifyTime DateTime @db.Date
   order_time DateTime @db.Date
-  price      Int
-  status     Int
+  price      BigInt
+  status     BigInt
   store_id   String
   store_name String
 }
@@ -125,13 +120,13 @@ model captcha {
 
 model commodities {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  channel     Int
+  channel     BigInt
   createTime  DateTime @db.Date
   description String
   modifyTime  DateTime @db.Date
   name        String
-  status      Int
-  type        Int
+  status      BigInt
+  type        BigInt
 }
 
 model movies {
@@ -158,11 +153,10 @@ model stores {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   address    String
   createTime DateTime @db.Date
-  employee   Int[]
   modifyTime DateTime @db.Date
   name       String
   status     Int
-  type       Int
+  type       BigInt
 }
 
 model users {
