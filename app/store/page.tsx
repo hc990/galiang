@@ -8,7 +8,7 @@ import Dialog from '../components/ui/Dialog'
 import { FormField } from '../components/ui/GenericForm'
 import { Alert, AlertDescription } from '../components/ui/Alert'
 import { LuOctagonX, LuFilePenLine } from 'react-icons/lu'
-import moment from 'moment'
+// import moment from 'moment'
 import axiosInstance from '../axios/axios'
 // import { description } from "@/data/siteMetadata";
 
@@ -72,7 +72,7 @@ export default function Commodity() {
         { value: '2', label: '筹备中' },
       ],
       validate: (value: string | boolean) =>
-        !['0', '1', '2'].includes(value) ? 'Please select a valid type.' : null,
+       typeof value === 'string' && !['0', '1', '2'].includes(value) ? 'Please select a valid type.' : null,
     },
     {
       name: 'startDate',
@@ -110,7 +110,7 @@ export default function Commodity() {
         { value: '4', label: '全资持有' },
       ],
       validate: (value: string | boolean) =>
-        !['1', '2', '3', '4'].includes(value) ? 'Please select a valid type.' : null,
+         typeof value === 'string' && !['1', '2', '3', '4'].includes(value) ? 'Please select a valid type.' : null,
     },
     {
       name: 'status',
@@ -123,7 +123,7 @@ export default function Commodity() {
         { value: '2', label: '筹备中' },
       ],
       validate: (value: string | boolean) =>
-        !['0', '1', '2'].includes(value) ? 'Please select a valid type.' : null,
+         typeof value === 'string' && !['0', '1', '2'].includes(value) ? 'Please select a valid type.' : null,
     },
     {
       name: 'description',
