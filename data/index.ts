@@ -1,12 +1,9 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
-// const { PrismaClient } = require('@prisma/client');
-// const prisma = new PrismaClient();
-
 async function main() {
-    const allUsers = await prisma.authors.findFirst({})
-    console.log(allUsers)
+  const allUsers = await prisma.authors.findFirst({})
+  console.log(allUsers)
 }
 
 main()

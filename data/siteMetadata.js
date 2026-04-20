@@ -4,10 +4,7 @@ const siteMetadata = {
   headerTitle: '',
   description: '',
   language: 'en-us',
-  theme: 'system', // system, dark or light  
-  /***
-    
-   ***/
+  theme: 'system',// system, dark or light
   siteUrl: 'http://192.168.2.214:3000',//
   //siteUrl: 'http://localhost:3000',//
   siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
