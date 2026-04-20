@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import DatePickerPopover from './DatePickerPopover'
+import  DatePickerPopover from './DatePickerPopover'
 
 interface FormField {
   name: string
@@ -83,10 +83,14 @@ const GenericForm: React.FC<GenericFormProps> = ({ fields, onSubmit }) => {
       <div className="mb-1 grid grid-cols-1 gap-1 sm:grid-cols-3">
         <div>
           <label htmlFor="start-date">Start</label>
-          <DatePickerPopover />
+          <DatePickerPopover name={''} label={''} value={''} onChange={function (e: React.ChangeEvent<HTMLInputElement>): void {
+            throw new Error('Function not implemented.')
+          } } /> 
         </div>
         <div>
-          <label htmlFor="end-date">End</label> <DatePickerPopover />
+          <label htmlFor="end-date">End</label><DatePickerPopover name={''} label={''} value={''} onChange={function (e: React.ChangeEvent<HTMLInputElement>): void {
+            throw new Error('Function not implemented.')
+          } }/>
         </div>
         <div>
           <button
