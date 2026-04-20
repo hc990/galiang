@@ -14,7 +14,6 @@ interface PaginationProps {
   nextCursor: string
 }
 interface ListLayoutProps {
-  // books: []
   title: string
   initialDisplayBooks: []
   pagination?: PaginationProps

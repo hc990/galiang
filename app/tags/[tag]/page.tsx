@@ -1,12 +1,12 @@
 'use client'
 
-import { slug } from 'github-slugger'
+// import { slug } from 'github-slugger'
 // import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
-import siteMetadata from '@/data/siteMetadata'
+// import siteMetadata from '@/data/siteMetadata'
 import ListLayout from '@/layouts/ListLayoutWithTags'
-import tagData from 'app/tag-data.json'
-import { genPageMetadata } from 'app/seo'
-import { Metadata } from 'next'
+// import tagData from 'app/tag-data.json'
+// import { genPageMetadata } from 'app/seo'
+// import { Metadata } from 'next'
 import { useGlobalState } from '@/app/context/globalProvider'
 
 // export async function generateMetadata({ params }: { params: { tag: string } }): Promise<Metadata> {
@@ -37,9 +37,9 @@ export default function TagPage(_props: { params: Promise<{ tag: string }> }) {
   const slug = { tag: '' }
   const tag = decodeURI(slug.tag)
   const title = tag[0].toUpperCase() + tag.split(' ').join('-').slice(1)
-  const filteredPosts: never[] = []
+  // const filteredPosts: never[] = []
 
   // u need search books with tags
 
-  return <ListLayout title={title} books={books} initialDisplayBooks={books} />
+  return <ListLayout title={title} initialDisplayBooks={books} />
 }
