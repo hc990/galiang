@@ -18,7 +18,7 @@ const builder = new SchemaBuilder<{
 builder.queryType({}),
   builder.mutationType({}),
   builder.prismaObject('authors', {
-    fields: (t) => ({
+    fields: (t: any) => ({
       id: t.exposeID('id'),
       email: t.exposeString('email', { nullable: true }),
       name: t.exposeString('name', { nullable: true }),
@@ -26,7 +26,7 @@ builder.queryType({}),
   })
 
 builder.prismaObject('movies', {
-  fields: (t) => ({
+  fields: (t: any) => ({
     id: t.exposeID('id'),
     title: t.exposeString('name'),
     content: t.exposeString('tmp_name', { nullable: true }),
