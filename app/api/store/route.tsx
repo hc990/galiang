@@ -27,14 +27,14 @@ export async function POST(req: Request) {
     //   return NextResponse.json({
     //     error: "Title must be at least 3 characters long",
     //     status: 400,
-    //   });
+    //   });  
     // }
     const store = await prisma.stores.create({
       data: {
         name,
         type,
         address,
-        employee,
+        // employee,
         status,
         createTime: new Date(),
         modifyTime: new Date(),

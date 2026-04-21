@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
-import { useState } from 'react'
 import { useSignIn } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -12,6 +11,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '../compone
 import { Label } from '../components/ui/Label'
 import { Alert, AlertDescription } from '../components/ui/Alert'
 import { LuEye, LuEyeOff } from 'react-icons/lu'
+import { useState } from 'react'
 
 export default function SignIn() {
   const { isLoaded, signIn, setActive } = useSignIn()
