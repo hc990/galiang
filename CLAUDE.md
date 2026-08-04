@@ -22,9 +22,16 @@ doesn't seem to be present in your lockfile`. The repo carries both lockfiles be
 with yarn while the `Dockerfile` installs with npm. To refresh `package-lock.json` for the image,
 use `npm install --package-lock-only` and then re-run `yarn install` to restore `yarn.lock`.
 
-`.env` is gitignored but required for both dev and build: `DATABASE_URL` (MongoDB),
-`NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`. `Dockerfile` copies `.env` into
-the image.
+`.env` is gitignored but required for local dev and build: `DATABASE_URL` (MongoDB),
+`NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`.
+
+The image does **not** contain `.env`, and `.dockerignore` excludes it so `COPY . .` cannot bake
+it in. `huangchong/galiang` is a *public* Docker Hub repo, so anything in the image is readable by
+anyone who pulls it. The three variables reach the container as `-e` flags on `docker run` in the
+deploy job, sourced from GitHub secrets. This works only because the container runs `next dev`
+(see Deployment) and compiles at runtime — if it were ever switched to a real `next build`,
+`NEXT_PUBLIC_*` would have to be present at build time instead. CI passes the same three to
+`yarn build` through the job's `env:` block.
 
 Formatting/linting is enforced by husky `pre-commit` → `lint-staged` (eslint --fix + prettier).
 Prettier: no semicolons, single quotes, 100 cols, plus `prettier-plugin-tailwindcss` class sorting.

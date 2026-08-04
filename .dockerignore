@@ -3,3 +3,7 @@ node_modules
 *.log
 Dockerfile
 deploygl
+# Keep secrets out of the image — `COPY . .` would otherwise bake .env in
+# on local builds. Env vars are injected at `docker run` time instead.
+.env
+.env.*
