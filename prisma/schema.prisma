@@ -1,6 +1,9 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated"
+  provider            = "prisma-client"
+  output              = "../src/generated"
+  // Emit extensionless relative imports; the default ".js" extensions are
+  // unresolvable by webpack under tsconfig's moduleResolution: "node".
+  importFileExtension = ""
 }
 
 datasource db {

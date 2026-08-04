@@ -46,9 +46,3 @@ yarn-error.log*
 
 # Contentlayer
 .contentlayer
-
-/generated/prisma
-
-/generated/prisma
-
-/generated/prisma

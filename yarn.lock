@@ -2540,7 +2540,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/client@npm:6":
+"@prisma/client@npm:^6.19.3":
   version: 6.19.3
   resolution: "@prisma/client@npm:6.19.3"
   peerDependencies:
@@ -3389,7 +3389,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^24.0.0":
+"@types/node@npm:*":
   version: 24.12.2
   resolution: "@types/node@npm:24.12.2"
   dependencies:
@@ -3404,6 +3404,15 @@ __metadata:
   dependencies:
     undici-types: ~5.26.4
   checksum: 84e1cd61b719405aa3b9cc42fbdd8821696684150be04cbd35ebed3b92363a83e904cd89dec5b50dd6a8ff0ea9f26c60436109900b485dbd5b93a81fd6374ccb
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^22.6.0":
+  version: 22.20.1
+  resolution: "@types/node@npm:22.20.1"
+  dependencies:
+    undici-types: ~6.21.0
+  checksum: 03cc6d9941229b13fa9ab4e477d6550e85ed3e3d5f85734c03c84e0c18346d8a7c9f22b93570bb9cb4a44ffa176279f8a7ab3cd328fbdcf5d4e6ec541ce03f21
   languageName: node
   linkType: hard
 
@@ -4975,6 +4984,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dotenv@npm:^17.4.2":
+  version: 17.4.2
+  resolution: "dotenv@npm:17.4.2"
+  checksum: 217bf2c4696ca40acc13ad063341e9c77cedfdd75e56e4919f4cf2c6333e4f7b38a4b4067e49d006125502a61060cbe85c7eecb0644e4d99ff014693eb7e62c4
+  languageName: node
+  linkType: hard
+
 "dset@npm:^3.1.1, dset@npm:^3.1.2":
   version: 3.1.4
   resolution: "dset@npm:3.1.4"
@@ -5934,14 +5950,14 @@ __metadata:
     "@pothos/core": ^4.3.0
     "@pothos/plugin-add-graphql": ^4.2.0
     "@pothos/plugin-prisma": ^4.4.0
-    "@prisma/client": 6
+    "@prisma/client": ^6.19.3
     "@radix-ui/react-label": ^2.1.0
     "@svgr/webpack": ^8.0.1
     "@tailwindcss/forms": ^0.5.9
     "@tailwindcss/typography": ^0.5.15
     "@tryjsky/v9u-smb2": ^1.1.0
     "@types/mdx": ^2.0.5
-    "@types/node": ^24.0.0
+    "@types/node": ^22.6.0
     "@types/react": 18
     "@typescript-eslint/eslint-plugin": ^8.18.0
     "@typescript-eslint/parser": ^8.18.0
@@ -6019,6 +6035,7 @@ __metadata:
     domhandler: ^5.0.3
     domutils: ^3.1.0
     dot-case: ^3.0.4
+    dotenv: ^17.4.2
     eastasianwidth: ^0.2.0
     electron-to-chromium: ^1.5.68
     emoji-regex: ^9.2.2
@@ -6207,7 +6224,7 @@ __metadata:
     prettier: ^3.0.0
     prettier-linter-helpers: ^1.0.0
     prettier-plugin-tailwindcss: ^0.5.11
-    prisma: 6
+    prisma: ^6.19.3
     prop-types: ^15.8.1
     prosekit: ^0.9.24
     punycode: ^2.3.1
@@ -9145,7 +9162,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prisma@npm:6":
+"prisma@npm:^6.19.3":
   version: 6.19.3
   resolution: "prisma@npm:6.19.3"
   dependencies:
@@ -11036,7 +11053,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici-types@npm:^6.19.8":
+"undici-types@npm:^6.19.8, undici-types@npm:~6.21.0":
   version: 6.21.0
   resolution: "undici-types@npm:6.21.0"
   checksum: 46331c7d6016bf85b3e8f20c159d62f5ae471aba1eb3dc52fff35a0259d58dcc7d592d4cc4f00c5f9243fa738a11cfa48bd20203040d4a9e6bc25e807fab7ab3

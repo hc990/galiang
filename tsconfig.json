@@ -14,7 +14,7 @@
     "composite": true,
     "sourceMap": true,
     "esModuleInterop": true,
-    "module": "esnext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -57,7 +57,8 @@
     "app/page.tsx"
 , "app/api/download/route.tmp"  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "data/testdata.ts"
   ],
   "ts-node": {
     "compilerOptions": {

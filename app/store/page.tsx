@@ -72,7 +72,9 @@ export default function Commodity() {
         { value: '2', label: '筹备中' },
       ],
       validate: (value: string | boolean) =>
-       typeof value === 'string' && !['0', '1', '2'].includes(value) ? 'Please select a valid type.' : null,
+        typeof value === 'string' && !['0', '1', '2'].includes(value)
+          ? 'Please select a valid type.'
+          : null,
     },
     {
       name: 'startDate',
@@ -110,7 +112,9 @@ export default function Commodity() {
         { value: '4', label: '全资持有' },
       ],
       validate: (value: string | boolean) =>
-         typeof value === 'string' && !['1', '2', '3', '4'].includes(value) ? 'Please select a valid type.' : null,
+        typeof value === 'string' && !['1', '2', '3', '4'].includes(value)
+          ? 'Please select a valid type.'
+          : null,
     },
     {
       name: 'status',
@@ -123,7 +127,9 @@ export default function Commodity() {
         { value: '2', label: '筹备中' },
       ],
       validate: (value: string | boolean) =>
-         typeof value === 'string' && !['0', '1', '2'].includes(value) ? 'Please select a valid type.' : null,
+        typeof value === 'string' && !['0', '1', '2'].includes(value)
+          ? 'Please select a valid type.'
+          : null,
     },
     {
       name: 'description',
